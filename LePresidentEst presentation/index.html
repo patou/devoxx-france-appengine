@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<!--
+  Google HTML5 slide template
+
+  Authors: Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+  <head>
+    <title>Le président est...</title>
+
+    <meta charset='utf-8'>
+    <script type="text/javascript" src='slides.js'></script>
+    <script type="text/javascript" src="jsmove.js" ></script>
+  </head>
+  
+  <style>
+    /* Your individual styles here, or just use inline styles if that’s
+       what you want. */
+    
+    .slide3d.end
+	{
+		-webkit-transform: rotateY(175deg) rotateX(-5deg) translateZ(-50px) !important;
+		-webkit-transition: 1s;
+	}
+	
+	.slide3d
+	{
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		-webkit-transform-style: preserve-3d;
+		overflow: visible !important; /* bug with overflow=hidden and 3D  */
+	}
+
+	.backslide3d
+	{
+		position: absolute;
+		width: 98%;
+		height: 98%;
+		top: 1%;
+		left: 1%;
+		opacity: 0.97;
+		background-color: white;
+		-webkit-transform-style: preserve-3d;
+		-webkit-transform: rotateY(180deg) translateZ(5px);
+	}
+    
+    table.table-noborders tr td
+    {
+    	border: none;
+    	padding: 0;
+    	margin: 0;
+    }
+    
+    table.table-noborders
+    {
+    	margin:0;
+    }
+    
+    .pop
+    {
+    	color: black;
+    	font-weight: bold;
+    }
+    .popact
+    {
+    	color: black;
+    	font-style: oblique;
+    }
+    .jsp
+    {
+    	color: red !important;
+    	font-family: monospace;
+    }
+    H3.info
+    {
+    	background-image: url('images/info.png');
+    	background-repeat: no-repeat;
+    	background-position: 100% 0%;
+    	min-height: 80px;
+    }
+    article.info
+    {
+    	background-color: #F8FAFF !important;
+    }
+    .screenshot-left
+    {
+    	float:left;
+    	margin-right:60px;
+    	margin-top:10px;
+		margin-bottom:10px;
+		margin-left:10px;
+		padding: 10px;
+		border:1px solid #EEEEEE;
+		box-shadow: 3px 3px 8px #AAAAAA;
+    }
+    .smallcode
+    {
+    	font-size: 0.54em;
+    	line-height: 1.4em;
+    }
+    .x-smallcode
+    {
+    	font-size: 0.49em;
+    	line-height: 1.3em;
+    }
+    
+  </style>
+
+  <body style='display: none; '>
+
+    <section class='slides layout-regular template-default' style="-webkit-perspective: 1000px">
+      
+      <!-- Your slides (<article>s) go here. Delete or comment out the
+           slides below. -->
+
+<!-- ------------------------------------------------------------------------------- -->
+<!-- Page de titre -->
+	<style>
+		
+		div#candidats
+		{
+			position: absolute;
+			width: 100%;
+			top: 50px;
+			-webkit-transform: translateZ(-80px);
+		}
+		div#candidats img
+		{
+			margin: 20px;
+		}
+		div.qmark
+		{
+			font-size: 7em;
+			position: absolute;
+			color: rgb(200,200,200);
+			
+			-webkit-transform:  translateZ(-200px) rotateY(180deg);
+		}
+		div.qmark#q1 { top: 260px; left: 240px; }
+		div.qmark#q2 { top: 280px; left: 680px; }
+		div.qmark#q3 { top: 270px; left: 460px; }
+		
+	</style>
+	<article id="art1" onclick="move('art1')" class="slide3d">
+	<div class="backslide3d"></div>
+	
+	 <div style="position: absolute; top: 30px; left: 520px; -webkit-transform:  translateZ(5px)"><img style="width:350px" src="images/appengine.png" /></div>
+	 <h1>
+	   Le président est...
+	 </h1>
+	 &nbsp;
+	 <h3>
+	   Un exercice de style et de montée en charge <br/>sur App Engine</span>
+	 </h3>
+	 <p style="position: absolute; top: 530px; font-size: 0.75em">
+	   Didier Girard, Ludovic Champenois, Martin Gorner, Alexis Moussine Pouchkine<br/>
+	 </p>
+	  
+	  <!-- on the other side -->
+		<div id="candidats">
+		  <img src="images/sarkozy.png" />
+		  <img src="images/hollande.png" />
+		  <img src="images/joly.png" />
+		  <img src="images/lepen.png" />
+		  <img src="images/bayrou.png" />
+		  <img src="images/melenchon.png" />
+		</div>
+		<div class="qmark" id="q1">?</div>
+		<div class="qmark" id="q2">?</div>
+		<div class="qmark" id="q3">?</div>
+	</article>
+      
+<!-- ------------------------------------------------------------------------------- -->
+<!-- 1. Ma première servlet "Hello App Engine" -->
+
+	  <article id="art2" onclick="move('art2')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: src/com.moi.LePresident/LePresidentServlet.java</p>
+<pre>
+package com.moi.LePresident;
+
+import java.io.IOException;
+import javax.servlet.http.*;
+
+@SuppressWarnings("serial")
+public class LePresidentServlet extends HttpServlet
+{
+    public void doGet(HttpServletRequest req, HttpServletResponse resp)
+    throws IOException
+    {
+        resp.setContentType("text/plain");
+        resp.getWriter().println("Hello, App Engine");
+    }
+}
+</pre>
+      </div>
+        <h3>
+          1. Ma première servlet "Hello App Engine"
+        </h3>
+        <ul>
+        <li>File > New ... > <img style="height:30px; vertical-align:bottom;" src="images/webappproj.png" /></li>
+        <li>Nom: <span class="pop">LePresident</span>, package: <span class="pop">com.moi.LePresident</span></li>
+        <li><form>Décocher <input type="checkbox" style="vertical-align: middle;"/><span class="pop">GWT</span> (pour aujourd'hui), Cocher <input type="checkbox" checked style="vertical-align: middle;"/><span class="pop">App Engine</span></form></li>
+        <li>"Finish" pour générer le projet puis autoriser le <span class="pop">multi-threading&nbsp;!</span> (dans war/WEB-INF/appengine-web.xml)</li>
+        <li>Personnaliser la servlet: par exemple <span class="pop">"Hello App Engine"</span><br/>(dans src/com.moi.LePresident/LePresidentServlet.java)</li>
+        <li>Lancer en local: Run > Run As... > <img style="height:30px; vertical-align:bottom;" src="images/webapp.png" /><br/>
+        <span style="color: red; font-family: monospace;">=> INFO: The server is running at<br/>&nbsp;&nbsp;&nbsp;<a style="color: red;" target="_blank" onclick="noop()" href="http://localhost:8888/">http://localhost:8888/</a></span></li>
+        </ul>
+
+      </article>
+
+<!-- ------------------------------------------------------------------------------- -->
+<!-- Passons en JSP -->
+
+	  <article class="info"> 
+        <h3 class="info">
+          Passons en JSP.<br/>JSP c'est comme du HTML, mais on peut:
+        </h3>
+        <ul style="margin-top:100px">
+          <li>exécuter du code java entre <span class="pop" style="font-family: monospace;"><span style="color:red"><%</span> ...code java... <span style="color:red">%></span></span>
+          <li>afficher une valeur via <span class="pop" style="font-family: monospace;"><span style="color:red"><%=</span> truc.getMachin() <span style="color:red">%></span></span>
+          <li>avoir accès aux objets JSP suivants: <span style="font-family: monospace;" >HttpServletRequest <span class="pop">request</span>, HttpServletResponse <span class="pop">response</span>, JspWriter <span class="pop">out</span></span>
+        </ul>
+      </article>
+     
+<!-- ------------------------------------------------------------------------------- -->
+<!-- 3. Votre premier JSP -->
+
+	  <article id="art4" onclick="move('art4')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: war/index.jsp</p>
+<pre>
+&lt;! DOCTYPE html&gt;
+&lt;%@ page contentType="text/html;charset=UTF-8" language="java" <span style="color:grey">%&gt;</span>
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Le président est ...&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;H1&gt;Le président est ...&lt;/H1&gt;
+    &lt;img src="sarkozy.png"&gt;
+    &lt;p&gt;&lt;%=request.getProtocol() <span style="color:grey">%&gt;</span>&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p>On peut configurer cette page comme page par défaut dans war/WEB-INF/web.xml</p>
+<p>Vous trouverez les photos des candidats derrière la première diapositive.</p>
+      </div>
+        <h3>
+          2. Ajouter une page index.jsp qui affiche par exemple:
+        </h3>
+        
+        <div style="margin-top:70px;">
+        <div class="screenshot-left">
+        <img  src="images/scrshot1.png"/>
+        </div>
+        <p>&nbsp;<br/>&nbsp;<br/>On n'a pas encore le nom de l'élu alors faute de mieux on affiche le protocole en utilisant:</p>
+        <pre>request.getProtocol()</pre>
+        </div>
+
+      </article>
+
+<!-- ------------------------------------------------------------------------------- -->
+<!-- 3. Ajouter un formulaire et sa réponse -->
+
+	  <article id="art5" onclick="move('art5')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: war/index.jsp</p>
+<pre style="margin-bottom:10px">
+&lt;! DOCTYPE html&gt;
+&lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
+&lt;%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;H1&gt;Le président est ...&lt;/H1&gt;
+    &lt;img src="sarkozy.png" /&gt;
+    
+    &lt;% String comment = request.getParameter("user-comment"); %&gt;
+    &lt;% pageContext.setAttribute("unsafe_string",comment); %&gt;
+    
+    &lt;p&gt;Vous: ${fn:escapeXml(unsafe_string)}&lt;/p&gt;
+    &lt;form action="" method="post"&gt;
+         &lt;textarea name="user-comment" &gt;&lt;/textarea&gt;&lt;br/&gt;
+         &lt;input type="submit" value="c'est mon avis" /&gt;
+     &lt;/form&gt; 
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+ATTENTION aux vulnérabilités XSS! Ne jamais insérer dans une page du texte en provenance d'un utilisateur sans escaping.
+      </div>
+        <h3>
+          3. Ajouter un champ de commentaire - sans persistence pour l'instant
+        </h3>
+        
+        <div style="margin-top:20px;">
+        <div class="screenshot-left">
+        <img  src="images/scrshot2.png"/>
+        </div>
+        <p>Il vous faut un champ texte:</p>
+<pre>
+&lt;form action="" method="post"&gt;
+   &lt;textarea name="user-comment"&gt;&lt;/textarea&gt;
+   &lt;input type="submit"
+        value="c'est mon avis" /&gt;
+&lt;/form&gt; 
+</pre>
+		<p>Et la fonction qui donne la valeur d'un paramètre de requête:</p>
+<pre>
+request.getParameter("user-comment")
+</pre>
+        </div>
+      </article>
+      
+<!-- ------------------------------------------------------------------------------- -->
+<!-- 4. Identifier l'utilisateur par son compte Google-->
+
+	  <article id="art6" onclick="move('art6')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: war/index.jsp</p>
+<pre class="x-smallcode">
+&lt;! DOCTYPE html&gt;
+&lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
+<u>&lt;%@ page import="com.google.appengine.api.users.*" %&gt;</u>
+&lt;%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %&gt;
+
+&lt;html&gt;
+    &lt;body&gt;
+    &lt;H1&gt;Le président est ...&lt;/H1&gt; &lt;img src="sarkozy.png" /&gt;
+&lt;%
+    <u>UserService userService = UserServiceFactory.getUserService();</u>
+    <u>User user = userService.getCurrentUser();</u>
+    <u>if (user != null)</u>
+    {
+       pageContext.setAttribute("unsafe_string", request.getParameter("user-comment"));
+%&gt;
+    &lt;p&gt;&lt;b&gt;&lt;%= <u>user.getNickname()</u>%&gt;:&lt;/b&gt; ${fn:escapeXml(unsafe_string)}&lt;/p&gt;
+    
+    &lt;form action="" method="post"&gt;
+        &lt;textarea name="user-comment"&gt;&lt;/textarea&gt;&lt;br/&gt;
+        &lt;input type="submit" value="c'est mon avis" /&gt;
+        &lt;!-- lien de déconnexion --&gt;
+        &lt;a href="&lt;%= <u>userService.createLogoutURL(request.getRequestURI())</u> %&gt;"&gt;déconnexion&lt;/a&gt;
+    &lt;/form&gt;
+     
+&lt;% } else { %&gt;
+    &lt;!-- lien de connexion --&gt;
+    &lt;p&gt;Bonjour, &lt;a href="&lt;%= <u>userService.createLoginURL(request.getRequestURI())</u> %&gt;"&gt;
+    identifiez-vous&lt;/a&gt; pour pouvoir commenter l'élection.&lt;/p&gt;
+&lt;% } %&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+      </div>
+        <h3>
+          4. Identifier l'utilisateur par son compte Google
+        </h3>
+        
+        <div style="margin-top:20px;">
+        <div class="screenshot-left">
+        <img  src="images/scrshot3.png"/>
+        </div>
+        <p>Utiliser le <span class="pop">UserService</span> d'App Engine</p>
+<pre class="smallcode">
+UserService userService =
+   UserServiceFactory.getUserService();
+User user = userService.getCurrentUser();
+String n = user.getNickname();
+String e = user.getEmail();
+
+</pre>
+
+		<p>Il vous fournit aussi les URLs de connexion et déconnexion:</p>
+<pre class="smallcode">
+userService.createLoginURL("myTargetURL")
+userService.createLogoutURL("myTargetURL");
+</pre>
+        </div>
+      </article>
+ 
+<!-- ------------------------------------------------------------------------------- -->
+<!-- 5. Persistence via objectify -->
+
+	  <article id="art7" onclick="move('art7')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: war/index.jsp</p>
+      </div>
+        <h3>
+          5. Conserver les commentaires sur le serveur. Utiliser la persistence dans le datastore via objectify. 
+        </h3>
+        
+        <div style="margin-top:20px;">
+        <div class="screenshot-left">
+        <img  src="images/scrshot3.png"/>
+        </div>
+        <p>Utiliser <span class="pop">objectify</span></p>
+
+
+		
+        </div>
+      </article>
+ 
+<!-- ------------------------------------------------------------------------------- -->
+<!-- slide finale: chrome -->
+      <article>
+        
+        <p style="text-align: center; font-size: 4em; margin-top: 160px; color: #777777">
+        <img height="200px;" src="images/chrome.png" style="vertical-align: -30%"/> chrome
+        </p>
+        
+      </article>
+<!-- ------------------------------------------------------------------------------- -->
+<!-- slide finale: contact info -->
+      <article>
+        
+        <p style="margin-left: 3em; margin-top: 1em; text-indent: -3em;">Contact: <br/><b >+Martin Gorner</b>, Outreach manager France
+        (et les autres ...)
+        </p>
+        <p style="margin-left: 3em; margin-top: 3em; text-indent: -3em;">Cette présentation est en ligne:<br/>
+        <a href="http://animateyourhtml5.appspot.com">http://<b><big>lepresidentest</big></b>.appspot.com</a><br/>
+        <p style="margin-left: 3em; margin-top: 3em; text-indent: -3em;">Plus d'infos:<br/>
+        <a href="http://developers.google.com/appengine/">http://developers.google.com/<b><big>appengine</big></b></a>
+        </p>
+        
+      </article>
+
+    </section>
+
+
+  </body>
+</html>
