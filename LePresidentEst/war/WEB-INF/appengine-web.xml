@@ -5,6 +5,11 @@
   <!-- Version de votre application, cela peut être un texte (alpha, beta, etc...) -->
   <version>1</version>
 
+  <!-- Configure java.util.logging -->
+  <system-properties>
+    <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+  </system-properties>
+
   <!--
   Par défaut, App Engine envoie les réquête à la suite à un server web. 
   Pour autoriser App Engine à envoyer plusieurs requête en parallèle il faut présiser threadsafe à true.
