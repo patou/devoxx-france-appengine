@@ -77,6 +77,10 @@
     	color: black;
     	font-style: oblique;
     }
+    .big
+    {
+    	font-size: larger;
+    }
     .jsp
     {
     	color: red !important;
@@ -114,6 +118,11 @@
     	font-size: 0.49em;
     	line-height: 1.3em;
     }
+    .u
+    {
+    	text-decoration: underline;
+    }
+    
     
   </style>
 
@@ -329,31 +338,31 @@ request.getParameter("user-comment")
 <pre class="x-smallcode">
 &lt;! DOCTYPE html&gt;
 &lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
-<u>&lt;%@ page import="com.google.appengine.api.users.*" %&gt;</u>
+<span class="u">&lt;%@ page import="com.google.appengine.api.users.*" %&gt;</span>
 &lt;%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %&gt;
 
 &lt;html&gt;
     &lt;body&gt;
     &lt;H1&gt;Le président est ...&lt;/H1&gt; &lt;img src="sarkozy.png" /&gt;
 &lt;%
-    <u>UserService userService = UserServiceFactory.getUserService();</u>
-    <u>User user = userService.getCurrentUser();</u>
-    <u>if (user != null)</u>
+    <span class="u">UserService userService = UserServiceFactory.getUserService();</span>
+    <span class="u">User user = userService.getCurrentUser();</span>
+    <span class="u">if (user != null)</span>
     {
        pageContext.setAttribute("unsafe_string", request.getParameter("user-comment"));
 %&gt;
-    &lt;p&gt;&lt;b&gt;&lt;%= <u>user.getNickname()</u>%&gt;:&lt;/b&gt; ${fn:escapeXml(unsafe_string)}&lt;/p&gt;
+    &lt;p&gt;&lt;b&gt;&lt;%= <span class="u">user.getNickname()</span>%&gt;:&lt;/b&gt; ${fn:escapeXml(unsafe_string)}&lt;/p&gt;
     
     &lt;form action="" method="post"&gt;
         &lt;textarea name="user-comment"&gt;&lt;/textarea&gt;&lt;br/&gt;
         &lt;input type="submit" value="c'est mon avis" /&gt;
         &lt;!-- lien de déconnexion --&gt;
-        &lt;a href="&lt;%= <u>userService.createLogoutURL(request.getRequestURI())</u> %&gt;"&gt;déconnexion&lt;/a&gt;
+        &lt;a href="&lt;%= <span class="u">userService.createLogoutURL(request.getRequestURI())</span> %&gt;"&gt;déconnexion&lt;/a&gt;
     &lt;/form&gt;
      
 &lt;% } else { %&gt;
     &lt;!-- lien de connexion --&gt;
-    &lt;p&gt;Bonjour, &lt;a href="&lt;%= <u>userService.createLoginURL(request.getRequestURI())</u> %&gt;"&gt;
+    &lt;p&gt;Bonjour, &lt;a href="&lt;%= <span class="u">userService.createLoginURL(request.getRequestURI())</span> %&gt;"&gt;
     identifiez-vous&lt;/a&gt; pour pouvoir commenter l'élection.&lt;/p&gt;
 &lt;% } %&gt;
     &lt;/body&gt;
@@ -425,9 +434,9 @@ userService.createLogoutURL("myTargetURL");
         (et les autres ...)
         </p>
         <p style="margin-left: 3em; margin-top: 3em; text-indent: -3em;">Cette présentation est en ligne:<br/>
-        <a href="http://animateyourhtml5.appspot.com">http://<b><big>lepresidentest</big></b>.appspot.com</a><br/>
+        <a href="http://animateyourhtml5.appspot.com">http://<b><span class="big">lepresidentest</span></b>.appspot.com</a><br/>
         <p style="margin-left: 3em; margin-top: 3em; text-indent: -3em;">Plus d'infos:<br/>
-        <a href="http://developers.google.com/appengine/">http://developers.google.com/<b><big>appengine</big></b></a>
+        <a href="http://developers.google.com/appengine/">http://developers.google.com/<b><span class="big">appengine</span></b></a>
         </p>
         
       </article>
