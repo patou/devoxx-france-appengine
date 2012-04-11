@@ -72,6 +72,10 @@
     	color: black;
     	font-weight: bold;
     }
+    .poplow
+    {
+    	color: black;
+    }
     .popact
     {
     	color: black;
@@ -80,6 +84,10 @@
     .big
     {
     	font-size: larger;
+    }
+    .small
+    {
+    	font-size: smaller;
     }
     .jsp
     {
@@ -107,6 +115,11 @@
 		padding: 10px;
 		border:1px solid #EEEEEE;
 		box-shadow: 3px 3px 8px #AAAAAA;
+    }
+    pre.lesspace
+    {
+    	margin-top: 15px;
+    	margin-bottom: 25px;
     }
     .smallcode
     {
@@ -241,6 +254,7 @@ public class LePresidentServlet extends HttpServlet
           <li>afficher une valeur via <span class="pop" style="font-family: monospace;"><span style="color:red">&lt;%=</span> truc.getMachin() <span style="color:red">%&gt;</span></span>
           <li>avoir accès aux objets JSP suivants: <span style="font-family: monospace;" >HttpServletRequest <span class="pop">request</span>, HttpServletResponse <span class="pop">response</span>, JspWriter <span class="pop">out</span></span>
         </ul>
+        <p class="small" style="margin-top: 110px;">(Dans le futur, pour écrire du code propre, préférez GWT.)</p>
       </article>
      
 <!-- ------------------------------------------------------------------------------- -->
@@ -284,19 +298,20 @@ public class LePresidentServlet extends HttpServlet
 	  <article id="art5" onclick="move('art5')" class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: war/index.jsp</p>
-<pre style="margin-bottom:10px">
+<pre style="margin-bottom:10px" class="smallcode">
 &lt;! DOCTYPE html&gt;
 &lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
-&lt;%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %&gt;
+&lt;%@ page import="com.google.appengine.repackaged.com.google.common.xml.XmlEscapers" %&gt;
 &lt;html&gt;
   &lt;body&gt;
     &lt;H1&gt;Le président est ...&lt;/H1&gt;
     &lt;img src="sarkozy.png" /&gt;
-    
-    &lt;% String comment = request.getParameter("user-comment"); %&gt;
-    &lt;% pageContext.setAttribute("unsafe_string",comment); %&gt;
-    
-    &lt;p&gt;Vous: ${fn:escapeXml(unsafe_string)}&lt;/p&gt;
+    &lt;% 
+        String comment = request.getParameter("user-comment");
+        if (comment != null)
+            comment = XmlEscapers.xmlContentEscaper().escape(comment);
+    %&gt;
+    &lt;p&gt;Vous: &lt;%= comment %&gt;&lt;/p&gt;
     &lt;form action="" method="post"&gt;
          &lt;textarea name="user-comment" &gt;&lt;/textarea&gt;&lt;br/&gt;
          &lt;input type="submit" value="c'est mon avis" /&gt;
@@ -338,35 +353,35 @@ request.getParameter("user-comment")
 <pre class="x-smallcode">
 &lt;! DOCTYPE html&gt;
 &lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
+&lt;%@ page import="com.google.appengine.repackaged.com.google.common.xml.XmlEscapers" %&gt;
 <span class="u">&lt;%@ page import="com.google.appengine.api.users.*" %&gt;</span>
-&lt;%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %&gt;
 
-&lt;html&gt;
-    &lt;body&gt;
+&lt;html&gt;&lt;body&gt;
     &lt;H1&gt;Le président est ...&lt;/H1&gt; &lt;img src="sarkozy.png" /&gt;
 &lt;%
     <span class="u">UserService userService = UserServiceFactory.getUserService();</span>
     <span class="u">User user = userService.getCurrentUser();</span>
-    <span class="u">if (user != null)</span>
+    <span class="u">if (user == null)</span>
+    {%&gt;
+        &lt;p&gt;Bonjour, &lt;a href="&lt;%= <span class="u">userService.createLoginURL(request.getRequestURI())</span> %&gt;"&gt;
+        identifiez-vous&lt;/a&gt; pour pouvoir commenter l'élection.&lt;/p&gt;
+    &lt;%}
+    else
     {
-       pageContext.setAttribute("unsafe_string", request.getParameter("user-comment"));
+        String comment = request.getParameter("user-comment");
+        if (comment != null)
+            comment = XmlEscapers.xmlContentEscaper().escape(comment);
 %&gt;
-    &lt;p&gt;&lt;b&gt;&lt;%= <span class="u">user.getNickname()</span>%&gt;:&lt;/b&gt; ${fn:escapeXml(unsafe_string)}&lt;/p&gt;
+        &lt;p&gt;&lt;b&gt;&lt;%=<span class="u">user.getNickname()</span>%&gt;:&lt;/b&gt; &lt;%=comment%&gt;&lt;/p&gt;
     
-    &lt;form action="" method="post"&gt;
-        &lt;textarea name="user-comment"&gt;&lt;/textarea&gt;&lt;br/&gt;
-        &lt;input type="submit" value="c'est mon avis" /&gt;
-        &lt;!-- lien de déconnexion --&gt;
-        &lt;a href="&lt;%= <span class="u">userService.createLogoutURL(request.getRequestURI())</span> %&gt;"&gt;déconnexion&lt;/a&gt;
-    &lt;/form&gt;
-     
-&lt;% } else { %&gt;
-    &lt;!-- lien de connexion --&gt;
-    &lt;p&gt;Bonjour, &lt;a href="&lt;%= <span class="u">userService.createLoginURL(request.getRequestURI())</span> %&gt;"&gt;
-    identifiez-vous&lt;/a&gt; pour pouvoir commenter l'élection.&lt;/p&gt;
+        &lt;form action="" method="post"&gt;
+            &lt;textarea name="user-comment"&gt;&lt;/textarea&gt;&lt;br/&gt;
+            &lt;input type="submit" value="c'est mon avis" /&gt;
+            &lt;!-- lien de déconnexion --&gt;
+            &lt;a href="&lt;%= <span class="u">userService.createLogoutURL(request.getRequestURI())</span> %&gt;"&gt;déconnexion&lt;/a&gt;
+        &lt;/form&gt;
 &lt;% } %&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
+&lt;/body&gt;&lt;/html&gt;
 </pre>
       </div>
         <h3>
@@ -396,22 +411,89 @@ userService.createLogoutURL("myTargetURL");
       </article>
  
 <!-- ------------------------------------------------------------------------------- -->
-<!-- 5. Persistence via objectify -->
+<!-- datastore explanation -->
+
+      <article class="info">
+      <h3 class="info">High Replication Datastore:<br/>réplication, accès simultané, montée en charge</h3>
+		<img style="float: left; padding: 10px; margin-right: 25px; margin-top: 15px; background-color: white; border: 1px solid grey" height="420px" src="images/datastore.svg" />        
+        <p style="margin-top: 50px;">Organisation à peu près comme en XML.</p>
+        <p>Requêtes indexées uniquement.</p>
+        <p>Cohérence à terme des lectures et écritures.</p>
+        <p class="poplow">Entity = kind + <br/>(multivalued) properties + key</p>
+        
+      </article>
+      
+<!-- ------------------------------------------------------------------------------- -->
+<!-- 5. Conserver les commentaires sur le serveur. -->
 
 	  <article id="art7" onclick="move('art7')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: war/index.jsp</p>
+<p>fichier: src/com.moi.LePresident/StoredComments.java</p>
+<pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
+package com.moi.LePresident;
+import java.util.*;
+import com.google.appengine.api.datastore.*;
+
+public class StoredComments
+{	
+    static public void store(String text, String user)
+    {
+        Entity commentEntity = new Entity("Comment");
+        commentEntity.setProperty("user", user);
+        commentEntity.setProperty("date", new Date());
+        commentEntity.setProperty("text", text);
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(commentEntity);
+    }
+	
+    static public List&lt;Entity&gt; retrieve()
+    {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+        Query query = new Query("Comment");
+        query.addSort("date", Query.SortDirection.DESCENDING);
+        return datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+    }
+}
+</pre>
+Utilisation:
+<pre class="x-smallcode lesspace" style="display:inline-block; margin-top:0px; vertical-align: top;">
+// store:
+StoredComments.store("Hello", "Nicolas");
+// retrieve:
+List&lt;Entity&gt; comments = StoredComments.retrieve();
+for (Entity commentEntity: comments) { ... commentEntity.getProperty("text") ... }
+</pre>
       </div>
         <h3>
-          5. Conserver les commentaires sur le serveur. Utiliser la persistence dans le datastore via objectify. 
+          5. Conserver les commentaires sur le serveur. 
         </h3>
         
         <div style="margin-top:20px;">
-        <div class="screenshot-left">
-        <img  src="images/scrshot3.png"/>
+        <div class="screenshot-left" style="margin-right: 45px;">
+        <img  src="images/scrshot4.png"/>
         </div>
-        <p>Utiliser <span class="pop">objectify</span></p>
-
+        <p>Accès bas niveau au datastore:</p>
+<pre class="smallcode lesspace">
+DatastoreService datastore =
+DatastoreServiceFactory.getDatastoreService();
+</pre>
+        <p>&Eacute;criture:</p>
+<pre class="smallcode lesspace">
+Entity commentEntity = new Entity("Comment");
+commentEntity.setProperty("date", new Date());
+commentEntity.setProperty("text", text);
+datastore.put(commentEntity);
+</pre>
+        <p>Lecture: <span class="small">100 résultats triés par date</span></p>
+<pre class="x-smallcode lesspace">
+Query query = new Query("Comment");
+query.addSort("date", Query.SortDirection.DESCENDING);
+List&lt;Entity&gt; results =
+   datastore.prepare(query)
+      .asList(FetchOptions.Builder.withLimit(100));
+</pre>
 
 		
         </div>
