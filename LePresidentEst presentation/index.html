@@ -135,8 +135,6 @@
     {
     	text-decoration: underline;
     }
-    
-    
   </style>
 
   <body style='display: none; '>
@@ -615,7 +613,13 @@ for (Comment c: query) { ... }
 <!-- ------------------------------------------------------------------------------- -->  
 <!-- Cron pour afficher le président actif -->
 <!-- Afficher le président -->
+      <article id="title7"> 
+      		<h2>Afficher la photo du président à une heure fixe</h2>
+      		<p>Utilisation de tâches planifiées</p>
+      </article>
       
+<!-- ---------------------------------------------------------------------------------------------- -->
+<!-- Entité President -->
       	  <article id="art20" onclick="move('art20')" class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: src/com.moi.LePresident/President.java</p>
@@ -751,7 +755,7 @@ public class CronServlet extends HttpServlet {
 </pre>
       </div>
         <h3>
-          ?. Créer le cron
+          ?. Créer la tâche planifié
         </h3>
         
         <div style="margin-top:20px;">
@@ -808,6 +812,148 @@ ObjectifyService.begin().put(president);
       </article>
  
  
+ <!-- ----------------------------------------------------------------------------- -->
+ <!-- slide cron -->
+
+
+
+      	  <article id="art23" onclick="move('art23')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: war/WEB-INF/cron.xml</p>
+<pre class="smallcode lesspace">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;cronentries&gt;
+  &lt;cron&gt;
+    &lt;url&gt;/cron&lt;/url&gt;
+    &lt;schedule&gt;6 of may 20:00&lt;/schedule&gt;
+    &lt;timezone&gt;Europe/Paris&lt;/timezone&gt;
+  &lt;/cron&gt;
+&lt;/cronentries&gt;
+</pre>
+<p>On indique la zone de décalage horaire à Paris, pour activer le président le 6 mai à 20h précise en France et non l'heure GMT !</p>
+      </div>
+        <h3>
+          ?. Configurer le cron dans App Egnine
+        </h3>
+        
+        <div style="margin-top:20px;">
+        <p>La gestion des crons est simple dans Google AppEngine, il suffit de créer un fichier cron.xml dans WEB-INF et d'indiquer l'url de la tâche planifié, et la période de répétition</p>
+&lt;<strong>cronentries</strong>&gt;
+<div style="margin-left: 20px;">
+		&lt;<strong>cron</strong>&gt;
+		<div style="margin-left: 20px;">
+			<div>&lt;<strong>url</strong>&gt; Url de la tâche planifiée</div>
+			<div>&lt;<strong>schedule</strong>&gt; Période de répétition (every days, 1 of jan,may 02:30, every 5 mins)</div>
+			<div>&lt;<strong>timezone</strong>&gt; Zone décalage horaire</div>
+		</div>
+		&lt;/<strong>cron</strong>&gt;
+</div>
+&lt;/<strong>cronentries</strong>&gt;
+        </div>
+      </article>
+
+<!-- ------------------------------------------------------------------------------- -->
+<!-- slide Tasks Queue -->
+      
+      <article id="title8"> 
+      		<h2>Ajouter deux compteurs +1/-1</h2>
+      		<p>Utilisation de tâches</p>
+      </article>
+
+<!-- ------------------------------------------------------------------------------- -->
+<!-- slide Upload -->
+      
+      <article id="title9"> 
+      		<h2>Permettre l’upload d’une photo</h2>
+      		<p>Envoi de photo, et stockage dans le datastore</p>
+      </article>
+
+<!-- ------------------------------------------------------------------------------- -->
+<!-- Formulaire -->      
+      <article id="art30" onclick="move('art30')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: admin.jsp</p>
+<pre class="smallcode lesspace">
+&lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
+&lt;%@page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory"%&gt;
+
+&lt;form action="&lt;%= BlobstoreServiceFactory.getBlobstoreService().createUploadUrl("/upload") %&gt;" 
+	method="post" enctype="multipart/form-data"&gt;
+    &lt;label&gt;Nom du président : &lt;/label&gt;&lt;input type="text" name="name" placeholder="le nom du candidat gagnant"/&gt;
+    &lt;label&gt;Photo du président : &lt;/label&gt;&lt;input type="file" name="image"/&gt;
+   	&lt;input type="submit" value="Envoyer"/&gt;
+&lt;/form&gt;
+</pre>
+      </div>
+        <h3>
+          ?. Créez un formulaire d'upload
+        </h3>
+        <div class="screenshot-left" style="margin-right: 25px;">
+        	<img  src="images/scrshot_formulaire_envoie.png" width="350px"/>
+        </div>
+        <div style="margin-top:20px;">
+        <p>Balise &lt;input type="file" /&gt;</p>
+        <p>Envoyez le formulaire avec la méthode POST et type d'encodage multipart/form-data</p>
+        <p>L'url d'envoi du formulaire nous est donné par App Engine</p>
+<pre>
+BlobstoreService blobservice = BlobstoreServiceFactory
+	.getBlobstoreService();
+blobservice.createUploadUrl("/upload");
+</pre>
+        </div>
+      </article>
+
+<!-- ------------------------------------------------------------------------------- -->
+<!-- Servlet d'enregistrement -->      
+      <article id="art31" onclick="move('art31')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: admin.jsp</p>
+<pre class="smallcode lesspace">
+package com.moi.lePresident;
+import java.io.IOException;
+import java.util.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.*;
+import com.google.appengine.api.blobstore.*;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.googlecode.objectify.ObjectifyService;
+
+public class UploadServlet extends HttpServlet {
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, List<BlobKey>> blobs = 
+			BlobstoreServiceFactory.getBlobstoreService().getUploads(req);
+		President president = new President();
+		president.image = ImagesServiceFactory.getImagesService()
+			.getServingUrl(blobs.get("image").get(0));
+		president.name = req.getParameter("name");
+		ObjectifyService.begin().put(president);
+		resp.sendRedirect("/");
+	}
+}
+</pre>
+<p>Ne pas oublier d'ajouter la servlet dans le fichier web.xml</p>
+      </div>
+        <h3>
+          ?. Créez la servlet d'enregistrement
+        </h3>
+        
+        <div style="margin-top:20px;">
+        <p>Créez une servlet qui s'occupera de sauvegarder les données du formulaire</p>
+        <p>Récupérez la clé de l'image dans le blobstore</p>
+<pre>
+BlobstoreService blobservice = BlobstoreServiceFactory
+	.getBlobstoreService();
+Map&lt;String, List&lt;BlobKey&gt;&gt; blobs = blobservice.getUploads(req);
+BlobKey key = blobs.get("image").get(0);
+</pre>
+        <p>Générer l'url de l'image grâce à imageService</p>
+<pre>
+ImagesServiceFactory.getImagesService()
+			.getServingUrl(key);
+</pre>
+        </div>
+      </article>
  
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide finale: chrome -->
