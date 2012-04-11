@@ -476,7 +476,7 @@ public class StoredComments
         datastore.put(commentEntity);
     }
 	
-    static public List&lt;Entity&gt; retrieve()
+    static public List&lt;Entity&gt; retrieveAll()
     {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -491,7 +491,7 @@ Utilisation:
 // store:
 StoredComments.store("Hello", "Nicolas");
 // retrieve:
-List&lt;Entity&gt; comments = StoredComments.retrieve();
+List&lt;Entity&gt; comments = StoredComments.retrieveAll();
 for (Entity commentEntity: comments) { ... commentEntity.getProperty("text") ... }
 </pre>
       </div>
@@ -506,7 +506,7 @@ for (Entity commentEntity: comments) { ... commentEntity.getProperty("text") ...
         <p>Accès bas niveau au datastore:</p>
 <pre class="smallcode lesspace">
 DatastoreService datastore =
-DatastoreServiceFactory.getDatastoreService();
+ DatastoreServiceFactory.getDatastoreService();
 </pre>
         <p>&Eacute;criture:</p>
 <pre class="smallcode lesspace">
@@ -527,7 +527,92 @@ List&lt;Entity&gt; results =
 		
         </div>
       </article>
-      
+
+<!-- ------------------------------------------------------------------------------- -->
+<!-- 6. Conserver les commentaires sur le serveur avec Objectify -->
+
+	  <article id="art8" onclick="move('art8')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: src/com.moi.LePresident/ObjectifyDAO.java</p>
+<pre class="x-smallcode lesspace">
+package com.moi.LePresident;
+import com.googlecode.objectify.ObjectifyService;     import com.googlecode.objectify.util.DAOBase;
+
+public class ObjectifyDAO extends DAOBase
+{ static { ObjectifyService.register(Comment.class); } }
+</pre>
+<p>fichier: src/com.moi.LePresident/Comment.java</p>
+<pre class="x-smallcode lesspace">
+package com.moi.LePresident;
+import java.util.Date;     import javax.persistence.Id;     import com.googlecode.objectify.Query;
+
+public class Comment
+{
+    @Id Long id;     Date date;     public String user;     public String text;
+
+    public Comment() {}
+    public Comment(String text, String user) { this.user = user; this.text = text; this.date = new Date(); }
+
+    public static void store(String text, String user)
+    {
+        ObjectifyDAO dao = new ObjectifyDAO();
+        dao.ofy().put(new Comment(text, user));
+    }
+    
+    public static Query&lt;Comment&gt; retrieveAll()
+    {
+        ObjectifyDAO dao = new ObjectifyDAO();
+        return dao.ofy().query(Comment.class).order("-date").limit(100);
+    }
+}
+</pre>
+      </div>
+        <h3>
+          6. La même chose avec Objectify. 
+        </h3>
+        
+        <div style="margin-top:20px;">
+        <div class="screenshot-left" style="margin-right: 45px; width:258px">
+        Utiliser un POJO:
+<pre class="smallcode lesspace">
+public class Comment
+{
+    @Id Long id;
+    Date date;
+    String user;
+    String text;
+
+    public Comment() {}
+    ...
+}
+</pre>
+<p class="small">L'écriture en base génère l'id automatiquement si il est de type Long.</p>
+        </div>
+        <p>Enregistrement des classes et DAO:</p>
+<pre class="x-smallcode lesspace">
+public class ObjectifyDAO extends DAOBase
+{
+ static { ObjectifyService.register(Comment.class); }
+}
+// puis utiliser:
+ObjectifyDAO dao = new ObjectifyDAO();
+</pre>
+        <p>&Eacute;criture:</p>
+<pre class="smallcode lesspace">
+dao.ofy().put(new Comment(text, user));
+</pre>
+        <p>Lecture: <span class="small">100 résultats triés par date</span></p>
+<pre class="x-smallcode lesspace">
+Query&lt;Comment&gt; query = dao.ofy().query(Comment.class)
+                           .order("-date").limit(100);
+for (Comment c: query) { ... }
+</pre>
+
+		
+        </div>
+      </article>
+       
+<!-- ------------------------------------------------------------------------------- -->  
 <!-- Cron pour afficher le président actif -->
 <!-- Afficher le président -->
       
@@ -601,7 +686,7 @@ if (president != null) {
 &lt;% } else { %&gt;
  	&lt;img src="presidents.png" /&gt;
 	&lt;strong&gt;Le président ne sera annoncé qu'à partir du 6 mai 2012 à 20H00&lt;/strong&gt;
-&lt:% } %&gt;
+&lt;% } %&gt;
 </pre>
 </div>
         <h3>
