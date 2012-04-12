@@ -139,7 +139,7 @@
 
   <body style='display: none; '>
 
-    <section class='slides layout-regular template-default' style="-webkit-perspective: 1000px">
+    <section class='slides layout-regular template-default' style="-webkit-perspective: 1000px;">
       
       <!-- Your slides (<article>s) go here. Delete or comment out the
            slides below. -->
@@ -630,17 +630,12 @@ import javax.persistence.Id;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.annotation.Entity;
 
-@Entity
 public class President {
 	@Id
 	public Long id = null;
 	public String name;
 	public String image;
 	public boolean active;
-	
-	static {
-	    ObjectifyService.register(President.class);
-	}
 
 	public static President getPresident() {
 		List&lt;President&gt; list = ObjectifyService.begin()
@@ -650,6 +645,10 @@ public class President {
 		return null;
 	}
 }
+</pre>
+<p>Ajouter dans la classe DAO, l'enregistrement de l'entité</p>
+<pre>
+ObjectifyService.register(President.class);
 </pre>
       </div>
         <h3>
@@ -692,6 +691,7 @@ if (president != null) {
 	&lt;strong&gt;Le président ne sera annoncé qu'à partir du 6 mai 2012 à 20H00&lt;/strong&gt;
 &lt;% } %&gt;
 </pre>
+<img src="images/presidents.png" alt="Récupérez l'image presidents.png" />
 </div>
         <h3>
           ?. Afficher sur la page d'accueil. 
@@ -709,7 +709,8 @@ if (president != null) {
         <p>Sinon afficher un image par défaut et un message indiquant que le président ne sera annoncé qu'à partir du 6 mai à 20h00:</p>
 <pre class="smallcode lesspace">
 &lt;img src="presidents.png" /&gt;
-&lt;strong&gt;Le président ne sera annoncé qu'à partir du 6 mai 2012 à 20H00&lt;/strong&gt;
+&lt;strong&gt;Le président ne sera annoncé qu'à 
+partir du 6 mai 2012 à 20H00&lt;/strong&gt;
 </pre>
 		
         </div>
@@ -750,7 +751,7 @@ public class CronServlet extends HttpServlet {
 &lt;/servlet&gt;
 &lt;servlet-mapping&gt;
 	&lt;servlet-name&gt;CronServlet&lt;/servlet-name&gt;
-	&lt;url-pattern&gt;/cron&lt;/url-pattern&gt;
+	&lt;url-pattern&gt;/ReleaseDate&lt;/url-pattern&gt;
 &lt;/servlet-mapping&gt;
 </pre>
       </div>
@@ -759,7 +760,7 @@ public class CronServlet extends HttpServlet {
         </h3>
         
         <div style="margin-top:20px;">
-        <p>Créer une Servlet, qui crée une entité President</p>
+        <p>Créez une Servlet, qui crée une entité President et l'activez</p>
 <pre class="smallcode lesspace">
 President president = new President();
 president.name = "Sarkozy";
@@ -767,8 +768,8 @@ president.image = "/images/sarkozy.png";
 president.active = true;
 ObjectifyService.begin().put(president);
 </pre>
-        <p>Mappez dans le web.xml, la servlet sur l'URL /cron</p>
-        <p>Testez la page en allant sur <a href="http://127.0.0.1:8888/cron">http://127.0.0.1:8888/cron</a></p>
+        <p>Mappez dans le web.xml, la servlet sur l'URL /ReleaseDate</p>
+        <p>Testez la page en allant sur <a href="http://127.0.0.1:8888/ReleaseDate">http://127.0.0.1:8888/ReleaseDate</a></p>
         </div>
       </article>
  
@@ -783,7 +784,7 @@ ObjectifyService.begin().put(president);
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;cronentries&gt;
   &lt;cron&gt;
-    &lt;url&gt;/cron&lt;/url&gt;
+    &lt;url&gt;/ReleaseDate&lt;/url&gt;
     &lt;schedule&gt;6 of may 20:00&lt;/schedule&gt;
     &lt;timezone&gt;Europe/Paris&lt;/timezone&gt;
   &lt;/cron&gt;
@@ -797,47 +798,7 @@ ObjectifyService.begin().put(president);
         
         <div style="margin-top:20px;">
         <p>La gestion des crons est simple dans Google AppEngine, il suffit de créer un fichier cron.xml dans WEB-INF et d'indiquer l'url de la tâche planifié, et la période de répétition</p>
-&lt;<strong>cronentries</strong>&gt;
-<div style="margin-left: 20px;">
-		&lt;<strong>cron</strong>&gt;
-		<div style="margin-left: 20px;">
-			<div>&lt;<strong>url</strong>&gt; Url de la tâche planifiée</div>
-			<div>&lt;<strong>schedule</strong>&gt; Période de répétition (every days, 1 of jan,may 02:30, every 5 mins)</div>
-			<div>&lt;<strong>timezone</strong>&gt; Zone décalage horaire</div>
-		</div>
-		&lt;/<strong>cron</strong>&gt;
-</div>
-&lt;/<strong>cronentries</strong>&gt;
-        </div>
-      </article>
- 
- 
- <!-- ----------------------------------------------------------------------------- -->
- <!-- slide cron -->
-
-
-
-      	  <article id="art23" onclick="move('art23')" class="slide3d" > 
-      <div class="backslide3d">
-<p>fichier: war/WEB-INF/cron.xml</p>
-<pre class="smallcode lesspace">
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;cronentries&gt;
-  &lt;cron&gt;
-    &lt;url&gt;/cron&lt;/url&gt;
-    &lt;schedule&gt;6 of may 20:00&lt;/schedule&gt;
-    &lt;timezone&gt;Europe/Paris&lt;/timezone&gt;
-  &lt;/cron&gt;
-&lt;/cronentries&gt;
-</pre>
-<p>On indique la zone de décalage horaire à Paris, pour activer le président le 6 mai à 20h précise en France et non l'heure GMT !</p>
-      </div>
-        <h3>
-          ?. Configurer le cron dans App Egnine
-        </h3>
-        
-        <div style="margin-top:20px;">
-        <p>La gestion des crons est simple dans Google AppEngine, il suffit de créer un fichier cron.xml dans WEB-INF et d'indiquer l'url de la tâche planifié, et la période de répétition</p>
+        <p>Voici les balises XML à insérer :</p>
 &lt;<strong>cronentries</strong>&gt;
 <div style="margin-left: 20px;">
 		&lt;<strong>cron</strong>&gt;
