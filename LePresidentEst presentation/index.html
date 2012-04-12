@@ -666,10 +666,8 @@ public boolean active;
 </pre>
         <p>Récupérer le président actif:</p>
 <pre class="smallcode lesspace">
-List&lt;President&gt; list = ObjectifyService.begin()
-	.query(President.class).filter("active", true).limit(1).list();
-if (list.size() == 1)
-	return list.get(0);
+President president = ObjectifyService.begin()
+	.query(President.class).filter("active", true).get();
 </pre>
         </div>
       </article>
