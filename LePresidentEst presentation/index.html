@@ -184,7 +184,7 @@
 	   Un exercice de style et de montée en charge <br/>sur App Engine
 	 </h3>
 	 <p style="position: absolute; top: 500px; font-size: 0.75em">
-	   Didier Girard, Ludovic Champenois, Martin Gorner, Alexis Moussine Pouchkine, Patrice de Saint Steban<br/>
+	   Didier Girard, Ludovic Champenois, Martin Gorner, Patrice de Saint Steban<br/>
 	 </p>
 	  
 	  <!-- on the other side -->
@@ -223,10 +223,10 @@
 		Vous venez de gagner un contrat. Il s'agit de développer le site web qui va annoncer au soir du <strong>6 mai 2012</strong> le nouveau président de la République Française.
 		</p>
 		<p>
-		Le site devra pouvoir accueillir un traffic potentiel maximum de <strong>50 millions d'utilisateurs</strong> le 6 mai. Ce jour là, un pic à <strong>2 millions d'utilisateurs</strong> simultanés est attendu a 20h. Ensuite, le 7 mai <strong>1 millions</strong> d'utilisateurs viendront et les jours suivants quelques milliers d'utilisateurs au grand maximum. Le site devra proposer des fonctions de type social : vote de satisfaction, commentaires, publications d'images,...
+		Le site devra pouvoir accueillir un traffic potentiel maximum de <strong>50 millions d'utilisateurs</strong> le 6 mai. Ce jour là, un pic à <strong>2 millions d'utilisateurs</strong> simultanés est attendu a 20h. Ensuite, le 7 mai <strong>1 million</strong> d'utilisateurs viendront et les jours suivants quelques milliers d'utilisateurs au grand maximum. Le site devra proposer des fonctions de type social : vote de satisfaction, commentaires, publications d'images,...
 		</p>
 		<h2 style="bottom: 120px;">
-		   Il ne doit pas faire défaut, il n'est pas concevable qu'il tombe a l'heure H
+		   Il ne doit pas faire défaut, il n'est pas concevable qu'il tombe a l'heure H.
 		</h2>
 	</article>	
 	  
@@ -235,9 +235,33 @@
 
 	  <article id="art2" onclick="move('art2')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: src/com.moi.LePresident/LePresidentServlet.java</p>
+<p>
+	Structure du projet Web :
+</p>	
+<br/>
+<img  src="images/project_structure.png" align="left"/>
+	
+<p>
+En utilisant l'assistant pour créer la servlet, le fichier standard <code>web.xml</code> est mis à jour pour effectuer le mapping de celle-ci. 
+</p>
+
+<p>
+Le fichier <code>appengine-web.xml</code> contient des valeurs par défaut et sera utilisé plus tard pour spécifier un nom et une version d'application et d'autres paramètres optionels propres à AppEngine.
+</p>
+
+<p>
+<h3>
+	Problème?
+</h3>
+
+ 	En cas re-déploiement si vous rencontrez une erreur de type <code>"port occupied"</code>, il vous faudra utiliser le bouton rouge "Terminate" dans le haut de la fenêtre <code>"Console"</code> (Window > Show View > Console).
+<img  src="images/stop_server.png"/>
+</p>
+		
+	<!--
+<p>fichier: src/com/moi/lepresident/LePresidentServlet.java</p>
 <pre>
-package com.moi.LePresident;
+package com.moi.lepresident;
 
 import java.io.IOException;
 import javax.servlet.http.*;
@@ -253,19 +277,22 @@ public class LePresidentServlet extends HttpServlet
     }
 }
 </pre>
+-->
       </div>
+
         <h3>
           1. Ma première servlet "Hello App Engine"
         </h3>
         <ul>
         <li>File &gt; New ... &gt; <img style="height:30px; vertical-align:bottom;" src="images/webappproj.png" /></li>
-        <li>Nom: <span class="pop">LePresident</span>, package: <span class="pop">com.moi.LePresident</span></li>
-        <li><form>Décocher <input type="checkbox" style="vertical-align: middle;"/><span class="pop">GWT</span> (pour aujourd'hui), Cocher <input type="checkbox" checked style="vertical-align: middle;"/><span class="pop">App Engine</span></form></li>
+        <li>Nom: <span class="pop">LePresident</span>, package: <span class="pop">com.moi.lepresident</span></li>
+        <li><form>Décocher <input type="checkbox" style="vertical-align: middle;" disabled="disabled"/><span class="pop">GWT</span> (pour aujourd'hui), Cocher <input type="checkbox" checked style="vertical-align: middle;" disabled="disabled"/><span class="pop">App Engine</span></form></li>
         <li>"Finish" pour générer le projet puis autoriser le <span class="pop">multi-threading&nbsp;!</span> (dans war/WEB-INF/appengine-web.xml)</li>
-        <li>Personnaliser la servlet: par exemple <span class="pop">"Hello App Engine"</span><br/>(dans src/com.moi.LePresident/LePresidentServlet.java)</li>
+        <li>Personnaliser la servlet: par exemple <span class="pop">"Hello App Engine"</span><br/>(dans src/com/moi/lepresident/LePresidentServlet.java)</li>
         <li>Lancer en local: Run &gt; Run As... &gt; <img style="height:30px; vertical-align:bottom;" src="images/webapp.png" /><br/>
         <span style="color: red; font-family: monospace;">=&gt; INFO: The server is running at<br/>&nbsp;&nbsp;&nbsp;<a style="color: red;" target="_blank" onclick="noop()" href="http://localhost:8888/">http://localhost:8888/</a></span></li>
         </ul>
+
 
       </article>
 
@@ -356,12 +383,12 @@ ATTENTION aux vulnérabilités XSS! Ne jamais insérer dans une page du texte en
         <div class="screenshot-left">
         <img  src="images/scrshot2.png"/>
         </div>
-        <p>Il vous faut un champ texte:</p>
+        <p>Il vous faut une zone de saisie:</p>
 <pre>
 &lt;form action="" method="post"&gt;
-   &lt;textarea name="user-comment"&gt;&lt;/textarea&gt;
+   &lt;textarea name="user-comment" /&gt;
    &lt;input type="submit"
-        value="c'est mon avis" /&gt;
+         value="c'est mon avis" /&gt;
 &lt;/form&gt; 
 </pre>
 		<p>Et la fonction qui donne la valeur d'un paramètre de requête:</p>
@@ -440,7 +467,12 @@ userService.createLogoutURL("myTargetURL");
 <!-- ------------------------------------------------------------------------------- -->
 <!-- datastore explanation -->
 
-      <article class="info">
+      <article id="art6b" onclick="move('art6b')" class="slide3d" >
+	<p>
+		
+	</p>
+	<div class="backslide3d">
+	</div>
       <h3 class="info">High Replication Datastore:<br/>réplication, accès simultané, montée en charge</h3>
 		<img style="float: left; padding: 10px; margin-right: 25px; margin-top: 15px; background-color: white; border: 1px solid grey" height="420px" src="images/datastore.svg" />        
         <p style="margin-top: 50px;">Organisation à peu près comme en XML.</p>
@@ -455,16 +487,15 @@ userService.createLogoutURL("myTargetURL");
 
 	  <article id="art7" onclick="move('art7')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: src/com.moi.LePresident/StoredComments.java</p>
+<p>fichier: src/com/moi/lepresident/StoredComments.java</p>
 <pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
-package com.moi.LePresident;
+package com.moi.lepresident;
 import java.util.*;
 import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.datastore.Entity;
 
-public class StoredComments
-{	
-    static public void store(String text, String user)
-    {
+public class StoredComments {	
+    static public void store(String text, String user) {
         Entity commentEntity = new Entity("Comment");
         commentEntity.setProperty("user", user);
         commentEntity.setProperty("date", new Date());
@@ -474,8 +505,7 @@ public class StoredComments
         datastore.put(commentEntity);
     }
 	
-    static public List&lt;Entity&gt; retrieveAll()
-    {
+    static public List&lt;Entity&gt; retrieveAll() {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
         Query query = new Query("Comment");
@@ -531,17 +561,17 @@ List&lt;Entity&gt; results =
 
 	  <article id="art8" onclick="move('art8')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: src/com.moi.LePresident/ObjectifyDAO.java</p>
+<p>fichier: src/com/moi/lepresident/ObjectifyDAO.java</p>
 <pre class="x-smallcode lesspace">
-package com.moi.LePresident;
+package com.moi.lepresident;
 import com.googlecode.objectify.ObjectifyService;     import com.googlecode.objectify.util.DAOBase;
 
 public class ObjectifyDAO extends DAOBase
 { static { ObjectifyService.register(Comment.class); } }
 </pre>
-<p>fichier: src/com.moi.LePresident/Comment.java</p>
+<p>fichier: src/com/moi/lepresident/Comment.java</p>
 <pre class="x-smallcode lesspace">
-package com.moi.LePresident;
+package com.moi.lepresident;
 import java.util.Date;     import javax.persistence.Id;     import com.googlecode.objectify.Query;
 
 public class Comment
@@ -622,9 +652,9 @@ for (Comment c: query) { ... }
 <!-- Entité President -->
       	  <article id="art20" onclick="move('art20')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: src/com.moi.LePresident/President.java</p>
+<p>fichier: src/com/moi/lepresident/President.java</p>
 <pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
-package com.moi.LePresident;
+package com.moi.lepresident;
 import java.util.List;
 import javax.persistence.Id;
 import com.googlecode.objectify.ObjectifyService;
@@ -720,9 +750,9 @@ partir du 6 mai 2012 à 20H00&lt;/strong&gt;
 
       	  <article id="art22" onclick="move('art22')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: src/com.moi.LePresident/President.java</p>
+<p>fichier: src/com/moi/lepresident/President.java</p>
 <pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
-package com.moi.LePresident;
+package com.moi.lepresident;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -745,7 +775,7 @@ public class CronServlet extends HttpServlet {
 <pre class="smallcode lesspace">
 &lt;servlet&gt;
 	&lt;servlet-name&gt;CronServlet&lt;/servlet-name&gt;
-	&lt;servlet-class&gt;com.moi.LePresident.CronServlet&lt;/servlet-class&gt;
+	&lt;servlet-class&gt;com.moi.lepresident.CronServlet&lt;/servlet-class&gt;
 &lt;/servlet&gt;
 &lt;servlet-mapping&gt;
 	&lt;servlet-name&gt;CronServlet&lt;/servlet-name&gt;
@@ -931,7 +961,7 @@ ImagesServiceFactory.getImagesService()
         (et les autres ...)
         </p>
         <p style="margin-left: 3em; margin-top: 3em; text-indent: -3em;">Cette présentation est en ligne:<br/>
-        <a href="http://animateyourhtml5.appspot.com">http://<b><span class="big">electionfr2012</span></b>.appspot.com</a><br/>
+        <a href="http://electionfr2012.appspot.com">http://<b><span class="big">electionfr2012</span></b>.appspot.com</a><br/>
         <p style="margin-left: 3em; margin-top: 3em; text-indent: -3em;">Plus d'infos:<br/>
         <a href="http://developers.google.com/appengine/">http://developers.google.com/<b><span class="big">appengine</span></b></a>
         </p>
