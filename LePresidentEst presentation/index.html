@@ -95,6 +95,7 @@
     .small
     {
     	font-size: smaller;
+    	line-height: 1.1em;
     }
     .jsp
     {
@@ -289,14 +290,15 @@ public class LePresidentServlet extends HttpServlet
         <h3>
           1. Ma première servlet "Hello App Engine"
         </h3>
-        <ul>
+        <ul style="margin-top:20px">
         <li>File &gt; New ... &gt; <img style="height:30px; vertical-align:bottom;" src="images/webappproj.png" /></li>
         <li>Nom: <span class="pop">LePresident</span>, package: <span class="pop">com.moi.lepresident</span></li>
         <li><form>Décocher <input type="checkbox" style="vertical-align: middle;" disabled="disabled"/><span class="pop">GWT</span> (pour aujourd'hui), Cocher <input type="checkbox" checked style="vertical-align: middle;" disabled="disabled"/><span class="pop">App Engine</span></form></li>
         <li>"Finish" pour générer le projet puis autoriser le <span class="pop">multi-threading&nbsp;!</span> (dans war/WEB-INF/appengine-web.xml)</li>
         <li>Personnaliser la servlet: par exemple <span class="pop">"Hello App Engine"</span><br/>(dans src/com/moi/lepresident/LePresidentServlet.java)</li>
         <li>Lancer en local: Run &gt; Run As... &gt; <img style="height:30px; vertical-align:bottom;" src="images/webapp.png" /><br/>
-        <span style="color: red; font-family: monospace;">=&gt; INFO: The server is running at<br/>&nbsp;&nbsp;&nbsp;<a style="color: red;" target="_blank" onclick="noop()" href="http://localhost:8888/">http://localhost:8888/</a></span></li>
+        <span class="small" style="color: red; font-family: monospace;">INFO: The server is running at <a style="color: red;" target="_blank" onclick="noop()" href="http://localhost:8888/">http://localhost:8888/</a></span></li>
+        <li class="small">Puis rajouter la <a href="http://code.google.com/p/objectify-appengine/downloads/list?q=label:Featured" target="_blank" onclick="noop()">librairie objectify</a>: (1) glisser-déplacer objectifyxxx.jar sur war/WEB-INF/lib. (2) La référencer dans les propriétés du projet, "Java Build Path", onglet "Libraries", bouton "Add JARs..."</li>
         </ul>
 
 
