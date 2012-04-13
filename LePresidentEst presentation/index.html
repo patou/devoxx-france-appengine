@@ -25,7 +25,6 @@
   <style>
     /* Your individual styles here, or just use inline styles if that’s
        what you want. */
-    
     .slide3d.end
 	{
 		-webkit-transform: rotateY(175deg) rotateX(-5deg) translateZ(-50px) !important;
@@ -96,6 +95,11 @@
     {
     	font-size: smaller;
     	line-height: 1.1em;
+    }
+    .x-small
+    {
+    	font-size: 0.7em;
+    	line-height: 1em;
     }
     .jsp
     {
@@ -273,9 +277,9 @@ Le fichier <code>appengine-web.xml</code> contient des valeurs par défaut et se
 	Problème?
 </h3>
 
- 	En cas re-déploiement si vous rencontrez une erreur de type <code>"port occupied"</code>, il vous faudra utiliser le bouton rouge "Terminate" dans le haut de la fenêtre <code>"Console"</code> (Window > Show View > Console).
+ 	En cas re-déploiement si vous rencontrez une erreur de type <code>"port occupied"</code>, il vous faudra utiliser le bouton rouge "Terminate" dans le haut de la fenêtre <code>"Console"</code> (Window &gt; Show View &gt; Console).
 <img  src="images/stop_server.png"/>
-</p>
+
 		
 	<!--
 <p>fichier: src/com/moi/lepresident/LePresidentServlet.java</p>
@@ -319,7 +323,8 @@ public class LePresidentServlet extends HttpServlet
 <!-- ------------------------------------------------------------------------------- -->
 <!-- Passons en JSP -->
 
-	  <article class="info"> 
+	  <article id="art3" onclick="move('art3')" class="info slide3d">
+	  <div class="backslide3d"></div>
         <h3 class="info">
           Passons en JSP.<br/>JSP c'est comme du HTML, mais on peut:
         </h3>
@@ -499,6 +504,64 @@ userService.createLogoutURL("myTargetURL");
         <p>Requêtes indexées uniquement.</p>
         <p>Cohérence à terme des lectures et écritures.</p>
         <p class="poplow">Entity = kind + <br/>(multivalued) properties + key</p>
+        
+      </article>
+      
+<!-- ------------------------------------------------------------------------------- -->
+<!-- architecture explanation -->
+<style>
+	.archimage
+	{
+		
+		width:266px;
+		display:inline-block;
+		vertical-align: top;
+		text-align: center;
+	}
+	.archtext
+	{
+		display:inline-block;
+		width:180px;
+		text-align: right;
+		color: black;
+		font-style: italic;
+	}
+	.newarchimage
+	{
+		width: 300px;
+		border:1px grey solid;
+		background-color: white
+	}
+</style>
+    <article id="art6c" onclick="move('art6c')" class="slide3d info" >
+	<div class="backslide3d">
+	</div>
+      <h3 class="info">Architecture d'application sur App Engine</h3>
+      
+		<div class="archimage">
+			<div style="border:#b4a464 inset 8px;background-color: #f1e9db;">“système 2000”<br/><img src="images/oldarch.png" width="250px"/>
+			    <div class="x-small" style="padding: 5px; ">
+			         session en RAM avec<br/>
+			         sticky load balancer
+			     </div>
+			 </div>
+			 <div class="small" style="text-align: left; margin-top: 5px">
+			     <span class="pop">☠</span> pb sur arrêt d'instance<br/>
+			     <span class="pop">☠</span> mémoire insuffisante<br/>
+			     <span class="pop">☠</span> load balancing lent<br/>
+			     <span class="pop">☠</span> pb scalabilité base<br/>
+			     
+			</div>
+			</div>
+		<div class="archtext small">
+		    <div style="margin-top:47px;">datastore→</div>
+		    <div  style="margin-top:30px;">memcache→</div>
+		    <div  style="margin-top:80px;">frontends→</div>
+		    <div  style="margin-top:80px;">load balancing efficace→</div>
+		</div>
+		<div class="archimage newarchimage">App Engine<br/><img src="images/newarch.png" width="300px"/>
+		<div class="x-small" style="padding: 5px; ">instances stateless, état dans memcache et datastore</div>
+		</div>
         
       </article>
       
