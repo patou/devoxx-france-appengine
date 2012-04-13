@@ -5,7 +5,7 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
-		<servlet-name>LePresidentEst</servlet-name>
+		<servlet-name>HelloWordServlet</servlet-name>
 		<servlet-class>fr.devoxx.lepresidentest.HelloWordServlet</servlet-class>
 	</servlet>
 	<servlet>
@@ -17,13 +17,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-class>fr.devoxx.lepresidentest.UploadServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>CronServlet</servlet-name>
-		<servlet-class>fr.devoxx.lepresidentest.CronServlet</servlet-class>
+		<servlet-name>ReleaseDateCron</servlet-name>
+		<servlet-class>fr.devoxx.lepresidentest.ReleaseDateCron</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>LePresidentEst</servlet-name>
-		<url-pattern>/lepresidentest</url-pattern>
+		<servlet-name>HelloWordServlet</servlet-name>
+		<url-pattern>/helloword</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>VoteServlet</servlet-name>
@@ -34,8 +34,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/upload</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>CronServlet</servlet-name>
-		<url-pattern>/cron</url-pattern>
+		<servlet-name>ReleaseDateCron</servlet-name>
+		<url-pattern>/ReleaseDate</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

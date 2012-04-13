@@ -1,7 +1,6 @@
 package fr.devoxx.lepresidentest;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +11,7 @@ import com.googlecode.objectify.ObjectifyService;
 
 import fr.devoxx.lepresidentest.entity.President;
 
-public class CronServlet extends HttpServlet {
+public class ReleaseDateCron extends HttpServlet {
 
 	/**
 	 * 
@@ -21,11 +20,15 @@ public class CronServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<President> list = ObjectifyService.begin().query(President.class).limit(1).list();
-		if (list.size() == 1) {
-			President president = list.get(0);
-			president.active = true;
-			ObjectifyService.begin().put(president);
-		}
+		President president = new President();
+		president.name = "Sarkozy";
+		president.image = "/images/sarkozy.png";
+		ObjectifyService.begin().put(president);
+//		List<President> list = ObjectifyService.begin().query(President.class).limit(1).list();
+//		if (list.size() == 1) {
+//			President president = list.get(0);
+//			president.active = true;
+//			ObjectifyService.begin().put(president);
+//		}
 	}
 }

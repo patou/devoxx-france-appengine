@@ -31,7 +31,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="./index.html">Le président est</a>
+          <a class="brand" href="/">Le président est</a>
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active">

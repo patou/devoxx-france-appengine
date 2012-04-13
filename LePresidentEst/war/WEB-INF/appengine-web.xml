@@ -1,26 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
     <!-- Le nom de votre ApplicationId sur http://appengine.google.com -->
-  <application>lepresidentest</application>
+  <application>electionfr2012</application>
   <!-- Version de votre application, cela peut être un texte (alpha, beta, etc...) -->
   <version>1</version>
 
-  <!-- Configure java.util.logging -->
-  <system-properties>
-    <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
-  </system-properties>
-
-  <!--
-  Par défaut, App Engine envoie les réquête à la suite à un server web. 
-  Pour autoriser App Engine à envoyer plusieurs requête en parallèle il faut présiser threadsafe à true.
-  Il est conseillé de l'activer tous le temps pour de meilleurs performances !
-  -->
-  <threadsafe>true</threadsafe>
-
-  <!-- Configure java.util.logging -->
-  <system-properties>
-    <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
-  </system-properties>
 
   <!-- On indique les fichiers à mettre en version statique : fichier accéssible depuis le serveur, mais pas depuis l'application 
   	On peux aussi indiqué le temps de mise en cache de ces resources par le navigateur
@@ -43,6 +27,11 @@
         <exclude path="/**.css" />
         <exclude path="/**.html" />
     </resource-files>
+  <!-- Configure java.util.logging -->
+  <system-properties>
+    <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+  </system-properties>
+  
   <!--
   	Les sessions HTTP sont déactivé par défaut, pour les activer spécifiez :
 
@@ -65,4 +54,10 @@
   </static-error-handlers>
   
 
+  <!--
+  Par défaut, App Engine envoie les réquête à la suite à un server web. 
+  Pour autoriser App Engine à envoyer plusieurs requête en parallèle il faut présiser threadsafe à true.
+  Il est conseillé de l'activer tous le temps pour de meilleurs performances !
+  -->
+  <threadsafe>true</threadsafe>
 </appengine-web-app>
