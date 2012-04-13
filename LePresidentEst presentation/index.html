@@ -949,7 +949,49 @@ ImagesServiceFactory.getImagesService()
         </div>
       </article>
  
+ 
+ <!-- slide : deployer -->
+      <article id="title11"> 
+      		<h2>Yakakliker...</h2>
+      		<p>Deployer sur App Engine</p>
+      </article>
+
+      <article id="artTitle11" onclick="move('artTitle11')" class="slide3d" > 
+      <div class="backslide3d">
+      
+<p>fichier: war/WEB-INF/appengine-web.xml</p>
+<pre class="smallcode lesspace">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;appengine-web-app xmlns=&quot;http://appengine.google.com/ns/1.0&quot;&gt;
+    &lt;!-- Le nom de votre ApplicationId sur http://appengine.google.com --&gt;
+  &lt;application&gt;lepresidentest&lt;/application&gt;Deployer sur App Engine
+  &lt;!-- Version de votre application, cela peut etre un texte (alpha, beta, etc...) --&gt;
+  &lt;version&gt;1&lt;/version&gt;
+  ...
+  
+&lt;/appengine-web-app&gt;
+  
+</pre>
+
+      </div>
+        <h3>
+          Deployer sur App Engine
+        </h3>
+        <ul>
+         <li>Créer un identifiant pour votre application sur <a href="http://appengine.google.com" target="_blank">http://appengine.google.com/</a></li>
+         <li>Configuer le projet via le fichier appengine-web.xml : en mettant l'identifiant de l'application, un numero de version.</li>
+         <li>Cliquer sur déployer...</li>
+        </ul>
+
+        <div style="margin-top:20px;">
+<img height="200px;" src="images/deployer.png" style="vertical-align: -30%"/>        
+        </div>
+        
+      </article>
+
 <!-- ------------------------------------------------------------------------------- -->
+
+ 
 <!-- slide finale: chrome -->
       <article>
         
