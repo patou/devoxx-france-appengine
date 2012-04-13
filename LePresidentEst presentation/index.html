@@ -890,6 +890,112 @@ ObjectifyService.begin().put(president);
       		<h2>Ajouter deux compteurs +1/-1</h2>
       		<p>Utilisation de tâches</p>
       </article>
+      
+      <article id="art25"> 
+        <h3>
+          Implémenter un compteur partagé
+        </h3>
+        <ul>
+         <li>le compteur est implémenté dans le cache en utilisant la fonction increment() qui permet une incrémentation atomique
+         <ul><li>les lectures vont chercher directement dans le memcache</li></ul>
+		</li>
+		<li>A chaque incrémentation, le nouveau total est écrit dans le datastore... 
+		<ul>
+			<li>On crée N entités counterValue dans le datastore  et à chaque écriture, on en choisit une au hasard pour recevoir la valeur</li>
+			<li>Quand on a besoin de lire en base, on récupère le maximum des compteurs</li>
+		</ul
+		</li>
+        </ul>
+      </article>
+ 
+       <article id="art26" onclick="move('art26')" class="slide3d" > 
+      <div class="backslide3d">
+<p class="small">fichier: com/moi/lepresident/Counter.java</p>
+<pre class="smallcode lesspace">
+public class Counter {
+	@Id
+	String key;
+	String name;
+	Long value;
+	public Counter(String name, Integer shard, Long value)	{
+		this.name = name;
+		this.value = value;
+		key = name + "_shard" + shard.toString();
+	}
+	public static Long value(String name) {
+		MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+		Long val = (Long) cache.get(name);
+		if (val == null)
+		{
+			val = Counter.read(name);
+			cache.put(name, val);
+		}
+		return val;
+	}
+	static Long read(String name) {
+		Counter c = new ObjectifyDAO().ofy().query(Counter.class)
+			.filter("name", name).order("-value").get();
+		return (c == null ? 0L : c.value);
+	}
+}
+</pre>
+<p>Utilisation : Counter.value("+1");</p>
+</div>
+        <h3>
+          Lire le compteur
+        </h3>
+        <p>On regarde dans le cache si le compteur existe, si oui on retourne simplement la valeur</p>
+        <pre class="lesspace">MemcacheService cache = MemcacheServiceFactory.getMemcacheService()
+Long val = (Long) cache.get(name);</pre>
+        <p>Sinon, on va chercher le maximum du compteur dans la base</p>
+        <pre class="lesspace">
+Counter c = new ObjectifyDAO().ofy().query(Counter.class)
+	.filter("name", name).order("-value").get();
+        </pre>
+        <p>Et on l'enregistre dans le cache</p>
+        <pre class="lesspace">cache.put(name, val);</pre>
+      </article>
+      
+      <article id="art27" onclick="move('art27')" class="slide3d">
+      <div class="backslide3d">
+<p class="small">fichier: com/moi/lepresident/Counter.java</p>
+<pre class="smallcode lesspace">
+public class Counter {
+	public static void increment(String name)
+	{
+		MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+		Long val = cache.increment(name, 1);
+		if (val == null)
+		{
+			val = Counter.read(name);
+			if (val == null)
+				val = cache.increment(name, 1, 0L);
+			else
+				val++;
+		}
+		Counter.write(name, val);
+	}
+	static void write(String name, Long value)
+	{
+		Integer shard = new Random().nextInt(10);
+		new ObjectifyDAO().ofy().put(new Counter(name, shard, value));
+	}
+}
+</pre>
+<p>Utilisation : Counter.increment("+1");</p>
+</div>      
+        <h3>
+          Incrémenter le compteur
+        </h3>
+        <p>Le memcache possède une méthode increment() qui permet d'incrémenter une valeur de manière atomique<p>
+        <pre class="lesspace">MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+Long val = cache.increment(name, 1);</pre>
+        <p>Si elle n'existe pas, on va la chercher dans la base et on l'incrémente</p>
+        <p>Puis on sauvegarde la valeur actuelle dans un des compteur aléatoire</p>
+        <pre class="lesspace">Integer shard = new Random().nextInt(10);
+new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
+      </article>
+      
 
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide Upload -->
