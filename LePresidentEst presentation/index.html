@@ -30,6 +30,11 @@
 		-webkit-transform: rotateY(175deg) rotateX(-5deg) translateZ(-50px) !important;
 		-webkit-transition: 1s;
 	}
+	.bookparagraph
+	{
+		text-align: justify;
+		text-indent: 1.5em;
+	}
 	
 	.slide3d
 	{
@@ -84,6 +89,7 @@
     .big
     {
     	font-size: larger;
+    	line-height: 1.1em;
     }
     .small
     {
@@ -183,8 +189,8 @@
 	 <h3>
 	   Un exercice de style et de montée en charge <br/>sur App Engine
 	 </h3>
-	 <p style="position: absolute; top: 500px; font-size: 0.75em">
-	   Didier Girard, Ludovic Champenois, Martin Gorner, Patrice de Saint Steban<br/>
+	 <p style="font-size: 0.75em; margin-top: 140px;">
+	   Didier Girard, Ludovic Champenois, Martin Görner, Patrice de Saint Steban<br/>
 	 </p>
 	  
 	  <!-- on the other side -->
@@ -203,31 +209,30 @@
 
 	<article id="art1bis" onclick="move('art1bis')" class="slide3d">
 	<div class="backslide3d">
-	<div style="position: absolute; top: 180px; left: 520px; -webkit-transform:  translateZ(5px)"><img style="width:350px" src="images/appengine.png" /></div>
+	<img src="images/appengine.png" style="width:350px; position:absolute; top:240px; left:240px; -webkit-transform:translateZ(200px)"/>
 	 
-	<p>
-		Pour ceci vous disposer d'une plateforme, AppEngine et d'experts pour vous guider.
+	<p style="margin:30px">
+		Pour ceci vous disposez d'une plateforme, AppEngine et d'experts pour vous guider.
 	</p>
-	 <p>
+	 <p style="margin:30px">
 		Le défi est à relever en 3 heures seulement.
 	 </p>
 	 
-	 <h2>
+	 <p class="pop" style="font-size: larger; text-align: center; margin-top:400px;">
 		Prêt à relever le défi ?
-	 </h2>
+	 </p>
 
 	</div>
-	
-		 
-		<p>
+
+		<p class="bookparagraph">
 		Vous venez de gagner un contrat. Il s'agit de développer le site web qui va annoncer au soir du <strong>6 mai 2012</strong> le nouveau président de la République Française.
 		</p>
-		<p>
-		Le site devra pouvoir accueillir un traffic potentiel maximum de <strong>50 millions d'utilisateurs</strong> le 6 mai. Ce jour là, un pic à <strong>2 millions d'utilisateurs</strong> simultanés est attendu a 20h. Ensuite, le 7 mai <strong>1 million</strong> d'utilisateurs viendront et les jours suivants quelques milliers d'utilisateurs au grand maximum. Le site devra proposer des fonctions de type social : vote de satisfaction, commentaires, publications d'images,...
+		<p class="bookparagraph">
+		Le site devra pouvoir accueillir un traffic potentiel maximum de <strong>50 millions d'utilisateurs</strong> le 6 mai. Ce jour là, un pic à <strong>2 millions d'utilisateurs</strong> simultanés est attendu a 20h. Ensuite, le 7 mai <strong>1 million</strong> d'utilisateurs viendront et les jours suivants quelques milliers d'utilisateurs au grand maximum. Le site devra proposer des fonctions de type social : vote de satisfaction, commentaires, publications d'images, ...
 		</p>
-		<h2 style="bottom: 120px;">
+		<p class="pop big" style="margin-top: 20px; text-align: center">
 		   Il ne doit pas faire défaut, il n'est pas concevable qu'il tombe a l'heure H.
-		</h2>
+		</p>
 	</article>	
 	  
 <!-- ------------------------------------------------------------------------------- -->
@@ -473,7 +478,7 @@ userService.createLogoutURL("myTargetURL");
 	</p>
 	<div class="backslide3d">
 	</div>
-      <h3 class="info">High Replication Datastore:<br/>réplication, accès simultané, montée en charge</h3>
+      <h3 class="info">High Replication Datastore:<br/>réplication, accès simultanés, montée en charge</h3>
 		<img style="float: left; padding: 10px; margin-right: 25px; margin-top: 15px; background-color: white; border: 1px solid grey" height="420px" src="images/datastore.svg" />        
         <p style="margin-top: 50px;">Organisation à peu près comme en XML.</p>
         <p>Requêtes indexées uniquement.</p>
