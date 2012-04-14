@@ -341,7 +341,7 @@ public class LePresidentServlet extends HttpServlet
 
 	  <article id="art4" onclick="move('art4')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: war/index.jsp</p>
+<p>fichier: war/comments.jsp</p>
 <pre>
 &lt;! DOCTYPE html&gt;
 &lt;%@ page contentType="text/html;charset=UTF-8" language="java" <span style="color:grey">%&gt;</span>
@@ -358,10 +358,10 @@ public class LePresidentServlet extends HttpServlet
 <p>Vous trouverez les photos des candidats derrière la première diapositive.</p>
       </div>
         <h3>
-          2. Ajouter une page index.jsp qui affiche par exemple:
+          2. Ajouter une page comments.jsp qui affiche par exemple:
         </h3>
         
-        <div style="margin-top:70px;">
+        <div style="margin-top:20px;">
         <div class="screenshot-left">
         <img  src="images/scrshot1.png"/>
         </div>
@@ -376,11 +376,10 @@ public class LePresidentServlet extends HttpServlet
 
 	  <article id="art5" onclick="move('art5')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: war/index.jsp</p>
+<p>fichier: war/comments.jsp</p>
 <pre style="margin-bottom:10px" class="smallcode">
 &lt;! DOCTYPE html&gt;
 &lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
-&lt;%@ page import="com.google.appengine.repackaged.com.google.common.xml.XmlEscapers" %&gt;
 &lt;html&gt;
   &lt;body&gt;
     &lt;H1&gt;Le président est ...&lt;/H1&gt;
@@ -388,7 +387,7 @@ public class LePresidentServlet extends HttpServlet
     &lt;% 
         String comment = request.getParameter("user-comment");
         if (comment != null)
-            comment = XmlEscapers.xmlContentEscaper().escape(comment);
+            comment = comment.replace("&amp;", "&amp;amp;").replace("&lt;", "&amp;lt;").replace("&gt;", "&amp;gt;");
     %&gt;
     &lt;p&gt;Vous: &lt;%= comment %&gt;&lt;/p&gt;
     &lt;form action="" method="post"&gt;
@@ -428,11 +427,10 @@ request.getParameter("user-comment")
 
 	  <article id="art6" onclick="move('art6')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: war/index.jsp</p>
+<p>fichier: war/comments.jsp</p>
 <pre class="x-smallcode">
 &lt;! DOCTYPE html&gt;
 &lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
-&lt;%@ page import="com.google.appengine.repackaged.com.google.common.xml.XmlEscapers" %&gt;
 <span class="u">&lt;%@ page import="com.google.appengine.api.users.*" %&gt;</span>
 
 &lt;html&gt;&lt;body&gt;
@@ -449,7 +447,7 @@ request.getParameter("user-comment")
     {
         String comment = request.getParameter("user-comment");
         if (comment != null)
-            comment = XmlEscapers.xmlContentEscaper().escape(comment);
+            comment = comment.replace("&amp;", "&amp;amp;").replace("&lt;", "&amp;lt;").replace("&gt;", "&amp;gt;");
 %&gt;
         &lt;p&gt;&lt;b&gt;&lt;%=<span class="u">user.getNickname()</span>%&gt;:&lt;/b&gt; &lt;%=comment%&gt;&lt;/p&gt;
     
@@ -655,7 +653,7 @@ public class ObjectifyDAO extends DAOBase
 <p>fichier: src/com/moi/lepresident/Comment.java</p>
 <pre class="x-smallcode lesspace">
 package com.moi.lepresident;
-import java.util.Date;     import javax.persistence.Id;     import com.googlecode.objectify.Query;
+import java.util.Date;     java.util.List;     import javax.persistence.Id;
 
 public class Comment
 {
@@ -670,10 +668,10 @@ public class Comment
         dao.ofy().put(new Comment(text, user));
     }
     
-    public static Query&lt;Comment&gt; retrieveAll()
+    public static List&lt;Comment&gt; retrieveAll()
     {
         ObjectifyDAO dao = new ObjectifyDAO();
-        return dao.ofy().query(Comment.class).order("-date").limit(100);
+        return dao.ofy().query(Comment.class).order("-date").limit(100).list();
     }
 }
 </pre>
@@ -699,7 +697,7 @@ public class Comment
 </pre>
 <p class="small">L'écriture en base génère l'id automatiquement si il est de type Long.</p>
         </div>
-        <p>Enregistrement des classes et DAO:</p>
+        <p>Enregistrement des classes et Data Access Object:</p>
 <pre class="x-smallcode lesspace">
 public class ObjectifyDAO extends DAOBase
 {
@@ -714,15 +712,71 @@ dao.ofy().put(new Comment(text, user));
 </pre>
         <p>Lecture: <span class="small">100 résultats triés par date</span></p>
 <pre class="x-smallcode lesspace">
-Query&lt;Comment&gt; query = dao.ofy().query(Comment.class)
-                           .order("-date").limit(100);
+List&lt;Comment&gt; query = dao.ofy().query(Comment.class)
+                    .order("-date").limit(100).list();
 for (Comment c: query) { ... }
 </pre>
 
 		
         </div>
       </article>
-       
+
+<!-- ------------------------------------------------------------------------------- -->  
+<!-- Garder les commentaires en memcache -->
+      
+      <article id="art9" onclick="move('art9')" class="slide3d">
+      <div class="backslide3d">
+      	<p>fichier: src/com/moi/lepresident/Comment.java</p>
+      	<p class="small" >La classe Comment doit devenir sérialisable:</p>
+<pre class="lesspace smallcode">
+public class Comment <span class="u">implements Serializable</span>
+</pre>
+<p class="small" style="margin:0">On crée une nouvelle fonction pour la lecture des commentaires (avec cache):</p>
+<pre class="lesspace smallcode">
+public static List&lt;Comment&gt; retrieveAllCached()
+{
+    MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+    List&lt;Comment&gt; comments = (List&lt;Comment&gt;)cache.get("100Comments");
+    if (comments == null)
+    {
+        comments = retrieveAll(); // read from datastore
+        if (comments != null)
+            cache.put("100Comments", comments); // store in memcache
+    }
+    return comments;
+}
+</pre>
+<p class="small" style="margin:0">Enfin, on invalide le cache à chaque nouveau commentaire:</p>
+<pre class="lesspace smallcode">
+public static void store(String text, String user)
+{
+	ObjectifyDAO dao = new ObjectifyDAO();
+	dao.ofy().put(new Comment(text, user));
+	<span class="u">MemcacheServiceFactory.getMemcacheService().delete("100Comments");</span> //kill cache
+}
+</pre>
+      </div>
+      		<h3>7. Optimiser les commentaires avec Memcache</h3>
+      		<div style="margin-top:70px;">
+				<div class="screenshot-left" style="margin-right: 45px; width:258px">
+				<p class="small">L'interface:</p>
+<pre class="smallcode lesspace">
+MemcacheService cache =
+   MemcacheServiceFactory 
+     .getMemcacheService();
+     
+cache.put("myKey", Object);
+cache.get("myKey");
+cache.delete("myKey");
+</pre>
+				<p class="small">Memcache s'assure que toutes vos instances voient la même valeur.</p>
+		        </div>
+			    <p style="padding-top:100px; text-align: justify;">Il suffit de garder le résultat de la dernière requête en Memcache (sérialisée) tant qu'un nouveau commentaire n'a pas été écrit.</p>
+
+		
+          </div>
+      </article>
+      
 <!-- ------------------------------------------------------------------------------- -->  
 <!-- Cron pour afficher le président actif -->
 <!-- Afficher le président -->
