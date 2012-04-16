@@ -241,7 +241,7 @@
 	<img src="images/appengine.png" style="width:175px; position:absolute; top:240px; left:340px; -webkit-transform:translateZ(200px); -moz-transform:translateZ(200px); -moz-backface-visibility: hidden;"/>
 	 
 	<p style="margin:30px">
-		Pour ceci vous disposez d'une plateforme, AppEngine et d'experts pour vous guider.
+		Pour ceci vous disposez d'une plateforme, Google AppEngine et d'experts pour vous guider.
 	</p>
 	 <p style="margin:30px">
 		Le défi est à relever en 3 heures seulement.
@@ -530,7 +530,7 @@ userService.createLogoutURL("myTargetURL");
 	.archimage
 	{
 		
-		width:266px;
+		width:276px;
 		display:inline-block;
 		vertical-align: top;
 		text-align: center;
@@ -546,8 +546,8 @@ userService.createLogoutURL("myTargetURL");
 	.newarchimage
 	{
 		width: 300px;
-		border:1px grey solid;
-		background-color: white
+//		border:1px grey solid;
+//		background-color: white
 	}
 </style>
     <article id="art6c" onclick="move('art6c')" class="slide3d info" >
@@ -575,7 +575,7 @@ userService.createLogoutURL("myTargetURL");
 		    <div  style="margin-top:80px;">frontends→</div>
 		    <div  style="margin-top:80px;">load balancing efficace→</div>
 		</div>
-		<div class="archimage newarchimage">App Engine<br/><img src="images/newarch.png" width="300px"/>
+		<div class="archimage newarchimage">Google App Engine<br/><img src="images/newarch.png" width="300px"/>
 		<div class="x-small" style="padding: 5px; ">instances stateless, état dans memcache et datastore</div>
 		</div>
         
@@ -932,26 +932,28 @@ ObjectifyService.begin().put(president);
   &lt;/cron&gt;
 &lt;/cronentries&gt;
 </pre>
-<p>On indique la zone de décalage horaire à Paris, pour activer le président le 6 mai à 20h précise en France et non l'heure GMT !</p>
+<p>On indique le fuseau horaire de Paris, pour activer le président le 6 mai à 20h précise en France et non l'heure GMT !</p>
       </div>
         <h3>
           ?. Configurer le cron dans App Egnine
         </h3>
         
         <div style="margin-top:20px;">
-        <p>La gestion des crons est simple dans Google AppEngine, il suffit de créer un fichier cron.xml dans WEB-INF et d'indiquer l'url de la tâche planifié, et la période de répétition</p>
+        <p>La gestion des crons est simple dans Google AppEngine, il suffit de créer un fichier <code>cron.xml</code> dans <code>WEB-INF</code> et d'indiquer l'url de la tâche planifié, et la période de répétition</p>
         <p>Voici les balises XML à insérer :</p>
+        <code>
 &lt;<strong>cronentries</strong>&gt;
 <div style="margin-left: 20px;">
 		&lt;<strong>cron</strong>&gt;
 		<div style="margin-left: 20px;">
-			<div>&lt;<strong>url</strong>&gt; Url de la tâche planifiée</div>
-			<div>&lt;<strong>schedule</strong>&gt; Période de répétition (every days, 1 of jan,may 02:30, every 5 mins)</div>
-			<div>&lt;<strong>timezone</strong>&gt; Zone décalage horaire</div>
+			<div>&lt;<strong>url</strong>&gt; <em>Url de la tâche planifiée</em></div>
+			<div>&lt;<strong>schedule</strong>&gt; <em>Période de répétition (every days, 1 of Jan, May 02:30, every 5 mins)</em></div>
+			<div>&lt;<strong>timezone</strong>&gt; <em>Fuseau horaire</em></div>
 		</div>
 		&lt;/<strong>cron</strong>&gt;
 </div>
 &lt;/<strong>cronentries</strong>&gt;
+        </code>
         </div>
       </article>
 
@@ -968,12 +970,12 @@ ObjectifyService.begin().put(president);
           Implémenter un compteur partagé
         </h3>
         <ul>
-         <li>le compteur est implémenté dans le cache en utilisant la fonction increment() qui permet une incrémentation atomique
+         <li>le compteur est implémenté dans le cache en utilisant la fonction <code>increment()</code> qui permet une incrémentation atomique
          <ul><li>les lectures vont chercher directement dans le memcache</li></ul>
 		</li>
-		<li>A chaque incrémentation, le nouveau total est écrit dans le datastore... 
+		<li>A chaque incrément, le nouveau total est écrit dans le datastore... 
 		<ul>
-			<li>On crée N entités counterValue dans le datastore  et à chaque écriture, on en choisit une au hasard pour recevoir la valeur</li>
+			<li>On crée N entités <code>counterValue</code> dans le datastore  et à chaque écriture, on en choisit une au hasard pour recevoir la valeur</li>
 			<li>Quand on a besoin de lire en base, on récupère le maximum des compteurs</li>
 		</ul
 		</li>
@@ -985,46 +987,45 @@ ObjectifyService.begin().put(president);
 <p class="small">fichier: com/moi/lepresident/Counter.java</p>
 <pre class="smallcode lesspace">
 public class Counter {
-	@Id
-	String key;
-	String name;
-	Long value;
-	public Counter(String name, Integer shard, Long value)	{
-		this.name = name;
-		this.value = value;
-		key = name + "_shard" + shard.toString();
-	}
-	public static Long value(String name) {
-		MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
-		Long val = (Long) cache.get(name);
-		if (val == null)
-		{
-			val = Counter.read(name);
-			cache.put(name, val);
-		}
-		return val;
-	}
-	static Long read(String name) {
-		Counter c = new ObjectifyDAO().ofy().query(Counter.class)
-			.filter("name", name).order("-value").get();
-		return (c == null ? 0L : c.value);
-	}
+    @Id
+    String key;
+    String name;
+    Long value;
+    public Counter(String name, Integer shard, Long value) {
+        this.name = name;
+        this.value = value;
+        key = name + "_shard" + shard.toString();
+    }
+    public static Long value(String name) {
+        MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+        Long val = (Long) cache.get(name);
+        if (val == null) {
+            val = Counter.read(name);
+            cache.put(name, val);
+        }
+        return val;
+    }
+    static Long read(String name) {
+        Counter c = new ObjectifyDAO().ofy().query(Counter.class)
+                    .filter("name", name).order("-value").get();
+        return (c == null ? 0L : c.value);
+    }
 }
 </pre>
-<p>Utilisation : Counter.value("+1");</p>
+<p>Utilisation : <code>Counter.value("+1");</code></p>
 </div>
         <h3>
           Lire le compteur
         </h3>
-        <p>On regarde dans le cache si le compteur existe, si oui on retourne simplement la valeur</p>
+        <p>On regarde dans le cache si le compteur existe, si oui on retourne simplement la valeur :</p>
         <pre class="lesspace">MemcacheService cache = MemcacheServiceFactory.getMemcacheService()
 Long val = (Long) cache.get(name);</pre>
-        <p>Sinon, on va chercher le maximum du compteur dans la base</p>
+        <p>Sinon, on va chercher le maximum du compteur dans la base :</p>
         <pre class="lesspace">
 Counter c = new ObjectifyDAO().ofy().query(Counter.class)
 	.filter("name", name).order("-value").get();
         </pre>
-        <p>Et on l'enregistre dans le cache</p>
+        <p>Et on l'enregistre dans le cache :</p>
         <pre class="lesspace">cache.put(name, val);</pre>
       </article>
       
@@ -1033,33 +1034,33 @@ Counter c = new ObjectifyDAO().ofy().query(Counter.class)
 <p class="small">fichier: com/moi/lepresident/Counter.java</p>
 <pre class="smallcode lesspace">
 public class Counter {
-	public static void increment(String name)
-	{
-		MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
-		Long val = cache.increment(name, 1);
-		if (val == null)
-		{
-			val = Counter.read(name);
-			if (val == null)
-				val = cache.increment(name, 1, 0L);
-			else
-				val++;
-		}
-		Counter.write(name, val);
-	}
-	static void write(String name, Long value)
-	{
-		Integer shard = new Random().nextInt(10);
-		new ObjectifyDAO().ofy().put(new Counter(name, shard, value));
-	}
+    public static void increment(String name)
+    {
+        MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+        Long val = cache.increment(name, 1);
+        if (val == null)
+        {
+            val = Counter.read(name);
+            if (val == null)
+                val = cache.increment(name, 1, 0L);
+            else
+                val++;
+        }
+        Counter.write(name, val);
+    }
+    static void write(String name, Long value)
+    {
+        Integer shard = new Random().nextInt(10);
+        new ObjectifyDAO().ofy().put(new Counter(name, shard, value));
+    }
 }
 </pre>
-<p>Utilisation : Counter.increment("+1");</p>
+<p>Utilisation : <code>Counter.increment("+1");</code></p>
 </div>      
         <h3>
           Incrémenter le compteur
         </h3>
-        <p>Le memcache possède une méthode increment() qui permet d'incrémenter une valeur de manière atomique<p>
+        <p>Le memcache possède une méthode <code>increment()</code> qui permet d'incrémenter une valeur de manière atomique<p>
         <pre class="lesspace">MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
 Long val = cache.increment(name, 1);</pre>
         <p>Si elle n'existe pas, on va la chercher dans la base et on l'incrémente</p>
@@ -1088,9 +1089,11 @@ new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
 
 &lt;form action="&lt;%= BlobstoreServiceFactory.getBlobstoreService().createUploadUrl("/upload") %&gt;" 
 	method="post" enctype="multipart/form-data"&gt;
-    &lt;label&gt;Nom du président : &lt;/label&gt;&lt;input type="text" name="name" placeholder="le nom du candidat gagnant"/&gt;
-    &lt;label&gt;Photo du président : &lt;/label&gt;&lt;input type="file" name="image"/&gt;
-   	&lt;input type="submit" value="Envoyer"/&gt;
+    &lt;label&gt;Nom du président : &lt;/label&gt;
+    &lt;input type="text" name="name" placeholder="le nom du candidat gagnant"/&gt;
+    &lt;label&gt;Photo du président : &lt;/label&gt;
+    &lt;input type="file" name="image"/&gt;
+    &lt;input type="submit" value="Envoyer"/&gt;
 &lt;/form&gt;
 </pre>
       </div>
@@ -1098,12 +1101,12 @@ new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
           ?. Créez un formulaire d'upload
         </h3>
         <div class="screenshot-left" style="margin-right: 25px;">
-        	<img  src="images/scrshot_formulaire_envoie.png" width="350px"/>
+        	<img  src="images/scrshot_formulaire_envoie.png" width="300px"/>
         </div>
         <div style="margin-top:20px;">
-        <p>Balise &lt;input type="file" /&gt;</p>
-        <p>Envoyez le formulaire avec la méthode POST et type d'encodage multipart/form-data</p>
-        <p>L'url d'envoi du formulaire nous est donné par App Engine</p>
+        <p>Balise <code>&lt;input type="file"/&gt;</code></p>
+        <p>Envoyez le formulaire avec la méthode POST et un encodage <code>multipart/form-data</code></p>
+        <p>L'url d'envoi du formulaire nous est donné par App Engine :</p>
 <pre>
 BlobstoreService blobservice = BlobstoreServiceFactory
 	.getBlobstoreService();
@@ -1119,6 +1122,7 @@ blobservice.createUploadUrl("/upload");
 <p>fichier: admin.jsp</p>
 <pre class="smallcode lesspace">
 package com.moi.lepresident;
+
 import java.io.IOException;
 import java.util.*;
 import javax.servlet.ServletException;
@@ -1128,20 +1132,21 @@ import com.google.appengine.api.images.ImagesServiceFactory;
 import com.googlecode.objectify.ObjectifyService;
 
 public class UploadServlet extends HttpServlet {
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Map<String, List<BlobKey>> blobs = 
-			BlobstoreServiceFactory.getBlobstoreService().getUploads(req);
-		President president = new President();
-		president.image = ImagesServiceFactory.getImagesService()
-			.getServingUrl(blobs.get("image").get(0));
-		president.name = req.getParameter("name");
-		ObjectifyService.begin().put(president);
-		resp.sendRedirect("/");
-	}
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+                        throws ServletException, IOException {
+        Map&lt;String, List&lt;BlobKey&gt;&gt; blobs = 
+            BlobstoreServiceFactory.getBlobstoreService().getUploads(req);
+        President president = new President();
+        president.image = ImagesServiceFactory.getImagesService()
+            .getServingUrl(blobs.get("image").get(0));
+        president.name = req.getParameter("name");
+        ObjectifyService.begin().put(president);
+        resp.sendRedirect("/");
+    }
 }
 </pre>
-<p>Ne pas oublier d'ajouter la servlet dans le fichier web.xml</p>
+<p>Ne pas oublier d'ajouter la servlet dans le fichier <code>web.xml</code></p>
       </div>
         <h3>
           ?. Créez la servlet d'enregistrement
@@ -1178,15 +1183,19 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
 <pre class="smallcode lesspace">
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;appengine-web-app xmlns=&quot;http://appengine.google.com/ns/1.0&quot;&gt;
-    &lt;!-- Le nom de votre ApplicationId sur http://appengine.google.com --&gt;
-  &lt;application&gt;lepresidentest&lt;/application&gt;Deployer sur App Engine
-  &lt;!-- Version de votre application, cela peut etre un texte (alpha, beta, etc...) --&gt;
-  &lt;version&gt;1&lt;/version&gt;
-  ...
+      &lt;!-- Le nom de votre ApplicationId sur http://appengine.google.com --&gt;
+    &lt;application&gt;lepresiden-test&lt;/application&gt;
+      &lt;!-- Version de votre application, cela peut etre un texte (alpha, beta, etc...) --&gt;
+    &lt;version&gt;1&lt;/version&gt;
+    ...
   
 &lt;/appengine-web-app&gt;
-  
 </pre>
+<p>Détails sur le <a href="https://developers.google.com/appengine/docs/java/config/appconfig">contenu de appengine-web.xml</a>.</p>
+<p>
+    Configuration également possible au travers des propriétés du projet :
+    <img src="images/appengine-nameapp.png" width="450" align="right"/>
+</p>
 
       </div>
         <h3>
@@ -1194,7 +1203,7 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
         </h3>
         <ul>
          <li>Créer un identifiant pour votre application sur <a href="http://appengine.google.com" target="_blank" onclick="noop()">http://appengine.google.com/</a></li>
-         <li>Configuer le projet via le fichier appengine-web.xml : en mettant l'identifiant de l'application, un numero de version.</li>
+         <li>Configuer le projet via le fichier <code>appengine-web.xml</code> : en mettant l'identifiant de l'application, un numero de version.</li>
          <li>Cliquer sur déployer...</li>
         </ul>
 
