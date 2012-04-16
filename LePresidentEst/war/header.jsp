@@ -40,9 +40,6 @@
               <li class="">
                 <a href="/comments.jsp">Commentaires</a>
               </li>
-              <li class="">
-                <a href="/news.jsp">Actualités</a>
-              </li>
               <li class="divider-vertical"></li>
 <%
     UserService userService = UserServiceFactory.getUserService();

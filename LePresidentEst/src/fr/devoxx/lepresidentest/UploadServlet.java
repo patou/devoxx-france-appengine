@@ -26,10 +26,13 @@ public class UploadServlet extends HttpServlet {
                 ImagesService imagesService = ImagesServiceFactory.getImagesService();
                 //On récupère les clés du blobstore
                 Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
+                //On crée un nouveau Président
                 President president = new President();
                 president.image = imagesService.getServingUrl(blobs.get("image").get(0));
                 president.name = req.getParameter("name");
+                //On L'enregistre
                 ObjectifyService.begin().put(president);
+                //On retourne à la page d'acceuil
                 resp.sendRedirect("/");
         }
 }

@@ -54,6 +54,10 @@
     <handler file="errors.html"/>
   </static-error-handlers>
   
+  <!-- Activation -->
+	<inbound-services>
+		<service>mail</service>
+	</inbound-services>
 
   <!--
   Par défaut, App Engine envoie les réquête à la suite à un server web. 

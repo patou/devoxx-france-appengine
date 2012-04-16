@@ -11,24 +11,21 @@ import com.googlecode.objectify.ObjectifyService;
 
 import fr.devoxx.lepresidentest.entity.President;
 
+@SuppressWarnings("serial")
 public class ReleaseDateCron extends HttpServlet {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4119453875625910502L;
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		President president = new President();
-		president.name = "Sarkozy";
-		president.image = "/images/sarkozy.png";
+		//On réccupére le premier Président
+		President president = ObjectifyService.begin().query(President.class).get();
+		//Si il existe pas, on le crée
+		if (president == null) {
+			president = new President();
+			president.name = "Sarkozy";
+			president.image = "/images/sarkozy.png";
+		}
+		//On active le président
+		president.active = true;
+		//On enregistre le tout
 		ObjectifyService.begin().put(president);
-//		List<President> list = ObjectifyService.begin().query(President.class).limit(1).list();
-//		if (list.size() == 1) {
-//			President president = list.get(0);
-//			president.active = true;
-//			ObjectifyService.begin().put(president);
-//		}
 	}
 }

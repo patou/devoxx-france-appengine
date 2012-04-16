@@ -16,21 +16,24 @@
     <%}
     else
     {
+    	//Ajouter un nouveau commentaire
         String newcomment = request.getParameter("user-comment");
-        if (newcomment != null) {
-        	Comment.store(newcomment, user.getEmail());
+        if (newcomment != null && !newcomment.isEmpty()) {
+        	Comment.store(newcomment, user.getNickname());
         }
         for (Comment comment : Comment.retrieveAll()) {
+        	//On échape les caractères 
             String commentext = comment.text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
 %>
-        <p><b><%=comment.user%>:</b> <%=commentext%></p>
+        <p><b><%=comment.user%> :</b> <%=commentext%></p>
     <% } %>
         <form action="" method="post">
             <textarea name="user-comment"></textarea><br/>
             <input type="submit" value="c'est mon avis" />
             <!-- lien de déconnexion -->
-            <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">déconnexion</a>
         </form>
+        <p>Ou envoyez un mail à <a href="mailto:commentaires@electionfr2012.appspotmail.com?subject=Commentaire">commentaires@electionfr2012.appspotmail.com</a></p>
+        <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Déconnexion</a>
 <% } %>
 </div>
 <jsp:include page="footer.jsp"></jsp:include>
