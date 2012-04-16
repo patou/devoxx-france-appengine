@@ -1227,6 +1227,53 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
       		<h2>Recevoir et envoyer des emails</h2>
       		<p>Ajouter un commentaire par email</p>
       </article>
+      
+<!-- ------------------------------------------------------------------------------- -->
+<!-- Security Contraint Administration -->
+
+      	  <article id="art33" onclick="move('art33')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: com/moi/lepresident/MailHandlerServlet.java</p>
+<pre class="smallcode lesspace">
+package fr.devoxx.lepresidentest;
+import java.util.Properties;
+import javax.mail.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class MailHandlerServlet extends HttpServlet { 
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws Exception { 
+        Properties props = new Properties(); 
+        Session session = Session.getDefaultInstance(props, null); 
+        MimeMessage message = new MimeMessage(session, req.getInputStream());
+        Comment.store((String)((Multipart)message.getContent()).getBodyPart(0).getContent()
+            , ((InternetAddress)message.getFrom()[0]).getAddress());
+        Message reply = message.reply(false);
+        reply.setFrom(new InternetAddress("commentaires@electionfr2012.appspotmail.com"));
+        reply.setText("Merci pour votre commentaire");
+        Transport.send(reply);
+    }
+}
+</pre>
+      </div>
+        <h3>
+          18. Recevoir un mail
+        </h3>
+        
+        <div style="margin-top:20px;">
+        <p>Indiquez que l'application peut recevoir des mails sur <u>nom@id_application.appspotmail.com</u></p>
+<pre class="smallcode lesspace">&lt;inbound-services&gt;
+      &lt;service&gt;mail&lt;/service&gt;
+&lt;/inbound-services&gt;</pre>
+        <p>Créer une servlet mappé sur l'URL /_ah/mail/*</p>
+        <p>Lire le contenu du mail : </p>
+<pre class="smallcode lesspace">Properties props = new Properties(); 
+Session session = Session.getDefaultInstance(props, null); 
+MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
+        </div>
+      </article>
  
  <!-- slide : deployer -->
       <article id="title11"> 
@@ -1273,15 +1320,7 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
 
 <!-- ------------------------------------------------------------------------------- -->
 
- 
-<!-- slide finale: chrome -->
-      <article>
-        
-        <p style="text-align: center; font-size: 4em; margin-top: 160px; color: #777777">
-        <img height="200px;" src="images/chrome.png" style="vertical-align: -30%"/> chrome
-        </p>
-        
-      </article>
+
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide finale: contact info -->
       <article>
