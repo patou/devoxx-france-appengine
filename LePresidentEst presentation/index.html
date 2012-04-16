@@ -29,6 +29,9 @@
 	{
 		-webkit-transform: rotateY(175deg) rotateX(-5deg) translateZ(-50px) !important;
 		-webkit-transition: 1s;
+		
+		-moz-transform: rotateY(175deg) rotateX(-5deg) translateZ(-50px) !important;
+		-moz-transition: 1s;
 	}
 	.bookparagraph
 	{
@@ -43,7 +46,12 @@
 		left: 0px;
 		width: 100%;
 		height: 100%;
+		
 		-webkit-transform-style: preserve-3d;
+		-moz-transform-style: preserve-3d;
+		
+		-moz-backface-visibility: hidden;
+		
 		overflow: visible !important; /* bug with overflow=hidden and 3D  */
 	}
 
@@ -56,8 +64,14 @@
 		left: 1%;
 		opacity: 0.97;
 		background-color: white;
+		
 		-webkit-transform-style: preserve-3d;
 		-webkit-transform: rotateY(180deg) translateZ(5px);
+		
+		-moz-transform-style: preserve-3d;
+		-moz-transform: rotateY(180deg) translateZ(5px);
+		
+		-moz-backface-visibility: hidden;
 	}
     
     table.table-noborders tr td
@@ -151,7 +165,7 @@
 
   <body style='display: none; '>
 
-    <section class='slides layout-regular template-default' style="-webkit-perspective: 1000px;">
+    <section class='slides layout-regular template-default' style="-webkit-perspective: 1000px; -moz-perspective: 1000px;">
       
       <!-- Your slides (<article>s) go here. Delete or comment out the
            slides below. -->
@@ -165,7 +179,10 @@
 			position: absolute;
 			width: 100%;
 			top: 50px;
+			
 			-webkit-transform: translateZ(-80px);
+			-moz-transform: rotateY(180Deg) translateZ(-80px);
+			-moz-backface-visibility: hidden;
 		}
 		div#candidats img
 		{
@@ -178,6 +195,8 @@
 			color: rgb(200,200,200);
 			
 			-webkit-transform:  translateZ(-200px) rotateY(180deg);
+			-moz-transform:  translateZ(-200px) rotateY(180deg);
+			-moz-backface-visibility: hidden;
 		}
 		div.qmark#q1 { top: 260px; left: 240px; }
 		div.qmark#q2 { top: 280px; left: 680px; }
@@ -185,9 +204,9 @@
 		
 	</style>
 	<article id="art1" onclick="move('art1')" class="slide3d">
-	<div class="backslide3d"></div>
+	<div class="backslide3d">&nbsp;</div>
 	
-	 <div style="position: absolute; top: 30px; left: 520px; -webkit-transform:  translateZ(5px)"><img style="width:350px" src="images/appengine.png" /></div>
+	 <div style="position: absolute; top: 30px; left: 520px; -webkit-transform:  translateZ(5px); -moz-transform:  translateZ(5px); -moz-backface-visibility: hidden;"><img style="width:350px" src="images/appengine.png" /></div>
 	 <h1>
 	   Le président est...
 	 </h1>
@@ -213,9 +232,13 @@
 		<div class="qmark" id="q3">?</div>
 	</article>
 
+
+<!-- ------------------------------------------------------------------------------- -->
+<!-- 1bis. Projet et prérequis -->
+
 	<article id="art1bis" onclick="move('art1bis')" class="slide3d">
 	<div class="backslide3d">
-	<img src="images/appengine.png" style="width:175px; position:absolute; top:240px; left:340px; -webkit-transform:translateZ(200px)"/>
+	<img src="images/appengine.png" style="width:175px; position:absolute; top:240px; left:340px; -webkit-transform:translateZ(200px); -moz-transform:translateZ(200px); -moz-backface-visibility: hidden;"/>
 	 
 	<p style="margin:30px">
 		Pour ceci vous disposez d'une plateforme, AppEngine et d'experts pour vous guider.
@@ -324,7 +347,7 @@ public class LePresidentServlet extends HttpServlet
 <!-- Passons en JSP -->
 
 	  <article id="art3" onclick="move('art3')" class="info slide3d">
-	  <div class="backslide3d"></div>
+	  <div class="backslide3d">&nbsp;</div>
         <h3 class="info">
           Passons en JSP.<br/>JSP c'est comme du HTML, mais on peut:
         </h3>
@@ -491,11 +514,7 @@ userService.createLogoutURL("myTargetURL");
 <!-- datastore explanation -->
 
       <article id="art6b" onclick="move('art6b')" class="slide3d info" >
-	<p>
-		
-	</p>
-	<div class="backslide3d">
-	</div>
+	  <div class="backslide3d">&nbsp;	</div>
       <h3 class="info">High Replication Datastore:<br/>réplication, accès simultanés, montée en charge</h3>
 		<img style="float: left; padding: 10px; margin-right: 25px; margin-top: 15px; background-color: white; border: 1px solid grey" height="420px" src="images/datastore.svg" />        
         <p style="margin-top: 50px;">Organisation à peu près comme en XML.</p>
@@ -532,8 +551,7 @@ userService.createLogoutURL("myTargetURL");
 	}
 </style>
     <article id="art6c" onclick="move('art6c')" class="slide3d info" >
-	<div class="backslide3d">
-	</div>
+	<div class="backslide3d">&nbsp;	</div>
       <h3 class="info">Architecture d'application sur App Engine</h3>
       
 		<div class="archimage">
