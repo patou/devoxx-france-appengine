@@ -8,6 +8,7 @@ public class President {
 	public String name;
 	public String image;
 	public boolean active;
+	
 
 	public static President getPresident() {
 		return new ObjectifyDAO().ofy().query(President.class).filter("active", true).get();

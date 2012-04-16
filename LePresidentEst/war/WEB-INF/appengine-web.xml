@@ -15,6 +15,7 @@
         <include path="/**.js" expiration="30d" />
         <include path="/**.css" expiration="30d" />
         <include path="/**.html" expiration="3d" />
+        <include path="/**.ico" expiration="3d" />
    </static-files>
     
   <!-- Fichier à mettre en tant que resource de la application, donc les fichiers qui sont accèssible depuis l'application, 
