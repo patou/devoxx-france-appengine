@@ -10,8 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.devoxx.lepresidentest.entity.Counter;
 
+/**
+ * Incrémente le vote
+ * L'URL est de la forme /vote/nom_compteur (IE : /vote/+1 et /vote/-1)
+ * Incrémente le compteur en fonction de son nom, puis redirige vers la première page
+ * @author sfeir
+ *
+ */
+@SuppressWarnings("serial")
 public class VoteServlet extends HttpServlet {
-	private static final long serialVersionUID = 4146977531107161426L;
 	Logger log = Logger.getLogger(VoteServlet.class.getName());
 
 	@Override

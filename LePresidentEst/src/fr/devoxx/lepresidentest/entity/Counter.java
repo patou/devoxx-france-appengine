@@ -7,6 +7,11 @@ import javax.persistence.Id;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
+/**
+ * Counter partagé.
+ * @author sfeir
+ *
+ */
 public class Counter {
 	public Counter() {
 	}
@@ -18,6 +23,10 @@ public class Counter {
 		key = name + "_shard" + shard.toString();
 	}
 
+	/**
+	 * Incrémente le compteur directement dans la mémoire cache, puis stocke la valeur dans la base
+	 * @param name
+	 */
 	public static void increment(String name)
 	{
 		MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
@@ -33,6 +42,12 @@ public class Counter {
 		Counter.write(name, val);
 	}
 
+	/**
+	 * Récupère la valeur du compteur
+	 * Regarde si la valeur est dans le cache mémoire sinon va calculer la valeur du compteur et la stocker dans le cache 
+	 * @param name
+	 * @return
+	 */
 	public static Long value(String name)
 	{
 		MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
@@ -45,6 +60,11 @@ public class Counter {
 		return val;
 	}
 
+	/**
+	 * On cherche le compteur du nom donnée avec la valeur maximum.
+	 * @param name
+	 * @return
+	 */
 	static Long read(String name)
 	{
 		ObjectifyDAO dao = new ObjectifyDAO();
@@ -52,6 +72,11 @@ public class Counter {
 		return (c == null ? 0L : c.value);
 	}
 
+	/**
+	 * Stocke la valeur dans un compteur en choisissant un compteur aléatoire sur les 10 compteurs
+	 * @param name
+	 * @param value
+	 */
 	static void write(String name, Long value)
 	{
 		Random r = new Random();
@@ -60,8 +85,17 @@ public class Counter {
 		dao.ofy().put(new Counter(name, shard, value));
 	}
 
+	/**
+	 * Clé du compteur composé du nom et du numéro aléatoire
+	 */
 	@Id
 	String key;
+	/**
+	 * Nom du compteur
+	 */
 	String name;
+	/**
+	 * Valeur du compteur
+	 */
 	Long value;
 }

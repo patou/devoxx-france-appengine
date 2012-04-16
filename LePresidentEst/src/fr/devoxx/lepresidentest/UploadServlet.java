@@ -18,6 +18,11 @@ import com.googlecode.objectify.ObjectifyService;
 
 import fr.devoxx.lepresidentest.entity.President;
 
+/**
+ * Upload d'une image, et stockage du nom et de l'URL de l'image dans une entité President
+ * @author sfeir
+ *
+ */
 @SuppressWarnings("serial")
 public class UploadServlet extends HttpServlet {
         @Override

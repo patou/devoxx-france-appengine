@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.googlecode.objectify.annotation.Unindexed;
 
 public class Comment implements Serializable {
 	private static final long serialVersionUID = 8930256812773415265L;
@@ -15,6 +16,7 @@ public class Comment implements Serializable {
 	Long id;
 	Date date;
 	public String user;
+	@Unindexed
 	public String text;
 
 	public Comment() {

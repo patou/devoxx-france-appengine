@@ -11,6 +11,11 @@ import com.googlecode.objectify.ObjectifyService;
 
 import fr.devoxx.lepresidentest.entity.President;
 
+/**
+ * Tache planifié qui active le Président en cours
+ * @author sfeir
+ *
+ */
 @SuppressWarnings("serial")
 public class ReleaseDateCron extends HttpServlet {
 	@Override

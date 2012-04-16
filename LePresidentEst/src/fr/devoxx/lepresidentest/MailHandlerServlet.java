@@ -16,6 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.devoxx.lepresidentest.entity.Comment;
 
+/**
+ * Reception d'un mail, réccupère le mail de l'envoyeur, et le contenu du message.
+ * Ajoute le commentaire, et réponds au mail pour indiquer le succès de l'ajout
+ * @author sfeir
+ *
+ */
 @SuppressWarnings("serial")
 public class MailHandlerServlet extends HttpServlet { 
     public void doPost(HttpServletRequest req, 
@@ -36,10 +42,23 @@ public class MailHandlerServlet extends HttpServlet {
 		}
     }
 
+    /**
+     * Récupère le contenu du Message : Le type du contenue est du Type Multipart, on récupère ensuite le contenu de la première partie
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws MessagingException
+     */
 	public String getContent(MimeMessage message) throws IOException, MessagingException {
 		return (String)((Multipart)message.getContent()).getBodyPart(0).getContent();
 	}
 
+	/**
+	 * Récupère le nom de l'envoyeur si il existe, sinon l'email
+	 * @param message
+	 * @return
+	 * @throws MessagingException
+	 */
 	public String getUser(MimeMessage message) throws MessagingException {
 		InternetAddress email = (InternetAddress)message.getFrom()[0];
 		return email.getPersonal() != null ? email.getPersonal() : email.getAddress();

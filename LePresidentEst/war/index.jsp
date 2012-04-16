@@ -6,13 +6,14 @@
   	<h1>Le président est ...</h1>
   	<%
   	President president = President.getPresident();
+  	//Si le président est actif
   	if (president != null) {
   	%>
   	<img src="<%= president.image %>" />
   	<h2>
   	<%= president.name %>
 	</h2>
-  	<% } else { %>
+  	<% } else { //Sinon affiche une image %>
   	<img src="presidents.png" />
   	<div class="alert span6">
 			<a class="close" data-dismiss="alert">×</a>
@@ -21,7 +22,8 @@
 	<% } %>
 	<div class="row">
   		<a class="btn btn-primary btn-large" href="/vote/+1">+1</a>
-		<% out.print(Counter.value("+1") - Counter.value("-1")); %>
+		<% //Calcule du compteur en récupérant la valeur "+1" - la valeur "-1" 
+		out.print(Counter.value("+1") - Counter.value("-1")); %>
 		<a class="btn btn-primary btn-large" href="/vote/-1">-1</a>
 	</div>
 </div>
