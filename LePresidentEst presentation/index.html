@@ -838,7 +838,7 @@ public class President {
 </pre>
 </div>
         <h3>
-          ?. Afficher sur la page d'accueil. 
+          8. Afficher sur la page d'accueil. 
         </h3>
         
         <div style="margin-top:15px;">
@@ -861,7 +861,7 @@ public class President {
 
       	  <article id="art22" onclick="move('art22')" class="slide3d" > 
       <div class="backslide3d">
-<p>fichier: src/com/moi/lepresident/President.java</p>
+<p>fichier: src/com/moi/lepresident/CronServlet.java</p>
 <pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
 package com.moi.lepresident;
 import java.io.IOException;
@@ -872,14 +872,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.googlecode.objectify.ObjectifyService;
 
 public class CronServlet extends HttpServlet {
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		President president = new President();
-		president.name = "Sarkozy";
-		president.image = "/images/sarkozy.png";
-		president.active = true;
-		ObjectifyService.begin().put(president);
-	}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        President president = new President();
+        president.name = "Sarkozy";
+        president.image = "/images/sarkozy.png";
+        president.active = true;
+        ObjectifyService.begin().put(president);
+    }
 }
 </pre>
 <p>Ajouter dans le fichier web.xml</p>
@@ -895,7 +895,7 @@ public class CronServlet extends HttpServlet {
 </pre>
       </div>
         <h3>
-          ?. Créer la tâche planifié
+          9. Créer la tâche planifié
         </h3>
         
         <div style="margin-top:20px;">
@@ -932,7 +932,7 @@ ObjectifyService.begin().put(president);
 <p>On indique le fuseau horaire de Paris, pour activer le président le 6 mai à 20h précise en France et non l'heure GMT !</p>
       </div>
         <h3>
-          ?. Configurer le cron dans App Egnine
+          10. Configurer le cron dans App Egnine
         </h3>
         
         <div style="margin-top:20px;">
@@ -954,6 +954,7 @@ ObjectifyService.begin().put(president);
         </div>
       </article>
 
+
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide Tasks Queue -->
       
@@ -964,7 +965,7 @@ ObjectifyService.begin().put(president);
       
       <article id="art25"> 
         <h3>
-          Implémenter un compteur partagé
+          11. Implémenter un compteur partagé
         </h3>
         <ul>
          <li>le compteur est implémenté dans le cache en utilisant la fonction <code>increment()</code> qui permet une incrémentation atomique
@@ -1012,7 +1013,7 @@ public class Counter {
 <p>Utilisation : <code>Counter.value("+1");</code></p>
 </div>
         <h3>
-          Lire le compteur
+          12. Lire le compteur
         </h3>
         <p>On regarde dans le cache si le compteur existe, si oui on retourne simplement la valeur :</p>
         <pre class="lesspace">MemcacheService cache = MemcacheServiceFactory.getMemcacheService()
@@ -1055,7 +1056,7 @@ public class Counter {
 <p>Utilisation : <code>Counter.increment("+1");</code></p>
 </div>      
         <h3>
-          Incrémenter le compteur
+          13. Incrémenter le compteur
         </h3>
         <p>Le memcache possède une méthode <code>increment()</code> qui permet d'incrémenter une valeur de manière atomique<p>
         <pre class="lesspace">MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
@@ -1065,6 +1066,30 @@ Long val = cache.increment(name, 1);</pre>
         <pre class="lesspace">Integer shard = new Random().nextInt(10);
 new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
       </article>
+      
+            <article id="art28" onclick="move('art28')" class="slide3d">
+      <div class="backslide3d">
+<p class="small">fichier: war/WEB-INF/appengine/datastore-indexes.xml</p>
+<pre class="smallcode lesspace">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;datastore-indexes autoGenerate="false"&gt;
+     &lt;datastore-index kind="Counter" ancestor="false" source="manual"&gt;
+         &lt;property name="name" direction="asc"/&gt;
+         &lt;property name="value" direction="desc"/&gt;
+    &lt;/datastore-index&gt;
+&lt;/datastore-indexes&gt;
+</pre>
+<p>Le SDK autogénère ce fichier dans le le répertoire <code>war/WEB-INF/appengine-generated/datastore-indexes-auto.xml</code> à copier dans <code>war/WEB-INF/appengine/datastore-indexes.xml</code></p>
+</div>      
+        <h3>
+          14. Ajouter un index multiple sur une entité
+        </h3>
+        <p>Le datastore utilise uniquement les index pour chaque requête<p>
+        <p>Un index simple est créé pour chaque propriété, si l'on ne veux pas indéxer une propriété, il faut ajouter l'annotation objectify <code>@Unindexed</code><p>
+        <p>Si l'on fait une recherche sur plus d'une propriété (colonne de trie comprise), il faut créer un index pour chaques combinaisons.</p>
+        <p>Pour notre compteur, il nous faut un index combiné avec "name", et "value" DESC</p>
+        
+</article>
       
 
 <!-- ------------------------------------------------------------------------------- -->
@@ -1095,7 +1120,7 @@ new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
 </pre>
       </div>
         <h3>
-          ?. Créez un formulaire d'upload
+          15. Créez un formulaire d'upload
         </h3>
         <div class="screenshot-left" style="margin-right: 25px;">
         	<img  src="images/scrshot_formulaire_envoie.png" width="300px"/>
@@ -1146,7 +1171,7 @@ public class UploadServlet extends HttpServlet {
 <p>Ne pas oublier d'ajouter la servlet dans le fichier <code>web.xml</code></p>
       </div>
         <h3>
-          ?. Créez la servlet d'enregistrement
+          16. Créez la servlet d'enregistrement
         </h3>
         
         <div style="margin-top:15px;">
@@ -1166,6 +1191,42 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
         </div>
       </article>
  
+ <!-- ------------------------------------------------------------------------------- -->
+<!-- Security Contraint Administration -->
+
+      	  <article id="art32" onclick="move('art32')" class="slide3d" > 
+      <div class="backslide3d">
+<p>fichier: war/WEB-INF/web.xml</p>
+<pre class="smallcode lesspace">
+&lt;security-constraint&gt;
+	&lt;web-resource-collection&gt;
+		&lt;url-pattern&gt;/ReleaseDate&lt;/url-pattern&gt;
+		&lt;url-pattern&gt;/admin.jsp&lt;/url-pattern&gt;
+		&lt;url-pattern&gt;/upload&lt;/url-pattern&gt;
+	&lt;/web-resource-collection&gt;
+	&lt;auth-constraint&gt;
+		&lt;role-name&gt;admin&lt;/role-name&gt;
+	&lt;/auth-constraint&gt;
+&lt;/security-constraint&gt;
+</pre>
+      </div>
+        <h3>
+          17. Protéger les URLs accessibles par les administrateurs
+        </h3>
+        
+        <div style="margin-top:20px;">
+        <p>Il suffit d'ajouter une security contraint dans le fichier web.xml</p>
+        <p>Indiquez le role : <strong>admin</strong></p>
+        <p>La verification est faite automatiquement</p>
+        <p>Les tâches planifiés sont lancé par Google App Engine en mode administrateur</p>
+        </div>
+      </article>
+ 
+ <!-- slide : deployer -->
+      <article id="title10"> 
+      		<h2>Recevoir et envoyer des emails</h2>
+      		<p>Ajouter un commentaire par email</p>
+      </article>
  
  <!-- slide : deployer -->
       <article id="title11"> 
