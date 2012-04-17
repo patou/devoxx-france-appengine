@@ -845,7 +845,7 @@ public class President {
         <div class="screenshot-left" style="margin-right: 25px;">
         <img  src="images/scrshot_display_presidents.png" width="200px"/>
         </div>
-        <p>Créez une entité President, avec un nom, l'url d'une image et un boolean qui indique si l'on doit afficher le président</p>
+        <p>Créez une entité President, avec un nom, l'url d'une image et un booléen qui indique si l'on doit afficher le président</p>
         <p>Si un président est actif, afficher sa photo et son image.</p>
 <pre class="smallcode lesspace">
 &lt;% President president = new Dao().ofy()
@@ -853,7 +853,7 @@ public class President {
 &lt;img src="&lt;%= president.image %&gt;" /&gt;
 &lt;h2&gt;&lt;%= president.name %&gt;&lt;/h2&gt;
 </pre>
-        <p>Sinon affichez une image par défaut et un message indiquant que le président ne sera annoncé qu'à partir du 6 mai à 20h00:</p>		
+        <p>Sinon affichez une image par défaut et un message indiquant que le président ne sera annoncé qu'à partir du 6 mai à 20h00.</p>		
         </div>
       </article>
       
@@ -895,11 +895,11 @@ public class CronServlet extends HttpServlet {
 </pre>
       </div>
         <h3>
-          9. Créer la tâche planifié
+          9. Créer la tâche planifiée
         </h3>
         
         <div style="margin-top:20px;">
-        <p>Créez une Servlet, qui crée une entité President et l'activez</p>
+        <p>Créer une Servlet, qui crée une entité President et l'active</p>
 <pre class="smallcode lesspace">
 President president = new President();
 president.name = "Sarkozy";
@@ -936,7 +936,7 @@ ObjectifyService.begin().put(president);
         </h3>
         
         <div style="margin-top:20px;">
-        <p>La gestion des crons est simple dans Google AppEngine, il suffit de créer un fichier <code>cron.xml</code> dans <code>WEB-INF</code> et d'indiquer l'url de la tâche planifié, et la période de répétition</p>
+        <p>La gestion des crons est simple dans Google AppEngine, il suffit de créer un fichier <code>cron.xml</code> dans <code>WEB-INF</code> et d'indiquer l'url de la tâche planifiée, et la période de répétition.</p>
         <p>Voici les balises XML à insérer :</p>
         <code>
 &lt;<strong>cronentries</strong>&gt;
@@ -944,7 +944,7 @@ ObjectifyService.begin().put(president);
 		&lt;<strong>cron</strong>&gt;
 		<div style="margin-left: 20px;">
 			<div>&lt;<strong>url</strong>&gt; <em>Url de la tâche planifiée</em></div>
-			<div>&lt;<strong>schedule</strong>&gt; <em>Période de répétition (every days, 1 of Jan, May 02:30, every 5 mins)</em></div>
+			<div>&lt;<strong>schedule</strong>&gt; <em>Période de répétition (every day, 1 of Jan, May 02:30, every 5 mins)</em></div>
 			<div>&lt;<strong>timezone</strong>&gt; <em>Fuseau horaire</em></div>
 		</div>
 		&lt;/<strong>cron</strong>&gt;
@@ -1062,7 +1062,7 @@ public class Counter {
         <pre class="lesspace">MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
 Long val = cache.increment(name, 1);</pre>
         <p>Si elle n'existe pas, on va la chercher dans la base et on l'incrémente</p>
-        <p>Puis on sauvegarde la valeur actuelle dans un des compteur aléatoire</p>
+        <p>Puis on sauvegarde la valeur actuelle dans un des compteurs aléatoires</p>
         <pre class="lesspace">Integer shard = new Random().nextInt(10);
 new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
       </article>
@@ -1086,7 +1086,7 @@ new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
         </h3>
         <p>Le datastore utilise uniquement les index pour chaque requête<p>
         <p>Un index simple est créé pour chaque propriété, si l'on ne veux pas indéxer une propriété, il faut ajouter l'annotation objectify <code>@Unindexed</code><p>
-        <p>Si l'on fait une recherche sur plus d'une propriété (colonne de trie comprise), il faut créer un index pour chaques combinaisons.</p>
+        <p>Si l'on fait une recherche sur plus d'une propriété (colonne de tri comprise), il faut créer un index pour chaque combinaison.</p>
         <p>Pour notre compteur, il nous faut un index combiné avec "name", et "value" DESC</p>
         
 </article>
@@ -1128,7 +1128,7 @@ new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
         <div style="margin-top:20px;">
         <p>Balise <code>&lt;input type="file"/&gt;</code></p>
         <p>Envoyez le formulaire avec la méthode POST et un encodage <code>multipart/form-data</code></p>
-        <p>L'url d'envoi du formulaire nous est donné par App Engine :</p>
+        <p>L'url d'envoi du formulaire nous est donnée par App Engine :</p>
 <pre>
 BlobstoreService blobservice = BlobstoreServiceFactory
 	.getBlobstoreService();
@@ -1187,12 +1187,12 @@ BlobKey key = blobs.get("image").get(0);
 <pre class="lesspace">
 ImagesServiceFactory.getImagesService().getServingUrl(key);
 </pre>
-<p>N'oubliez pas de changer la tâche planifié !</p>
+<p>N'oubliez pas de changer la tâche planifiée !</p>
         </div>
       </article>
  
  <!-- ------------------------------------------------------------------------------- -->
-<!-- Security Contraint Administration -->
+<!-- Security Constraint Administration -->
 
       	  <article id="art32" onclick="move('art32')" class="slide3d" > 
       <div class="backslide3d">
@@ -1215,14 +1215,14 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
         </h3>
         
         <div style="margin-top:20px;">
-        <p>Il suffit d'ajouter une security contraint dans le fichier web.xml</p>
+        <p>Il suffit d'ajouter une contrainte de sécurité dans le fichier web.xml</p>
         <p>Indiquez le role : <strong>admin</strong></p>
-        <p>La verification est faite automatiquement</p>
-        <p>Les tâches planifiés sont lancé par Google App Engine en mode administrateur</p>
+        <p>La vérification est faite automatiquement</p>
+        <p>Les tâches planifiées sont lancées par Google App Engine en mode administrateur</p>
         </div>
       </article>
  
- <!-- slide : deployer -->
+ <!-- slide : déployer -->
       <article id="title10"> 
       		<h2>Recevoir et envoyer des emails</h2>
       		<p>Ajouter un commentaire par email</p>
@@ -1263,7 +1263,7 @@ public class MailHandlerServlet extends HttpServlet {
         </h3>
         
         <div style="margin-top:20px;">
-        <p>Indiquez que l'application peut recevoir des mails sur <u>nom@id_application.appspotmail.com</u></p>
+        <p>Indiquez que l'application peut recevoir des mails sur <span class="u">nom@id_application.appspotmail.com</span></p>
 <pre class="smallcode lesspace">&lt;inbound-services&gt;
       &lt;service&gt;mail&lt;/service&gt;
 &lt;/inbound-services&gt;</pre>
@@ -1278,7 +1278,7 @@ MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
  <!-- slide : deployer -->
       <article id="title11"> 
       		<h2>Yakakliker...</h2>
-      		<p>Deployer sur App Engine</p>
+      		<p>Déployer sur App Engine</p>
       </article>
 
       <article id="artTitle11" onclick="move('artTitle11')" class="slide3d" > 
@@ -1304,11 +1304,11 @@ MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
 
       </div>
         <h3>
-          Deployer sur App Engine
+          Déployer sur App Engine
         </h3>
         <ul>
          <li>Créer un identifiant pour votre application sur <a href="http://appengine.google.com" target="_blank" onclick="noop()">http://appengine.google.com/</a></li>
-         <li>Configuer le projet via le fichier <code>appengine-web.xml</code> : en mettant l'identifiant de l'application, un numero de version.</li>
+         <li>Configuer le projet via le fichier <code>appengine-web.xml</code> : en mettant l'identifiant de l'application, un numéro de version.</li>
          <li>Cliquer sur déployer...</li>
         </ul>
 
