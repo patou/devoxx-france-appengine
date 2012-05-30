@@ -19,61 +19,18 @@
     <meta charset='utf-8'>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <script type="text/javascript" src='slides.js'></script>
-    <script type="text/javascript" src="jsmove.js" ></script>
   </head>
   
   <style>
     /* Your individual styles here, or just use inline styles if that’s
        what you want. */
-    .slide3d.end
-	{
-		-webkit-transform: rotateY(175deg) rotateX(-5deg) translateZ(-50px) !important;
-		-webkit-transition: 1s;
-		
-		-moz-transform: rotateY(175deg) rotateX(-5deg) translateZ(-50px) !important;
-		-moz-transition: 1s;
-	}
-	.bookparagraph
+    
+    .bookparagraph
 	{
 		text-align: justify;
 		text-indent: 1.5em;
 	}
 	
-	.slide3d
-	{
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		width: 100%;
-		height: 100%;
-		
-		-webkit-transform-style: preserve-3d;
-		-moz-transform-style: preserve-3d;
-		
-		-moz-backface-visibility: hidden;
-		
-		overflow: visible !important; /* bug with overflow=hidden and 3D  */
-	}
-
-	.backslide3d
-	{
-		position: absolute;
-		width: 98%;
-		height: 98%;
-		top: 1%;
-		left: 1%;
-		opacity: 0.97;
-		background-color: white;
-		
-		-webkit-transform-style: preserve-3d;
-		-webkit-transform: rotateY(180deg) translateZ(5px);
-		
-		-moz-transform-style: preserve-3d;
-		-moz-transform: rotateY(180deg) translateZ(5px);
-		
-		-moz-backface-visibility: hidden;
-	}
-    
     table.table-noborders tr td
     {
     	border: none;
@@ -161,12 +118,19 @@
     {
     	text-decoration: underline;
     }
+    .togglebutton img {opacity:0.1; -webkit-transition: 0.3s; -moz-transition: 0.3s; -o-transition: 0.3s;}
+    .togglebutton img:hover {opacity:1;}
   </style>
 
   <body style='display: none; '>
 
-    <section class='slides layout-regular template-default' style="-webkit-perspective: 1000px; -moz-perspective: 1000px;">
-      
+    <section class='slides layout-regular template-default' style="-webkit-perspective: 1000px; -moz-perspective: 1000px; -o-perspective: 1000px;">
+
+<!-- 3D toggle button --> 
+ <div class="togglebutton">
+<img title="3d on/off" src="images/cube2.png" id="togglebutton1" onclick="toggle3D('togglebutton1')"/>
+</div> 
+   
       <!-- Your slides (<article>s) go here. Delete or comment out the
            slides below. -->
 
@@ -179,9 +143,13 @@
 			position: absolute;
 			width: 100%;
 			top: 50px;
+			left: 50px;
 			
-			-webkit-transform: translateZ(-80px);
-			-moz-transform: rotateY(180Deg) translateZ(-80px);
+			-webkit-transform: translateZ(80px);
+			-moz-transform: translateZ(80px);
+			-o-transform: translateZ(80px);
+			
+			/*bug on Firefox: this should not be needed*/
 			-moz-backface-visibility: hidden;
 		}
 		div#candidats img
@@ -194,32 +162,22 @@
 			position: absolute;
 			color: rgb(200,200,200);
 			
-			-webkit-transform:  translateZ(-200px) rotateY(180deg);
-			-moz-transform:  translateZ(-200px) rotateY(180deg);
-			-moz-backface-visibility: hidden;
+			-webkit-transform:  translateZ(200px);
+			-moz-transform:  translateZ(200px);
+			-o-transform:  translateZ(200px);
+			
+			/*bug on Firefox: this should not be needed*/
+		   -moz-backface-visibility: hidden;
 		}
 		div.qmark#q1 { top: 260px; left: 240px; }
 		div.qmark#q2 { top: 280px; left: 680px; }
 		div.qmark#q3 { top: 270px; left: 460px; }
 		
 	</style>
-	<article id="art1" onclick="move('art1')" class="slide3d">
-	<div class="backslide3d">&nbsp;</div>
-	
-	 <div style="position: absolute; top: 30px; left: 520px; -webkit-transform:  translateZ(5px); -moz-transform:  translateZ(5px); -moz-backface-visibility: hidden;"><img style="width:350px" src="images/appengine.png" /></div>
-	 <h1>
-	   Le président est...
-	 </h1>
-	 &nbsp;
-	 <h3>
-	   Un exercice de style et de montée en charge <br/>sur App Engine
-	 </h3>
-	 <p style="font-size: 0.75em; margin-top: 140px;">
-	   Didier Girard, Ludovic Champenois, Martin Görner, Patrice de Saint Steban<br/>
-	 </p>
-	  
-	  <!-- on the other side -->
-		<div id="candidats">
+	<article class="slide3d">
+	<!-- on the other side -->
+	<div class="backslide3d" style="-webkit-transform-style: preserve-3d">
+	  <div id="candidats">
 		  <img src="images/sarkozy.png" />
 		  <img src="images/hollande.png" />
 		  <img src="images/joly.png" />
@@ -230,15 +188,28 @@
 		<div class="qmark" id="q1">?</div>
 		<div class="qmark" id="q2">?</div>
 		<div class="qmark" id="q3">?</div>
+	</div>
+	
+	 
+	 <h1 style="padding:0px;margin-top: 20px;">
+	   Le président est...<img style="width:300px" src="images/appengine.png" />
+	 </h1>
+	 &nbsp;
+	 <h3>
+	   Un exercice de style et de montée en charge <br/>sur App Engine
+	 </h3>
+	 <p style="font-size: 0.75em; margin-top: 140px;">
+	   Didier Girard, Ludovic Champenois, Martin Görner, Patrice de Saint Steban<br/>
+	 </p>
 	</article>
 
 
 <!-- ------------------------------------------------------------------------------- -->
 <!-- 1bis. Projet et prérequis -->
 
-	<article id="art1bis" onclick="move('art1bis')" class="slide3d">
+	<article class="slide3d">
 	<div class="backslide3d">
-	<img src="images/appengine.png" style="width:175px; position:absolute; top:240px; left:340px; -webkit-transform:translateZ(200px); -moz-transform:translateZ(200px); -moz-backface-visibility: hidden;"/>
+	<img src="images/appengine.png" style="width:175px; position:absolute; top:240px; left:340px; -webkit-transform:translateZ(200px); -moz-transform:translateZ(200px); -o-transform:translateZ(200px); /*bug on Firefox: this should not be needed*/-moz-backface-visibility: hidden;"/>
 	 
 	<p style="margin:30px">
 		Pour ceci vous disposez d'une plateforme, Google AppEngine et d'experts pour vous guider.
@@ -279,7 +250,7 @@
 <!-- ------------------------------------------------------------------------------- -->
 <!-- 1. Ma première servlet "Hello App Engine" -->
 
-	  <article id="art2" onclick="move('art2')" class="slide3d" > 
+	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>
 	Structure du projet Web :
@@ -292,7 +263,7 @@ En utilisant l'assistant pour créer la servlet, le fichier standard <code>web.x
 </p>
 
 <p>
-Le fichier <code>appengine-web.xml</code> contient des valeurs par défaut et sera utilisé plus tard pour spécifier un nom et une version d'application et d'autres <a target="_blank" onclick="noop()" href="https://developers.google.com/appengine/docs/java/config/appconfig">paramètres optionels propres à AppEngine</a>.
+Le fichier <code>appengine-web.xml</code> contient des valeurs par défaut et sera utilisé plus tard pour spécifier un nom et une version d'application et d'autres <a href="https://developers.google.com/appengine/docs/java/config/appconfig">paramètres optionels propres à AppEngine</a>.
 </p>
 
 <p>
@@ -336,8 +307,8 @@ public class LePresidentServlet extends HttpServlet
         <li>"Finish" pour générer le projet puis autoriser le <span class="pop">multi-threading&nbsp;!</span> (dans war/WEB-INF/appengine-web.xml)</li>
         <li>Personnaliser la servlet: par exemple <span class="pop">"Hello App Engine"</span><br/>(dans src/com/moi/lepresident/LePresidentServlet.java)</li>
         <li>Lancer en local: Run &gt; Run As... &gt; <img style="height:30px; vertical-align:bottom;" src="images/webapp.png" /><br/>
-        <span class="small" style="color: red; font-family: monospace;">INFO: The server is running at <a style="color: red;" target="_blank" onclick="noop()" href="http://localhost:8888/">http://localhost:8888/</a></span></li>
-        <li class="small">Puis rajouter la <a href="http://code.google.com/p/objectify-appengine/downloads/list?q=label:Featured" target="_blank" onclick="noop()">librairie objectify</a>: (1) glisser-déplacer objectifyxxx.jar sur war/WEB-INF/lib. (2) La référencer dans les propriétés du projet, "Java Build Path", onglet "Libraries", bouton "Add JARs..."</li>
+        <span class="small" style="color: red; font-family: monospace;">INFO: The server is running at <a style="color: red;" href="http://localhost:8888/">http://localhost:8888/</a></span></li>
+        <li class="small">Puis rajouter la <a href="http://code.google.com/p/objectify-appengine/downloads/list?q=label:Featured"">librairie objectify</a>: (1) glisser-déplacer objectifyxxx.jar sur war/WEB-INF/lib. (2) La référencer dans les propriétés du projet, "Java Build Path", onglet "Libraries", bouton "Add JARs..."</li>
         </ul>
 
 
@@ -346,7 +317,8 @@ public class LePresidentServlet extends HttpServlet
 <!-- ------------------------------------------------------------------------------- -->
 <!-- Passons en JSP -->
 
-	  <article id="art3" class="info">
+	  <article class="info slide3d">
+	  <div class="empty backslide3d"></div>
         <h3 class="info">
           Passons en JSP.<br/>JSP c'est comme du HTML, mais on peut:
         </h3>
@@ -361,7 +333,7 @@ public class LePresidentServlet extends HttpServlet
 <!-- ------------------------------------------------------------------------------- -->
 <!-- 3. Votre premier JSP -->
 
-	  <article id="art4" onclick="move('art4')" class="slide3d" > 
+	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: war/comments.jsp</p>
 <pre>
@@ -396,7 +368,7 @@ public class LePresidentServlet extends HttpServlet
 <!-- ------------------------------------------------------------------------------- -->
 <!-- 3. Ajouter un formulaire et sa réponse -->
 
-	  <article id="art5" onclick="move('art5')" class="slide3d" > 
+	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: war/comments.jsp</p>
 <pre style="margin-bottom:10px" class="smallcode">
@@ -447,7 +419,7 @@ request.getParameter("user-comment")
 <!-- ------------------------------------------------------------------------------- -->
 <!-- 4. Identifier l'utilisateur par son compte Google-->
 
-	  <article id="art6" onclick="move('art6')" class="slide3d" > 
+	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: war/comments.jsp</p>
 <pre class="x-smallcode">
@@ -512,7 +484,7 @@ userService.createLogoutURL("myTargetURL");
 <!-- ------------------------------------------------------------------------------- -->
 <!-- datastore explanation -->
 
-      <article id="art6b" class="info" >
+      <article class="info" >
       <h3 class="info">High Replication Datastore:<br/>réplication, accès simultanés, montée en charge</h3>
 		<img style="float: left; padding: 10px; margin-right: 25px; margin-top: 15px; background-color: white; border: 1px solid grey" height="420px" src="images/datastore.svg" />        
         <p style="margin-top: 50px;">Organisation à peu près comme en XML.</p>
@@ -548,7 +520,7 @@ userService.createLogoutURL("myTargetURL");
 //		background-color: white
 	}
 </style>
-    <article id="art6c" class="info" >
+    <article class="info" >
       <h3 class="info">Architecture d'application sur App Engine</h3>
       
 		<div class="archimage">
@@ -581,7 +553,7 @@ userService.createLogoutURL("myTargetURL");
 <!-- ------------------------------------------------------------------------------- -->
 <!-- 5. Conserver les commentaires sur le serveur. -->
 
-	  <article id="art7" onclick="move('art7')" class="slide3d" > 
+	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: src/com/moi/lepresident/StoredComments.java</p>
 <pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
@@ -655,7 +627,7 @@ List&lt;Entity&gt; results =
 <!-- ------------------------------------------------------------------------------- -->
 <!-- 6. Conserver les commentaires sur le serveur avec Objectify -->
 
-	  <article id="art8" onclick="move('art8')" class="slide3d" > 
+	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: src/com/moi/lepresident/ObjectifyDAO.java</p>
 <pre class="x-smallcode lesspace">
@@ -739,7 +711,7 @@ for (Comment c: query) { ... }
 <!-- ------------------------------------------------------------------------------- -->  
 <!-- Garder les commentaires en memcache -->
       
-      <article id="art9" onclick="move('art9')" class="slide3d">
+      <article class="slide3d">
       <div class="backslide3d">
       	<p>fichier: src/com/moi/lepresident/Comment.java</p>
       	<p class="small" >La classe Comment doit devenir sérialisable:</p>
@@ -795,14 +767,14 @@ cache.delete("myKey");
 <!-- ------------------------------------------------------------------------------- -->  
 <!-- Cron pour afficher le président actif -->
 <!-- Afficher le président -->
-      <article id="title7"> 
+      <article> 
       		<h2>Afficher la photo du président à une heure fixe</h2>
       		<p>Utilisation de tâches planifiées</p>
       </article>
 
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide afficher l'image -->
-	  <article id="art21" onclick="move('art21')" class="slide3d" > 
+	  <article class="slide3d" > 
       <div class="backslide3d">
 		<p>fichier: index.jsp</p>      
 <pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
@@ -859,7 +831,7 @@ public class President {
       
 <!-- slide cron -->
 
-      	  <article id="art22" onclick="move('art22')" class="slide3d" > 
+      	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: src/com/moi/lepresident/CronServlet.java</p>
 <pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
@@ -908,7 +880,7 @@ president.active = true;
 ObjectifyService.begin().put(president);
 </pre>
         <p>Mappez dans le web.xml, la servlet sur l'URL /ReleaseDate</p>
-        <p>Testez la page en allant sur <a target="blank_" onclick="noop()" href="http://127.0.0.1:8888/ReleaseDate">http://127.0.0.1:8888/ReleaseDate</a></p>
+        <p>Testez la page en allant sur <a href="http://127.0.0.1:8888/ReleaseDate">http://127.0.0.1:8888/ReleaseDate</a></p>
         </div>
       </article>
  
@@ -916,7 +888,7 @@ ObjectifyService.begin().put(president);
 
 
 
-      	  <article id="art23" onclick="move('art23')" class="slide3d" > 
+      	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: war/WEB-INF/cron.xml</p>
 <pre class="smallcode lesspace">
@@ -956,14 +928,14 @@ ObjectifyService.begin().put(president);
 
 
 <!-- ------------------------------------------------------------------------------- -->
-<!-- slide Tasks Queue -->
+<!-- slide Sharded Counters -->
       
-      <article id="title8"> 
+      <article> 
       		<h2>Ajouter deux compteurs +1/-1</h2>
       		<p>Compteur partagé et mémoire cache</p>
       </article>
       
-      <article id="art25"> 
+      <article> 
         <h3>
           11. Implémenter un compteur partagé
         </h3>
@@ -975,12 +947,12 @@ ObjectifyService.begin().put(president);
 		<ul>
 			<li>On crée N entités <code>counterValue</code> dans le datastore  et à chaque écriture, on en choisit une au hasard pour recevoir la valeur</li>
 			<li>Quand on a besoin de lire en base, on récupère le maximum des compteurs</li>
-		</ul
+		</ul>
 		</li>
         </ul>
       </article>
  
-       <article id="art26" onclick="move('art26')" class="slide3d" > 
+       <article class="slide3d" > 
       <div class="backslide3d">
 <p class="small">fichier: com/moi/lepresident/Counter.java</p>
 <pre class="smallcode lesspace">
@@ -1027,7 +999,7 @@ Counter c = new ObjectifyDAO().ofy().query(Counter.class)
         <pre class="lesspace">cache.put(name, val);</pre>
       </article>
       
-      <article id="art27" onclick="move('art27')" class="slide3d">
+      <article class="slide3d">
       <div class="backslide3d">
 <p class="small">fichier: com/moi/lepresident/Counter.java</p>
 <pre class="smallcode lesspace">
@@ -1067,7 +1039,7 @@ Long val = cache.increment(name, 1);</pre>
 new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
       </article>
       
-            <article id="art28" onclick="move('art28')" class="slide3d">
+            <article class="slide3d">
       <div class="backslide3d">
 <p class="small">fichier: war/WEB-INF/appengine/datastore-indexes.xml</p>
 <pre class="smallcode lesspace">
@@ -1095,14 +1067,14 @@ new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide Upload -->
       
-      <article id="title9"> 
+      <article> 
       		<h2>Permettre l’upload d’une photo</h2>
       		<p>Envoi de photo, et stockage dans le datastore</p>
       </article>
 
 <!-- ------------------------------------------------------------------------------- -->
 <!-- Formulaire -->      
-      <article id="art30" onclick="move('art30')" class="slide3d" > 
+      <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: admin.jsp</p>
 <pre class="smallcode lesspace">
@@ -1139,7 +1111,7 @@ blobservice.createUploadUrl("/upload");
 
 <!-- ------------------------------------------------------------------------------- -->
 <!-- Servlet d'enregistrement -->      
-      <article id="art31" onclick="move('art31')" class="slide3d" > 
+      <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: admin.jsp</p>
 <pre class="smallcode lesspace">
@@ -1194,7 +1166,7 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
  <!-- ------------------------------------------------------------------------------- -->
 <!-- Security Constraint Administration -->
 
-      	  <article id="art32" onclick="move('art32')" class="slide3d" > 
+      	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: war/WEB-INF/web.xml</p>
 <pre class="smallcode lesspace">
@@ -1223,7 +1195,7 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
       </article>
  
  <!-- slide : déployer -->
-      <article id="title10"> 
+      <article> 
       		<h2>Recevoir et envoyer des emails</h2>
       		<p>Ajouter un commentaire par email</p>
       </article>
@@ -1231,7 +1203,7 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
 <!-- ------------------------------------------------------------------------------- -->
 <!-- Security Contraint Administration -->
 
-      	  <article id="art33" onclick="move('art33')" class="slide3d" > 
+      	  <article class="slide3d" > 
       <div class="backslide3d">
 <p>fichier: com/moi/lepresident/MailHandlerServlet.java</p>
 <pre class="smallcode lesspace">
@@ -1276,12 +1248,12 @@ MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
       </article>
  
  <!-- slide : deployer -->
-      <article id="title11"> 
+      <article> 
       		<h2>Yakakliker...</h2>
       		<p>Déployer sur App Engine</p>
       </article>
 
-      <article id="artTitle11" onclick="move('artTitle11')" class="slide3d" > 
+      <article class="slide3d" > 
       <div class="backslide3d">
       
 <p>fichier: war/WEB-INF/appengine-web.xml</p>
@@ -1307,7 +1279,7 @@ MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
           Déployer sur App Engine
         </h3>
         <ul>
-         <li>Créer un identifiant pour votre application sur <a href="http://appengine.google.com" target="_blank" onclick="noop()">http://appengine.google.com/</a></li>
+         <li>Créer un identifiant pour votre application sur <a href="http://appengine.google.com"">http://appengine.google.com/</a></li>
          <li>Configuer le projet via le fichier <code>appengine-web.xml</code> : en mettant l'identifiant de l'application, un numéro de version.</li>
          <li>Cliquer sur déployer...</li>
         </ul>
@@ -1317,9 +1289,6 @@ MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
         </div>
         
       </article>
-
-<!-- ------------------------------------------------------------------------------- -->
-
 
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide finale: contact info -->

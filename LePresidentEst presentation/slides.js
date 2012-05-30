@@ -138,7 +138,111 @@ if (objCtr.defineProperty) {
 }(self));
 
 }
+
 /* ---------------------------------------------------------------------- */
+// 3D slides are identified by class="slide3d" and their backsides with class="backslide3d"
+
+function turn3d()
+{
+	swapBeginEnd3dClass(this);
+}
+
+function resetturn3d(nod)
+{
+	replaceClass(nod, "end3d", "begin3d");
+}
+
+// swaps classes "begin" and "end" in the node with the specified HTML node.
+// adds class "end" if none are found
+function swapBeginEnd3dClass(nod)
+{
+	if (nod != null)
+	{
+		var new_class = "";
+		var found = false;
+		for (var i=0; i<nod.classList.length; i++)
+		{
+			var clas = nod.classList[i];
+			if (clas == "end3d")
+			{
+				clas = "begin3d";
+				found = true;
+			}
+			else if (clas == "begin3d")
+			{
+				clas = "end3d";
+				found = true;
+			}
+			new_class += " " + clas;
+		}
+		if (!found)
+			new_class += " " + "end3d";
+		nod.setAttribute("class", new_class);
+	}
+}
+
+function toggle3D(buttonId)
+{
+	nod = document.getElementById(buttonId);
+	var exist3d = (document.querySelectorAll('.slide3d').length > 0);
+	if (exist3d)
+	{
+		remove3D();
+		nod.setAttribute("src", "images/cube3.png");
+	}
+	else
+	{
+		add3D();
+		nod.setAttribute("src", "images/cube2.png");
+	}
+}
+
+function remove3D()
+{
+	slide3dEls = document.querySelectorAll('.slide3d');
+	for (var i=0; i<slide3dEls.length; i++)
+		replaceClass(slide3dEls[i], "slide3d", "slideno3d");
+	
+	slide3dEls = document.querySelectorAll('.backslide3d');
+	for (var i=0; i<slide3dEls.length; i++)
+		replaceClass(slide3dEls[i], "backslide3d", "backslideno3d");
+}
+
+function add3D()
+{
+	slide3dEls = document.querySelectorAll('.slideno3d');
+	for (var i=0; i<slide3dEls.length; i++)
+		replaceClass(slide3dEls[i], "slideno3d", "slide3d");
+	
+	slide3dEls = document.querySelectorAll('.backslideno3d');
+	for (var i=0; i<slide3dEls.length; i++)
+		replaceClass(slide3dEls[i], "backslideno3d", "backslide3d");
+}
+
+function replaceClass(nod, classToFind, newClass)
+{
+	if (nod != null)
+	{
+		var new_class = "";
+		for (var i=0; i<nod.classList.length; i++)
+		{
+			var clas = nod.classList[i];
+			if (clas == classToFind)
+				clas = newClass;
+			new_class += " " + clas;
+		}
+		nod.setAttribute("class", new_class);
+	}
+}
+
+// add as click handler to a link to prevent default click action (usually turn3d)
+function noop(e)
+{
+	if (!e) var e = window.event;
+	e.cancelBubble = true;
+	if (e.stopPropagation) e.stopPropagation();
+}
+
 
 /* Slide movement */
 
@@ -378,6 +482,20 @@ function setupFrames() {
   enableSlideFrames(curSlide + 2);  
 };
 
+function setup3Dslides() {
+	var slides = document.querySelectorAll('article.slide3d');
+	for (var i = 0, slide; slide = slides[i]; i++) {
+	    slide.onclick = turn3d;
+	    slide.setAttribute("onslideleave", "resetturn3d(this)");
+	    slide.setAttribute("onslideenter", "resetturn3d(this)");
+	  }
+	var links = document.querySelectorAll('article.slide3d a');
+	for (var i = 0, link; link = links[i]; i++) {
+	    link.onclick = noop;
+	    link.setAttribute("target", "_blank");
+	  }
+}
+
 function setupInteraction() {
   /* Clicking and tapping */
   
@@ -590,6 +708,7 @@ function handleDomLoaded() {
   addGeneralStyle();
   addPrettify();
   addEventListeners();
+  setup3Dslides();
 
   updateSlides();
 
