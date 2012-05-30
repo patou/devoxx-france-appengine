@@ -484,7 +484,8 @@ userService.createLogoutURL("myTargetURL");
 <!-- ------------------------------------------------------------------------------- -->
 <!-- datastore explanation -->
 
-      <article class="info" >
+      <article class="info slide3d" >
+      <div class="empty backslide3d"></div>
       <h3 class="info">High Replication Datastore:<br/>réplication, accès simultanés, montée en charge</h3>
 		<img style="float: left; padding: 10px; margin-right: 25px; margin-top: 15px; background-color: white; border: 1px solid grey" height="420px" src="images/datastore.svg" />        
         <p style="margin-top: 50px;">Organisation à peu près comme en XML.</p>
@@ -520,7 +521,8 @@ userService.createLogoutURL("myTargetURL");
 //		background-color: white
 	}
 </style>
-    <article class="info" >
+    <article class="info slide3d" >
+    <div class="empty backslide3d"></div>
       <h3 class="info">Architecture d'application sur App Engine</h3>
       
 		<div class="archimage">
@@ -767,7 +769,8 @@ cache.delete("myKey");
 <!-- ------------------------------------------------------------------------------- -->  
 <!-- Cron pour afficher le président actif -->
 <!-- Afficher le président -->
-      <article> 
+      <article class="slide3d">
+      <div class="empty backslide3d"></div> 
       		<h2>Afficher la photo du président à une heure fixe</h2>
       		<p>Utilisation de tâches planifiées</p>
       </article>
@@ -930,12 +933,14 @@ ObjectifyService.begin().put(president);
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide Sharded Counters -->
       
-      <article> 
+      <article class="slide3d">
+      <div class="empty backslide3d"></div> 
       		<h2>Ajouter deux compteurs +1/-1</h2>
       		<p>Compteur partagé et mémoire cache</p>
       </article>
       
-      <article> 
+      <article class="slide3d">
+      <div class="empty backslide3d"></div> 
         <h3>
           11. Implémenter un compteur partagé
         </h3>
@@ -1067,7 +1072,8 @@ new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide Upload -->
       
-      <article> 
+      <article class="slide3d">
+      <div class="empty backslide3d"></div> 
       		<h2>Permettre l’upload d’une photo</h2>
       		<p>Envoi de photo, et stockage dans le datastore</p>
       </article>
@@ -1195,7 +1201,8 @@ ImagesServiceFactory.getImagesService().getServingUrl(key);
       </article>
  
  <!-- slide : déployer -->
-      <article> 
+      <article class="slide3d">
+      <div class="empty backslide3d"></div> 
       		<h2>Recevoir et envoyer des emails</h2>
       		<p>Ajouter un commentaire par email</p>
       </article>
@@ -1248,7 +1255,8 @@ MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
       </article>
  
  <!-- slide : deployer -->
-      <article> 
+      <article class="slide3d">
+      <div class="empty backslide3d"></div> 
       		<h2>Yakakliker...</h2>
       		<p>Déployer sur App Engine</p>
       </article>
@@ -1292,7 +1300,8 @@ MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
 
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide finale: contact info -->
-      <article>
+      <article class="slide3d">
+      <div class="empty backslide3d"></div>
         
         <p style="margin-left: 3em; margin-top: 1em; text-indent: -2em;">Contact : <br/><b >+Martin Gorner</b>, Outreach manager France
         (et les autres ...)
