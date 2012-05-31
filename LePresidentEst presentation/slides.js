@@ -147,6 +147,11 @@ function turn3d()
 	swapBeginEnd3dClass(this);
 }
 
+function turn3dcurrent()
+{
+	swapBeginEnd3dClass(getSlideEl(curSlide));
+}
+
 function resetturn3d(nod)
 {
 	replaceClass(nod, "end3d", "begin3d");
@@ -432,6 +437,55 @@ function cancelTouch() {
   document.body.removeEventListener('touchend', handleTouchEnd, true);  
 };
 
+
+/* Mouse wheel events*/
+
+function handleMouseWheel(event)
+{	// for webkit, registered on 'mousewheel'
+	dx = Math.abs(event.wheelDeltaX);
+	dy = Math.abs(event.wheelDeltaY);
+	if (dx  > dy*2)
+	{
+		event.preventDefault();
+		var now = Date.now();
+		
+		if (window.prevMouseWheelEventTime === undefined)
+			window.prevMouseWheelEventTime = 0;
+			
+		if (now - window.prevMouseWheelEventTime > 1000)
+		{
+			window.prevMouseWheelEventTime = now;
+			delta = event.wheelDeltaX; // vendors please standardize
+			if (delta < 0)
+				nextSlide();
+			if (delta > 0)
+				prevSlide();
+		}
+	}
+}
+
+function handleMouseWheel2(event)
+{   // for mozilla, registered on 'DOMMouseScroll'
+	if (event.axis == 1)
+	{
+		event.preventDefault();
+		var now = Date.now();
+		
+		if (window.prevMouseWheelEventTime === undefined)
+			window.prevMouseWheelEventTime = 0;
+			
+		if (now - window.prevMouseWheelEventTime > 1000)
+		{
+			window.prevMouseWheelEventTime = now;
+			delta = event.detail; // vendors please standardize
+			if (delta > 0)
+				nextSlide();
+			if (delta < 0)
+				prevSlide();
+		}
+	}
+}
+
 /* Preloading frames */
 
 function disableSlideFrames(no) {
@@ -483,12 +537,14 @@ function setupFrames() {
 };
 
 function setup3Dslides() {
+	// decorate slides so that a turned slide comes back to default positino on next/prev slide
 	var slides = document.querySelectorAll('article.slide3d');
 	for (var i = 0, slide; slide = slides[i]; i++) {
 	    slide.onclick = turn3d;
 	    slide.setAttribute("onslideleave", "resetturn3d(this)");
 	    slide.setAttribute("onslideenter", "resetturn3d(this)");
 	  }
+	// decorate links to prevent slide turning on link click
 	var links = document.querySelectorAll('article.slide3d a');
 	for (var i = 0, link; link = links[i]; i++) {
 	    link.onclick = noop;
@@ -512,8 +568,10 @@ function setupInteraction() {
   document.querySelector('section.slides').appendChild(el);  
   
   /* Swiping */
-  
   document.body.addEventListener('touchstart', handleTouchStart, false);
+  /* mouse wheel and trackpad scrolling*/
+  document.body.addEventListener('DOMMouseScroll', handleMouseWheel2, false);
+  document.body.addEventListener('mousewheel', handleMouseWheel, false);
 }
 
 /* ChromeVox support */
@@ -603,8 +661,6 @@ function updateHash() {
 function handleBodyKeyDown(event) {
   switch (event.keyCode) {
     case 39: // right arrow
-    case 13: // Enter
-    case 32: // space
     case 34: // PgDn
       nextSlide();
       event.preventDefault();
@@ -621,7 +677,7 @@ function handleBodyKeyDown(event) {
       if (isChromeVoxActive()) {
         speakNextItem();
       } else {
-        nextSlide();
+    	  turn3dcurrent();
       }
       event.preventDefault();
       break;
@@ -630,8 +686,14 @@ function handleBodyKeyDown(event) {
       if (isChromeVoxActive()) {
         speakPrevItem();
       } else {
-        prevSlide();
+    	  turn3dcurrent();
       }
+      event.preventDefault();
+      break;
+      
+    case 13: // Enter
+    case 32: // space
+      turn3dcurrent();
       event.preventDefault();
       break;
   }
