@@ -776,9 +776,29 @@ function handleDomLoaded() {
 
   setupInteraction();
   makeBuildLists();
+  
+  // deactivate 3D if not supported in browser
+  if (!capaCss3D())
+	 toggle3D('togglebutton1');
 
   document.body.classList.add('loaded');
 };
+
+function capaCss3D()
+{
+	if ('perspectiveProperty' in document.body.style)
+		return true;
+	if ('WebkitPerspective' in document.body.style)
+		return true;
+	if ('MozPerspective' in document.body.style)
+		return true;
+	if ('OPerspective' in document.body.style)
+		return true;
+	if ('msPerspective' in document.body.style)
+		return true;
+	
+	return false;
+}
 
 function initialize() {
   getCurSlideFromHash();
