@@ -99,6 +99,17 @@
 		border:1px solid #EEEEEE;
 		box-shadow: 3px 3px 8px #AAAAAA;
     }
+    .screenshot-right
+    {
+    	float:right;
+    	margin-right:10px;
+    	margin-top:10px;
+		margin-bottom:10px;
+		margin-left:60px;
+		padding: 10px;
+		border:1px solid #EEEEEE;
+		box-shadow: 3px 3px 8px #AAAAAA;
+    }
     pre.lesspace
     {
     	margin-top: 15px;
@@ -214,17 +225,17 @@
 	   Un exercice de style et de montée en charge <br/>sur App Engine
 	 </h3>
 	 <p style="font-size: 0.75em; margin-top: 140px;">
-	   Didier Girard, Ludovic Champenois, Martin Görner, Patrice de Saint Steban<br/>
+	   Martin Görner, Didier Girard, Alexis Moussine-Pouchkine<br/>
 	 </p>
 	</article>
 
 
 <!-- ------------------------------------------------------------------------------- -->
-<!-- 1bis. Projet et prérequis -->
+<!-- Projet et prérequis -->
 
 	<article class="slide3d">
 	<div class="backslide3d">
-	<img src="images/appengine.png" style="width:175px; position:absolute; top:240px; left:340px; -webkit-transform:translateZ(200px); -moz-transform:translateZ(200px); -o-transform:translateZ(200px); /*bug on Firefox: this should not be needed*/-moz-backface-visibility: hidden;"/>
+	<img src="images/appengine.png" style="width:300px; position:absolute; top:290px; left:310px; -webkit-transform:translateZ(300px); -moz-transform:translateZ(200px); -o-transform:translateZ(200px); /*bug on Firefox: this should not be needed*/-moz-backface-visibility: hidden;"/>
 	 
 	<p style="margin:30px">
 		Pour ceci vous disposez d'une plateforme, Google AppEngine et d'experts pour vous guider.
@@ -233,22 +244,9 @@
 		Le défi est à relever en 3 heures seulement.
 	 </p>
 	 
-	 <p class="pop" style="font-size: larger; text-align: center; margin-top:200px;">
+	 <p class="pop" style="font-size: larger; text-align: center; margin-top:410px;">
 		Prêt à relever le défi ?
 	 </p>
-         
-         <p>
-            Pr&eacute;-requis: 
-         </p>
-         <p style="font-size: 75%">
-            &bull; <a href="http://www.oracle.com/javase">JDK 6</a> (pas JRE)
-            <br/>&bull; <a href="http://eclipse.org">Eclipse 3.7</a> (Indigo, JEE version)
-            <br/>&bull; <code>Google Plugin for Eclipse 3.7</code> et <code>Google App Engine Java SDK 1.6.4</code>
-            <br/>disponibles depuis le r&eacute;f&eacute;rentiel <a href="http://dl.google.com/eclipse/plugin/3.7">http://dl.google.com/eclipse/plugin/3.7</a>
-            <br/>&bull; un compte <a href="http://gmail.com">gmail.com</a> (pour la partie identification)
-
-         </p>
-
 	</div>
 
 		<p class="bookparagraph">
@@ -261,21 +259,36 @@
 		   Il ne doit pas faire défaut, il n'est pas concevable qu'il tombe a l'heure H.
 		</p>
 	</article>	
-	  
+	
+<!-- ------------------------------------------------------------------------------- -->
+<!-- 0. Prérequis et téléchargements -->
+
+	  <article class="slide3d" > 
+      <div class="backslide3d" style="padding:40px">
+         <div class="screenshot-left" style="padding: 0px; text-align: center;margin-top: 150px;"><img src="images/googlemenu.png"/></div>
+         <p style="margin-top: 240px">Si tout s'est bien déroulé, vous devriez avoir une icône "g" comme "Google" dans Eclipse.</p>
+      </div>
+      
+      <img src="images/install.png" class="screenshot-right" style="clear:right; padding:0px; margin-top: 00px; margin-right:0px; margin-left:30px" />
+      <h3 style="padding:0px">0. Prérequis et téléchargements</h3>
+         <ul style="margin-top:30px">
+            <li> <a href="http://www.oracle.com/javase">JDK 6</a> (pas JRE)</li>
+            <li> <a href="http://eclipse.org">Eclipse 3.7</a> (Indigo, JEE)</li>
+            <li>La <a href="http://code.google.com/p/objectify-appengine/downloads/list?q=label:Featured"">librairie objectify</a> à télécharger (on l'ajoutera au projet plus tard)</li>
+            <li><code>Google Plugin for Eclipse 3.7</code> et <br/>
+            <code>Google App Engine Java SDK 1.6.6</code><br/>
+            disponibles dans Eclipse: Help &gt; Install New Software &gt; Add... <a href="http://dl.google.com/eclipse/plugin/3.7">http://dl.google.com/eclipse/plugin/3.7</a></li>
+         </ul>
+      </article>
+      
 <!-- ------------------------------------------------------------------------------- -->
 <!-- 1. Ma première servlet "Hello App Engine" -->
 
 	  <article class="slide3d" > 
-      <div class="backslide3d">
-<p>
-	Structure du projet Web :
-</p>	
-<br/>
-<img  src="images/project_structure.png" align="left"/>
-	
-<p>
-En utilisant l'assistant pour créer la servlet, le fichier standard <code>web.xml</code> est mis à jour pour effectuer le mapping de celle-ci. 
-</p>
+      <div class="backslide3d" style="padding:40px">
+<img  class="screenshot-left" src="images/project_structure.png" align="left"/>
+Structure du projet Web :
+<p>En utilisant l'assistant pour créer la servlet, le fichier standard <code>web.xml</code> est mis à jour pour effectuer le mapping de celle-ci.</p> 
 
 <p>
 Le fichier <code>appengine-web.xml</code> contient des valeurs par défaut et sera utilisé plus tard pour spécifier un nom et une version d'application et d'autres <a href="https://developers.google.com/appengine/docs/java/config/appconfig">paramètres optionels propres à AppEngine</a>.
@@ -286,40 +299,18 @@ Le fichier <code>appengine-web.xml</code> contient des valeurs par défaut et se
 	Problème?
 </h3>
 
- 	En cas re-déploiement si vous rencontrez une erreur de type <code>"port occupied"</code>, il vous faudra utiliser le bouton rouge "Terminate" dans le haut de la fenêtre <code>"Console"</code> (Window &gt; Show View &gt; Console).
-<img  src="images/stop_server.png"/>
-
-		
-	<!--
-<p>fichier: src/com/moi/lepresident/LePresidentServlet.java</p>
-<pre>
-package com.moi.lepresident;
-
-import java.io.IOException;
-import javax.servlet.http.*;
-
-@SuppressWarnings("serial")
-public class LePresidentServlet extends HttpServlet
-{
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-    throws IOException
-    {
-        resp.setContentType("text/plain");
-        resp.getWriter().println("Hello, App Engine");
-    }
-}
-</pre>
--->
+ 	Si en relançant vore application vous avez une erreur <code>"port occupied"</code>, utiliser le bouton rouge "Terminate" dans le haut de la fenêtre <code>"Console"</code> (Window &gt; Show View &gt; Console).
+<img style="vertical-align: top" src="images/stop_server.png"/>
       </div>
 
         <h3>
           1. Ma première servlet "Hello App Engine"
         </h3>
-        <ul style="margin-top:20px">
+        <ul style="margin-top:40px">
         <li>File &gt; New ... &gt; <img style="height:30px; vertical-align:bottom;" src="images/webappproj.png" /></li>
         <li>Nom: <span class="pop">LePresident</span>, package: <span class="pop">com.moi.lepresident</span></li>
-        <li><form>Décocher <input type="checkbox" style="vertical-align: middle;" disabled="disabled"/><span class="pop">GWT</span> (pour aujourd'hui), Cocher <input type="checkbox" checked style="vertical-align: middle;" disabled="disabled"/><span class="pop">App Engine</span></form></li>
-        <li>"Finish" pour générer le projet puis autoriser le <span class="pop">multi-threading&nbsp;!</span> (dans war/WEB-INF/appengine-web.xml)</li>
+        <li><form>Décocher <input type="checkbox" style="vertical-align: middle;" disabled="disabled"/><span class="pop">GWT</span> (pour aujourd'hui), Cocher <input type="checkbox" checked style="vertical-align: middle;" disabled="disabled"/><span class="pop">App Engine</span></form>
+        puis "Finish" pour générer le projet.</li>
         <li>Personnaliser la servlet: par exemple <span class="pop">"Hello App Engine"</span><br/>(dans src/com/moi/lepresident/LePresidentServlet.java)</li>
         <li>Lancer en local: Run &gt; Run As... &gt; <img style="height:30px; vertical-align:bottom;" src="images/webapp.png" /><br/>
         <span class="small" style="color: red; font-family: monospace;">INFO: The server is running at <a style="color: red;" href="http://localhost:8888/">http://localhost:8888/</a></span></li>
@@ -501,69 +492,12 @@ userService.createLogoutURL("myTargetURL");
 
       <article class="info slide3d" >
       <div class="empty backslide3d"></div>
-      <h3 class="info">High Replication Datastore:<br/>réplication, accès simultanés, montée en charge</h3>
+      <h3 class="info">High Replication Datastore<br/>réplication, accès simultanés, montée en charge</h3>
 		<img style="float: left; padding: 10px; margin-right: 25px; margin-top: 15px; background-color: white; border: 1px solid grey" height="420px" src="images/datastore.svg" />        
-        <p style="margin-top: 50px;">Organisation à peu près comme en XML.</p>
+        <p style="margin-top: 50px;">Organisation des données: penser "XML" plutôt que tables.</p>
         <p>Requêtes indexées uniquement.</p>
         <p>Cohérence à terme des lectures et écritures.</p>
         <p class="poplow">Entity = kind + <br/>(multivalued) properties + key</p>
-        
-      </article>
-      
-<!-- ------------------------------------------------------------------------------- -->
-<!-- architecture explanation -->
-<style>
-	.archimage
-	{
-		
-		width:276px;
-		display:inline-block;
-		vertical-align: top;
-		text-align: center;
-	}
-	.archtext
-	{
-		display:inline-block;
-		width:180px;
-		text-align: right;
-		color: black;
-		font-style: italic;
-	}
-	.newarchimage
-	{
-		width: 300px;
-//		border:1px grey solid;
-//		background-color: white
-	}
-</style>
-    <article class="info slide3d" >
-    <div class="empty backslide3d"></div>
-      <h3 class="info">Architecture d'application sur App Engine</h3>
-      
-		<div class="archimage">
-			<div style="border:#b4a464 inset 8px;background-color: #f1e9db;">“système 2000”<br/><img src="images/oldarch.png" width="250px"/>
-			    <div class="x-small" style="padding: 5px; ">
-			         session en RAM avec<br/>
-			         sticky load balancer
-			     </div>
-			 </div>
-			 <div class="small" style="text-align: left; margin-top: 5px">
-			     <span class="pop">☠</span> pb sur arrêt d'instance<br/>
-			     <span class="pop">☠</span> mémoire insuffisante<br/>
-			     <span class="pop">☠</span> load balancing lent<br/>
-			     <span class="pop">☠</span> pb scalabilité base<br/>
-			     
-			</div>
-			</div>
-		<div class="archtext small">
-		    <div style="margin-top:47px;">datastore→</div>
-		    <div  style="margin-top:30px;">memcache→</div>
-		    <div  style="margin-top:80px;">frontends→</div>
-		    <div  style="margin-top:80px;">load balancing efficace→</div>
-		</div>
-		<div class="archimage newarchimage">Google App Engine<br/><img src="images/newarch.png" width="300px"/>
-		<div class="x-small" style="padding: 5px; ">instances stateless, état dans memcache et datastore</div>
-		</div>
         
       </article>
       
@@ -724,7 +658,64 @@ for (Comment c: query) { ... }
 		
         </div>
       </article>
-
+      
+<!-- ------------------------------------------------------------------------------- -->
+<!-- architecture explanation -->
+<style>
+	.archimage
+	{
+		
+		width:276px;
+		display:inline-block;
+		vertical-align: top;
+		text-align: center;
+	}
+	.archtext
+	{
+		display:inline-block;
+		width:180px;
+		text-align: right;
+		color: black;
+		font-style: italic;
+	}
+	.newarchimage
+	{
+		width: 300px;
+//		border:1px grey solid;
+//		background-color: white
+	}
+</style>
+    <article class="info slide3d" >
+    <div class="empty backslide3d"></div>
+      <h3 class="info">Architecture d'application sur App Engine</h3>
+      
+		<div class="archimage">
+			<div style="border:#b4a464 inset 8px;background-color: #f1e9db;">“système 2000”<br/><img src="images/oldarch.png" width="250px"/>
+			    <div class="x-small" style="padding: 5px; ">
+			         session en RAM avec<br/>
+			         sticky load balancer
+			     </div>
+			 </div>
+			 <div class="small" style="text-align: left; margin-top: 5px">
+			     <span class="pop">☠</span> pb sur arrêt d'instance<br/>
+			     <span class="pop">☠</span> mémoire insuffisante<br/>
+			     <span class="pop">☠</span> load balancing lent<br/>
+			     <span class="pop">☠</span> pb scalabilité base<br/>
+			     
+			</div>
+			</div>
+		<div class="archtext small">
+		    <div style="margin-top:47px;">datastore→</div>
+		    <div  style="margin-top:30px;">memcache→</div>
+		    <div  style="margin-top:80px;">frontends→</div>
+		    <div  style="margin-top:80px;">load balancing efficace→</div>
+		</div>
+		<div class="archimage newarchimage">Google App Engine<br/><img src="images/newarch.png" width="300px"/>
+		<div class="x-small" style="padding: 5px; ">instances stateless, état dans memcache et datastore</div>
+		</div>
+        
+      </article>
+      
 <!-- ------------------------------------------------------------------------------- -->  
 <!-- Garder les commentaires en memcache -->
       
@@ -784,285 +775,197 @@ cache.delete("myKey");
 <!-- ------------------------------------------------------------------------------- -->  
 <!-- Cron pour afficher le président actif -->
 <!-- Afficher le président -->
+
       <article class="slide3d">
-      <div class="empty backslide3d"></div> 
-      		<h2>Afficher la photo du président à une heure fixe</h2>
-      		<p>Utilisation de tâches planifiées</p>
-      </article>
-
-<!-- ------------------------------------------------------------------------------- -->
-<!-- slide afficher l'image -->
-	  <article class="slide3d" > 
       <div class="backslide3d">
-		<p>fichier: index.jsp</p>      
-<pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
- &lt;%
-President president = President.getPresident();
-if (president != null) {
-%&gt;
- 	&lt;img src="&lt;%= president.image %&gt;" /&gt;
- 	&lt;h2&gt;&lt;%= president.name %&gt;&lt;/h2&gt;
-&lt;% } else { %&gt;
- 	&lt;img src="<a href="images/presidents.png">presidents.png</a>" /&gt;
-	&lt;strong&gt;Le président ne sera annoncé qu'à partir du 6 mai 2012 à 20H00&lt;/strong&gt;
-&lt;% } %&gt;
-</pre>
-<p>fichier: src/com/moi/lepresident/President.java</p>
-<pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
-package com.moi.lepresident;
-import javax.persistence.Id;
-import com.googlecode.objectify.ObjectifyService;
-
-public class President {
-	@Id
-	public Long id = null;
-	public String name;
-	public String image;
-	public boolean active;
-
-	public static President getPresident() {
-		return new ObjectifyDAO().ofy().query(President.class)
-			.filter("active", true).get();
-	}
-}
-</pre>
-</div>
-        <h3>
-          8. Afficher sur la page d'accueil. 
-        </h3>
-        
-        <div style="margin-top:15px;">
-        <div class="screenshot-left" style="margin-right: 25px;">
-        <img  src="images/scrshot_display_presidents.png" width="200px"/>
-        </div>
-        <p>Créez une entité President, avec un nom, l'url d'une image et un booléen qui indique si l'on doit afficher le président</p>
-        <p>Si un président est actif, afficher sa photo et son image.</p>
-<pre class="smallcode lesspace">
-&lt;% President president = new Dao().ofy()
-.query(President.class).filter("active", true).get(); %&gt;
-&lt;img src="&lt;%= president.image %&gt;" /&gt;
-&lt;h2&gt;&lt;%= president.name %&gt;&lt;/h2&gt;
-</pre>
-        <p>Sinon affichez une image par défaut et un message indiquant que le président ne sera annoncé qu'à partir du 6 mai à 20h00.</p>		
-        </div>
-      </article>
-      
-<!-- slide cron -->
-
-      	  <article class="slide3d" > 
-      <div class="backslide3d">
-<p>fichier: src/com/moi/lepresident/CronServlet.java</p>
-<pre class="x-smallcode lesspace" style="margin-bottom: 15px;">
-package com.moi.lepresident;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import com.googlecode.objectify.ObjectifyService;
-
-public class CronServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        President president = new President();
-        president.name = "Sarkozy";
-        president.image = "/images/sarkozy.png";
-        president.active = true;
-        ObjectifyService.begin().put(president);
+      <p class="small">La servlet: elle écrit le nom du président élu dans le datastore<br/>fichier src/com/moi/lepresident/CronServlet.java</p>
+      <pre class="x-smallcode lesspace">
+public class CronServlet extends HttpServlet
+{   @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
+    {
+        Entity Elected = new Entity("Elected");
+        Elected.setProperty("name", "François Hollande");
+        DatastoreServiceFactory.getDatastoreService().put(Elected);
     }
-}
-</pre>
-<p>Ajouter dans le fichier web.xml</p>
-<pre class="smallcode lesspace">
+}</pre>
+      <p class="small">Son mapping dans WEB-INF/web.xml, avec restriction d'accès:</p>
+      <pre class="x-smallcode lesspace">
 &lt;servlet&gt;
-	&lt;servlet-name&gt;CronServlet&lt;/servlet-name&gt;
-	&lt;servlet-class&gt;com.moi.lepresident.CronServlet&lt;/servlet-class&gt;
+   &lt;servlet-name&gt;CronServlet&lt;/servlet-name&gt; &lt;servlet-class&gt;com.moi.lepresident.CronServlet&lt;/servlet-class&gt;
 &lt;/servlet&gt;
 &lt;servlet-mapping&gt;
-	&lt;servlet-name&gt;CronServlet&lt;/servlet-name&gt;
-	&lt;url-pattern&gt;/ReleaseDate&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-</pre>
-      </div>
-        <h3>
-          9. Créer la tâche planifiée
-        </h3>
-        
-        <div style="margin-top:20px;">
-        <p>Créer une Servlet, qui crée une entité President et l'active</p>
-<pre class="smallcode lesspace">
-President president = new President();
-president.name = "Sarkozy";
-president.image = "/images/sarkozy.png";
-president.active = true;
-ObjectifyService.begin().put(president);
-</pre>
-        <p>Mappez dans le web.xml, la servlet sur l'URL /ReleaseDate</p>
-        <p>Testez la page en allant sur <a href="http://127.0.0.1:8888/ReleaseDate">http://127.0.0.1:8888/ReleaseDate</a></p>
-        </div>
-      </article>
- 
- <!-- slide cron -->
-
-
-
-      	  <article class="slide3d" > 
-      <div class="backslide3d">
-<p>fichier: war/WEB-INF/cron.xml</p>
-<pre class="smallcode lesspace">
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+   &lt;servlet-name&gt;CronServlet&lt;/servlet-name&gt; &lt;url-pattern&gt;/cronAllowPresidentDisplay&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt
+&lt;security-constraint&gt;
+  &lt;web-resource-collection&gt;   &lt;url-pattern&gt;/cron*&lt;/url-pattern&gt;   &lt;/web-resource-collection&gt;
+  &lt;auth-constraint&gt;           &lt;role-name&gt;admin&lt;/role-name&gt;        &lt;/auth-constraint&gt;
+&lt;/security-constraint&gt;</pre>
+      <p class="small">Affichage conditionnel (fichier war/comments.jsp):</p>
+      <pre class="x-smallcode lesspace" style="margin-bottom: 0px">
+Entity e = DatastoreServiceFactory.getDatastoreService().prepare(new Query("Elected")).asSingleEntity();
+if (e == null) /*message d'attente*/ else /*affichage de */ e.getProperty("name");</pre>
+<p class="x-small poplow" style="margin-top: 10px">(Pour afficher également la photo du président, récupérez les images au dos da la <a href="#2">première slide</a>.)</p>
+      </div> 
+      		<h3>8. Afficher le nom du président à 20h00 précises avec une tâche planifiée Cron</h3>
+      		
+	        <div class="screenshot-left" style="font-family: serif; color: black; font-weight: bold; margin-top: 70px">
+	        Le président est:<br/><img style="margin-top: 10px" src="images/hollande.png"/><br/>François Hollande
+	        </div>
+	        
+	        <p>Les tâches Cron sont des servlets. Leur URL est définie dans web.xml.</p>
+	        <p style="margin-bottom: 20px;">
+	        Périodicité à configurer dans WEB-INF/cron.xml (<a href="https://developers.google.com/appengine/docs/java/config/cron">syntaxe complète</a>):</p>
+	        
+	        <pre class="lesspace">
+&lt;?xml version="1.0" ?&gt;
 &lt;cronentries&gt;
   &lt;cron&gt;
-    &lt;url&gt;/ReleaseDate&lt;/url&gt;
-    &lt;schedule&gt;6 of may 20:00&lt;/schedule&gt;
+    &lt;url&gt;/cronAllowPresidentDisplay&lt;/url&gt;
+    &lt;schedule&gt;6 of May 20:00&lt;/schedule&gt;
+&lt;!-- every 2 mins, every sunday 9:00 --&gt;
     &lt;timezone&gt;Europe/Paris&lt;/timezone&gt;
   &lt;/cron&gt;
-&lt;/cronentries&gt;
-</pre>
-<p>On indique le fuseau horaire de Paris, pour activer le président le 6 mai à 20h précise en France et non l'heure GMT !</p>
-      </div>
-        <h3>
-          10. Configurer le cron dans App Egnine
-        </h3>
+&lt;/cronentries&gt;</pre>
         
-        <div style="margin-top:20px;">
-        <p>La gestion des crons est simple dans Google AppEngine, il suffit de créer un fichier <code>cron.xml</code> dans <code>WEB-INF</code> et d'indiquer l'url de la tâche planifiée, et la période de répétition.</p>
-        <p>Voici les balises XML à insérer :</p>
-        <code>
-&lt;<strong>cronentries</strong>&gt;
-<div style="margin-left: 20px;">
-		&lt;<strong>cron</strong>&gt;
-		<div style="margin-left: 20px;">
-			<div>&lt;<strong>url</strong>&gt; <em>Url de la tâche planifiée</em></div>
-			<div>&lt;<strong>schedule</strong>&gt; <em>Période de répétition (every day, 1 of Jan, May 02:30, every 5 mins)</em></div>
-			<div>&lt;<strong>timezone</strong>&gt; <em>Fuseau horaire</em></div>
-		</div>
-		&lt;/<strong>cron</strong>&gt;
-</div>
-&lt;/<strong>cronentries</strong>&gt;
-        </code>
-        </div>
       </article>
-
 
 <!-- ------------------------------------------------------------------------------- -->
-<!-- slide Sharded Counters -->
+<!-- info slide Sharded Counters -->
       
-      <article class="slide3d">
+      <article class="slide3d info">
       <div class="empty backslide3d"></div> 
-      		<h2>Ajouter deux compteurs +1/-1</h2>
-      		<p>Compteur partagé et mémoire cache</p>
+      		<h3 class="info">Qu'est-ce qu'un compteur éclaté ?</h3>
+      		<p class="small" style="font-size: 80%; margin-top: -25px">Les écritures sur la même entité du datastore sont limitées<br/>à quelques-unes par seconde: comment faire un compteur ?
+      		<br/>⇒Incrément atomique dans Memcache et compteur éclaté dans Datastore.</p>
+      		<p style="text-align: center;"><img src="images/shardedcounter.svg" width="100%"/></p>
       </article>
-      
-      <article class="slide3d">
-      <div class="empty backslide3d"></div> 
+
+<!-- ------------------------------------------------------------------------------- -->
+
+      <article id="shardedcounterslide" class="slide3d">
+      <div class="backslide3d">
+      <pre class="lesspace smallcode" style="float:left; width:400px; height:610px; margin-right: 20px; font-size: 0.5em">
+public class Counter
+{
+  @Id String key;
+  String name;
+  Long value;
+
+  Counter() {}
+  Counter(String name, Integer shard_N, Long val)
+  {
+    this.name = name;
+    this.value = val;
+    key = name + "_shard" + shard_N.toString();
+  }
+
+public static void increment(String name)
+{
+  MemcacheService cache =
+    MemcacheServiceFactory.getMemcacheService();
+  Long val = cache.increment(name, 1);
+  if (val == null)
+  {
+     val = Counter.read(name);
+     if (val == null)
+       val = cache.increment(name, 1, 0L); //0=init val
+     else
+       val++;
+  }
+  Counter.write(name, val);
+}
+      </pre>
+      <pre class="lesspace smallcode" style="width:400px; height:610px; font-size: 0.5em">
+public static Long value(String name)
+{
+  MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+  Long val = (Long)cache.get(name);
+  if (val == null)
+  {
+    val = Counter.read(name);
+    if (val != null)
+      cache.put(name, val);
+  }
+  return val;
+}
+
+static Long read(String name)
+{
+  ObjectifyDAO dao = new ObjectifyDAO();
+  Counter c = dao.ofy().query(Counter.class)
+    .filter("name", name).order("-value").get();
+  return (c == null ? null : c.value);
+}
+
+static void write(String name, Long value)
+{
+  Random r = new Random();
+  Integer shard_N = r.nextInt(10);
+  ObjectifyDAO dao = new ObjectifyDAO();
+  dao.ofy().put(new Counter(name, shard_N, value));
+} 
+}
+      </pre>
+      <div class="small">usage: &nbsp;&nbsp;<span style="color: black;">Counter.increment("pluscounter"); &nbsp;&nbsp;Counter.value("minuscounter");</span></div>
+      </div> 
         <h3>
-          11. Implémenter un compteur partagé
+          9. Implémenter un compteur qui tient la charge
         </h3>
-        <ul>
-         <li>le compteur est implémenté dans le cache en utilisant la fonction <code>increment()</code> qui permet une incrémentation atomique
-         <ul><li>les lectures vont chercher directement dans le memcache</li></ul>
-		</li>
-		<li>A chaque incrément, le nouveau total est écrit dans le datastore... 
-		<ul>
-			<li>On crée N entités <code>counterValue</code> dans le datastore  et à chaque écriture, on en choisit une au hasard pour recevoir la valeur</li>
-			<li>Quand on a besoin de lire en base, on récupère le maximum des compteurs</li>
-		</ul>
-		</li>
-        </ul>
+        <style>
+        .counter
+        {
+        	display: inline-block;
+        	width: 40px;
+        	height: 40px;
+        	background-color: #0076CC;
+        	border-radius: 4px;
+        	border: 1px solid #4486DD;
+        	color:white;
+        	font-weight: bold;
+        	text-align: center;
+        }
+        td.countercell
+        {
+        	padding:0px;
+        	text-align: center;
+        	border: none;
+        	font-size: large;
+        	font-weight: normal;
+        }
+        #shardedcounterslide pre
+        { margin-bottom: 0px; }
+        #shardedcounterslide p
+        { margin-top: 15px; }
+        
+        </style>
+
+        <pre class="lesspace smallcode">public class Counter {@Id String key; String name; Long value;} //key = name+shard_N</pre>
+        
+        <div class="screenshot-left" style="clear:left; font-family: serif; color: black; font-weight: bold; margin-top: 45px">
+	        Le président est:<br/><img style="margin-top: 10px" src="images/hollande.png"/><br/>François Hollande
+	        <table style="margin-top:10px"><tr><td class="countercell"><div class="counter">+1</div> (17K)</td><td class="countercell"><div class="counter">-1</div> (10K)</td></tr></table>
+	    </div>
+	        
+         <p>Memcache: incrément atomique </p>
+         <pre class="lesspace smallcode">Long newVal = MemcacheServiceFactory
+.getMemcacheService().increment("myCounter", 1);</pre>
+         
+         <p>Sauver la nouvelle valeur dans un parmi 10 compteurs du Datastore.</p>
+         <pre class="lesspace smallcode">
+Integer shard_N = new Random().nextInt(10);
+ObjectifyDAO dao = new ObjectifyDAO();
+dao.ofy().put(new Counter(name, shard_N, newVal));</pre>
+         <p>Lecture: si échec du Memcache, MAX des compteurs du datastore.</p>
+		 <pre class="lesspace smallcode">dao.ofy().query(Counter.class)
+.filter("name", name).order("-value").get();</pre>
       </article>
  
-       <article class="slide3d" > 
-      <div class="backslide3d">
-<p class="small">fichier: com/moi/lepresident/Counter.java</p>
-<pre class="smallcode lesspace">
-public class Counter {
-    @Id
-    String key;
-    String name;
-    Long value;
-    public Counter(String name, Integer shard, Long value) {
-        this.name = name;
-        this.value = value;
-        key = name + "_shard" + shard.toString();
-    }
-    public static Long value(String name) {
-        MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
-        Long val = (Long) cache.get(name);
-        if (val == null) {
-            val = Counter.read(name);
-            cache.put(name, val);
-        }
-        return val;
-    }
-    static Long read(String name) {
-        Counter c = new ObjectifyDAO().ofy().query(Counter.class)
-                    .filter("name", name).order("-value").get();
-        return (c == null ? 0L : c.value);
-    }
-}
-</pre>
-<p>Utilisation : <code>Counter.value("plusone");</code></p>
-</div>
-        <h3>
-          12. Lire le compteur
-        </h3>
-        <p>On regarde dans le cache si le compteur existe, si oui on retourne simplement la valeur :</p>
-        <pre class="lesspace">MemcacheService cache = MemcacheServiceFactory.getMemcacheService()
-Long val = (Long) cache.get(name);</pre>
-        <p>Sinon, on va chercher le maximum du compteur dans la base :</p>
-        <pre class="lesspace">
-Counter c = new ObjectifyDAO().ofy().query(Counter.class)
-	.filter("name", name).order("-value").get();
-        </pre>
-        <p>Et on l'enregistre dans le cache :</p>
-        <pre class="lesspace">cache.put(name, val);</pre>
-      </article>
-      
-      <article class="slide3d">
-      <div class="backslide3d">
-<p class="small">fichier: com/moi/lepresident/Counter.java</p>
-<pre class="smallcode lesspace">
-public class Counter {
-    public static void increment(String name)
-    {
-        MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
-        Long val = cache.increment(name, 1);
-        if (val == null)
-        {
-            val = Counter.read(name);
-            if (val == null)
-                val = cache.increment(name, 1, 0L);
-            else
-                val++;
-        }
-        Counter.write(name, val);
-    }
-    static void write(String name, Long value)
-    {
-        Integer shard = new Random().nextInt(10);
-        new ObjectifyDAO().ofy().put(new Counter(name, shard, value));
-    }
-}
-</pre>
-<p>Utilisation : <code>Counter.increment("plusone");</code></p>
-</div>      
-        <h3>
-          13. Incrémenter le compteur
-        </h3>
-        <p>Le memcache possède une méthode <code>increment()</code> qui permet d'incrémenter une valeur de manière atomique<p>
-        <pre class="lesspace">MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
-Long val = cache.increment(name, 1);</pre>
-        <p>Si elle n'existe pas, on va la chercher dans la base et on l'incrémente</p>
-        <p>Puis on sauvegarde la valeur actuelle dans un des compteurs aléatoires</p>
-        <pre class="lesspace">Integer shard = new Random().nextInt(10);
-new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
-      </article>
-      
+       
             <article class="slide3d">
-      <div class="backslide3d">
-<p class="small">fichier: war/WEB-INF/appengine/datastore-indexes.xml</p>
-<pre class="smallcode lesspace">
+      <div class="backslide3d" style="padding:40px">
+<p>fichier: war/WEB-INF/appengine/datastore-indexes.xml</p>
+<pre>
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;datastore-indexes autoGenerate="false"&gt;
      &lt;datastore-index kind="Counter" ancestor="false" source="manual"&gt;
@@ -1074,16 +977,51 @@ new ObjectifyDAO().ofy().put(new Counter(name, shard, value));</pre>
 <p>Le SDK autogénère ce fichier dans le le répertoire <code>war/WEB-INF/appengine-generated/datastore-indexes-auto.xml</code> à copier dans <code>war/WEB-INF/appengine/datastore-indexes.xml</code></p>
 </div>      
         <h3>
-          14. Ajouter un index multiple sur une entité
+          10. Ajouter un index multiple sur une entité
         </h3>
-        <p>Le datastore utilise uniquement les index pour chaque requête<p>
-        <p>Un index simple est créé pour chaque propriété, si l'on ne veux pas indéxer une propriété, il faut ajouter l'annotation objectify <code>@Unindexed</code><p>
-        <p>Si l'on fait une recherche sur plus d'une propriété (colonne de tri comprise), il faut créer un index pour chaque combinaison.</p>
-        <p>Pour notre compteur, il nous faut un index combiné avec "name", et "value" DESC</p>
-        
+        <ul>
+        <li>Le datastore exécute uniquement des requêtes indexées.</li>
+        <li>Le datastore crée un index simple pour chaque propriété. Pour l'éviter, ajouter l'annotation objectify <code>@Unindexed</code>.</li>
+        <li>Si l'on fait une recherche sur plus d'une propriété, colonne de tri comprise, il faut créer un index pour chaque combinaison manuellement.</li>
+        <li style="margin-top: 60px;">Pour notre compteur, il nous faut un index combiné avec "name" et "value" DESC</li>
+        </ul>
 </article>
-      
 
+<!-- ------------------------------------------------------------------------------- -->      
+<!-- slide : deploy -->
+      <article class="slide3d" > 
+      <div class="backslide3d">
+      
+<p>fichier: war/WEB-INF/appengine-web.xml</p>
+<pre class="smallcode lesspace">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;appengine-web-app xmlns=&quot;http://appengine.google.com/ns/1.0&quot;&gt;
+      &lt;!-- Le nom de votre ApplicationId sur http://appengine.google.com --&gt;
+    &lt;application&gt;lepresident-est&lt;/application&gt;
+      &lt;!-- Version de votre application, cela peut etre un texte (alpha, beta, etc...) --&gt;
+    &lt;version&gt;1&lt;/version&gt;
+    ...
+  
+&lt;/appengine-web-app&gt;
+</pre>
+<p>Détails sur le <a href="https://developers.google.com/appengine/docs/java/config/appconfig">contenu de appengine-web.xml</a>.</p>
+<p>
+    Configuration également possible au travers des propriétés du projet :
+    <span style="margin-top: 10px;float: right; overflow: hidden; height:260px; display:inline-block; border: 1px solid rgb(200,200,200); border-bottom: none; vertical-align: top;"><img src="images/appengine-nameapp.png"/></span>
+</p>
+
+      </div>
+        <h3>
+          11. Déployer sur App Engine: Yakakliker...
+        </h3>
+        <ul>
+         <li>Aller sur <a href="http://appengine.google.com"">http://appengine.google.com/</a> et créer un identifiant pour votre application. Elle serta accessible à l'adresse <code>http://monidentifiant.appspot.com</code></li>
+         <li style="margin-top:80px"><img class="screenshot-right" style="padding:0px; margin-left:40px; margin-top:-30px" src="images/deployer.png"/>Le spécifier dans <code>appengine-web.xml</code>.</li>
+         <li style="margin-top:80px">Cliquer sur déployer... </li>
+        </ul>
+        
+      </article>
+      
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide Upload -->
       
@@ -1268,58 +1206,16 @@ Session session = Session.getDefaultInstance(props, null);
 MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
         </div>
       </article>
- 
- <!-- slide : deployer -->
-      <article class="slide3d">
-      <div class="empty backslide3d"></div> 
-      		<h2>Yakakliker...</h2>
-      		<p>Déployer sur App Engine</p>
-      </article>
-
-      <article class="slide3d" > 
-      <div class="backslide3d">
       
-<p>fichier: war/WEB-INF/appengine-web.xml</p>
-<pre class="smallcode lesspace">
-&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;appengine-web-app xmlns=&quot;http://appengine.google.com/ns/1.0&quot;&gt;
-      &lt;!-- Le nom de votre ApplicationId sur http://appengine.google.com --&gt;
-    &lt;application&gt;lepresident-est&lt;/application&gt;
-      &lt;!-- Version de votre application, cela peut etre un texte (alpha, beta, etc...) --&gt;
-    &lt;version&gt;1&lt;/version&gt;
-    ...
-  
-&lt;/appengine-web-app&gt;
-</pre>
-<p>Détails sur le <a href="https://developers.google.com/appengine/docs/java/config/appconfig">contenu de appengine-web.xml</a>.</p>
-<p>
-    Configuration également possible au travers des propriétés du projet :
-    <span style="margin-top: 10px;float: right; overflow: hidden; height:260px; display:inline-block; border: 1px solid rgb(200,200,200); border-bottom: none; vertical-align: top;"><img src="images/appengine-nameapp.png"/></span>
-</p>
-
-      </div>
-        <h3>
-          Déployer sur App Engine
-        </h3>
-        <ul>
-         <li>Créer un identifiant pour votre application sur <a href="http://appengine.google.com"">http://appengine.google.com/</a></li>
-         <li>Configuer le projet via le fichier <code>appengine-web.xml</code> : en mettant l'identifiant de l'application, un numéro de version.</li>
-         <li>Cliquer sur déployer...</li>
-        </ul>
-
-        <div style="margin-top:20px;">
-<img height="200px;" src="images/deployer.png" style="vertical-align: -30%"/>        
-        </div>
-        
-      </article>
-
 <!-- ------------------------------------------------------------------------------- -->
 <!-- slide finale: contact info -->
       <article class="slide3d">
       <div class="empty backslide3d"></div>
         
-        <p style="margin-left: 3em; margin-top: 1em; text-indent: -2em;">Contact : <br/><b >+Martin Gorner</b>, Outreach manager France
-        (et les autres ...)
+        <p style="margin-left: 3em; margin-top: 1em; text-indent: -2em;">Contact : <br/>
+          <b>+Martin Gorner</b>, Google<br/>
+          <b>+Alexis Moussine-Pouchkine</b>, Google<br/>
+          <b>+Didier Girard, Sfeir</b>
         </p>
         <p style="margin-left: 3em; margin-top: 1.5em; text-indent: -2em;">Cette présentation est en ligne :<br/>
         <a href="http://cloudpresident.appspot.com">http://<b><span class="big">cloudpresident</span></b>.appspot.com</a><br/>
