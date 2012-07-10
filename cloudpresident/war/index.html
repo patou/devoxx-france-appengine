@@ -53,7 +53,7 @@
 	.g-green  {color: #15A900; /* google green */}
 	
 	H3.num  {margin-left: 20px;}
-	H3.num2 {margin-left: 50px;}
+	H3.num2 {margin-left: 55px;}
 	
     table.table-noborders tr td
     {
@@ -1463,6 +1463,71 @@ The version of your application, it can be a string (alpha, beta, ...)
       </article>
       
 <!-- ------------------------------------------------------------------------------- -->
+	
+	<article class="fill slide3d">
+		<div class="backslide3d" style="padding:60px;color: black;">
+		
+		<h3 style="padding-left:45px">Il vous reste à découvrir:</h3>
+		<ol start="12" style="list-style-image: none;">
+		<li>Uploader une image avec Blobstore et ImageService</li>
+		<li>Protéger les URLs administrateur</li>
+		<li>Recevoir des emails</li>
+		</ol>
+		
+		<table><tr><td style="border:none">
+			<p style="font-weight: 600; color:rgb(51, 51, 51); margin-left:-20px">Pour vous perfectionner:</p>
+			<ul>
+			<li><a href="http://developers.google.com/appengine/docs/java/taskqueue/">Task queues</a>
+			et <a href="http://developers.google.com/appengine/docs/java/backends/">Backends</a>
+			</li>
+			<li><a href="http://developers.google.com/appengine/docs/java/search/overview">Full Text Search</a></li>
+			<li><a href="http://developers.google.com/cloud-sql/">Google Cloud SQL</a></li>
+			<li><a href="https://developers.google.com/storage/">Google Cloud Storage</a></li>
+			</ul>
+		</td><td style="border:none; padding-left:30px">
+			<p style="font-weight: 600; color:rgb(51, 51, 51); margin-left:-20px">Et au-delà d'AppEngine:</p>
+			<ul>
+			<li><a href="http://developers.google.com/bigquery/">Google BigQuery</a></li>
+			<li><a href="http://developers.google.com/prediction/">Google Prediction API</a></li>
+			<li><a href="http://developers.google.com/compute/">Google Compute Engine</a></li>
+			</ul>
+		</td></table>
+		
+		</div>
+		<img src="images/spacestation.jpg" />
+		
+		<H1 style="background-color: white;
+		           opacity:1;
+		           padding: 40px 20px;
+		           background-image: url('images/appengine_small.png');
+		           background-repeat: no-repeat;
+		           background-position: 95% 50%;
+		           border-radius: 10px;
+		           ">On continue ?
+		</H1>
+		
+		
+		<translation lang="en">
+		On the following slides:
+		Upload an image with Blobstore and ImageService
+		Secure admin URLs
+		Receive emails
+		More on App Engine:
+		--self--
+		and 
+		--self--
+		--self--
+		--self--
+		--self--
+		And beyond:
+		--self--
+		--self--
+		--self--
+		Keep building ?
+		</translation>
+	</article>
+
+<!-- ------------------------------------------------------------------------------- -->
 <!-- 12. Blobstore and user uploads -->
      
       <article class="slide3d" > 
@@ -1575,7 +1640,7 @@ Objectify class) and use these values to display the elected president.
         <translation lang="en">
         file: war/WEB-INF/web.xml
         --self--
-        Protect admin URL
+        Secure admin URLs
         You can set security constraints in the web.xml file.
         The restricted access role is:
         admin
@@ -1592,7 +1657,7 @@ Objectify class) and use these values to display the elected president.
       <div class="backslide3d">
 <p>fichier: com/moi/lepresident/MailHandlerServlet.java</p>
 <pre class="smallcode lesspace">
-package fr.devoxx.lepresidentest;
+package <span>com.moi.lepresident</span>;
 import java.util.Properties;
 import javax.mail.*;
 import javax.servlet.ServletException;
@@ -1608,7 +1673,7 @@ public class MailHandlerServlet extends HttpServlet {
         Comment.store((String)((Multipart)message.getContent()).getBodyPart(0).getContent()
             , ((InternetAddress)message.getFrom()[0]).getAddress());
         Message reply = message.reply(false);
-        reply.setFrom(new InternetAddress("commentaires@cloudpresident.appspotmail.com"));
+        reply.setFrom(new InternetAddress("noreply@cloudpresident.appspotmail.com"));
         reply.setText("<span>Merci pour votre commentaire</span>");
         Transport.send(reply);
     }
@@ -1617,7 +1682,7 @@ public class MailHandlerServlet extends HttpServlet {
       </div>
         <div class="chapter-number g-yellow">14</div>
         <h3 class="num2">
-          &nbsp;Recevoir un mail
+          Recevoir un mail
         </h3>
         
         <div style="margin-top:20px;">
@@ -1634,9 +1699,10 @@ MimeMessage message = new MimeMessage(session, req.getInputStream());</pre>
         
         <translation lang="en">
         file: com/me/thepresident/MailHandler.java
+com.me.thepresident
 Thank you for your opinion.
         --self--
-        &nbsp;Posting comments by email
+        Post comments by email
         Enable email reception on address 
         name
         --self--

@@ -372,7 +372,7 @@ li {
   margin-bottom: .5em;
 }
 
-li::before {
+ul li::before {
   content: url('template-images/appengbullet.png');
   
   -webkit-transform: translateZ(1px);
