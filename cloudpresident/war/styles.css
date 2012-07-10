@@ -149,6 +149,8 @@ body {
 }
 
 /* Slides */
+translation
+{ display: none; }
 
 .slides > article {
   display: none;

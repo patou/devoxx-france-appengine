@@ -764,6 +764,8 @@ function makeBuildLists() {
 function handleDomLoaded() {
   slideEls = document.querySelectorAll('section.slides > article');
 
+  localizeAllSlides(slideEls, getQueryVariable('lang'));
+  
   setupFrames();
 
   addFontStyle();
@@ -798,6 +800,154 @@ function capaCss3D()
 		return true;
 	
 	return false;
+}
+
+/* localization helpers */
+
+function localizeAllSlides(slides, lang)
+{
+	// if language not specified, assume english
+	if (lang === undefined || lang == '')
+		lang = 'en';
+	lang = lang.toLowerCase();
+	
+	// get the base language of the slides (english assumed if not specified)
+	var slideslang = 'en';
+	var topnode = document.querySelector('section.slides');
+	if (topnode !== undefined && topnode.getAttribute('lang') !== null && topnode.getAttribute('lang') != '')
+		slideslang = topnode.getAttribute('lang');
+	slideslang = slideslang.toLowerCase();
+	
+	// nothing to do if the language is already the correct one
+	if (lang == slideslang)
+		return;
+	
+	// otherwise, we need to localize
+	var tolocalizeall = '';
+	for (var slide=0;  slide<slides.length; slide++)
+	{
+		var translations = getTranslations(slides[slide], lang);
+		var tolocalize = localize(slides[slide], translations);
+		var imagestolocalize = localizeImages(slides[slide], slideslang, lang);
+		if (tolocalize !== '')
+		{
+			tolocalizeall += '<div><b>Slide ' + (slide+1) + ' needs localization to lang=\"' + lang + '\"' + ': </b><br/>';
+			tolocalizeall += tolocalize;
+			tolocalizeall += imagestolocalize;
+			tolocalizeall += '</div>';
+		}
+	}
+
+	// write unlocalized elements to the screen
+	var el = document.querySelector('section.slides');
+	var nel = document.createElement('div');
+	nel.innerHTML = tolocalizeall;
+	el.appendChild(nel);
+}
+
+function getTranslations(nod, lang)
+{
+	var selector = "translation[lang|=\"" + lang + "\"]";
+	var translations = nod.querySelectorAll(selector)[0];
+	if (translations !== undefined)
+	{
+		var translated =  translations.textContent.split('\n');
+		var cleantranslated = new Array;
+		for (var i=0,j=0; i<translated.length; i++)
+		{
+			if ( !isallblanks(translated[i]) )
+				cleantranslated[j++] = translated[i];
+		}
+		var result = new Object;
+		result.strings = cleantranslated;
+		result.current = 0;
+		result.count = function() {return this.strings.length - this.current;};
+		return result;
+	}
+}
+
+function localize(nod, translations, codelevel)
+{
+	// returns a string vith all non yet localized strings in this node
+	var result = '';
+	for (var i=0; i<nod.childNodes.length; i++)
+	{
+		var child = nod.childNodes[i];
+		if (child.nodeType === 3 && !isallblanks(child.nodeValue)) // 3 = Node.TEXT_NODE
+		{
+			if (codelevel === undefined || isNaN(codelevel) || codelevel > 0) // skip code in <pre> tag unless it is marked with any kind of tag
+			{
+				if (translations !== undefined && translations.count() > 0)
+				{ // yes, we have a translation
+				  // --self-- stands for "do not translate"
+					if (translations.strings[translations.current].indexOf('--self--') == -1)
+						child.nodeValue = translations.strings[translations.current++];
+					else
+						translations.current++;
+				}
+				else
+				{ // no, we do not have a translation
+					result += child.nodeValue + '<br/>';
+				}
+			}
+		}
+		
+		// continue recursion but skip <translation> tags
+		if (child.childNodes.length > 0 && child.localName != 'translation')
+		{
+			var skip = false;
+			if (child.localName == 'pre')
+				result += localize(child, translations, 0); // codelevel 0 on entering <pre> tag, goes up after that
+			else
+				result += localize(child, translations, codelevel+1);
+		}
+	}
+	return result;
+}
+
+function localizeImages(nod, langin, langout)
+{
+	// looking for images names like toto_en.gif
+	// replacing them with toto_fr.gif
+	var result = '';
+	var langin_str = '_' + langin + '.';
+	var langout_str = '_' + langout + '.';
+	var images = nod.querySelectorAll('img');
+	for (var i=0; i<images.length; i++)
+	{
+		images[i].src = images[i].src.replace(langin_str, langout_str);
+		if (images[i].src.indexOf(langout_str) > 0)
+			result += 'Image localized: ' + images[i].src + '<br/>';
+	}
+	return result;
+}
+
+function isallblanks(string)
+{
+	if (string === undefined)
+		return true;
+	for (var i=0; i<string.length; i++)
+	{
+		if (string.charCodeAt(i) != 32 && // space
+			string.charAt(i) != '\t' &&     // tab
+			string.charCodeAt(i) != 10 && // CR
+			string.charCodeAt(i) != 13 && // LF
+			string.charCodeAt(i) != 160)   // No-break space (&nbsp;)
+			return false;
+	}
+	return true;
+}
+
+function getQueryVariable(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++)
+    {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable)
+            return unescape(pair[1]);
+    }
 }
 
 function initialize() {
