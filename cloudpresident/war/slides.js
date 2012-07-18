@@ -414,6 +414,12 @@ function handleTouchMove(event) {
   } else {
     touchDX = event.touches[0].pageX - touchStartX;
     touchDY = event.touches[0].pageY - touchStartY;
+    var aDX = touchDX*touchDX;
+    var aDY = touchDY*touchDY;
+    if (aDX+aDY < 80 || aDX > aDY)
+    	event.preventDefault(); // keep scrolling vertically but not horizontally
+        // this is buggy though: if the user starts scrolling vertically, then scrolling
+        // gets enabled for both directions until he lifts her finger
   }
 };
 
@@ -741,7 +747,12 @@ function addGeneralStyle() {
   
   var el = document.createElement('meta');
   el.name = 'viewport';
-  el.content = 'width=1100,height=750';
+  el.content = 'target-densityDpi=device-dpi';
+  document.querySelector('head').appendChild(el);
+  
+  var el = document.createElement('meta');
+  el.name = 'HandheldFriendly';
+  el.content = 'True';
   document.querySelector('head').appendChild(el);
   
   var el = document.createElement('meta');
